@@ -1,0 +1,4218 @@
+
+<!doctype html>
+<html lang="es" class="no-js">
+  <head>
+    
+      <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width,initial-scale=1">
+      
+        <meta name="description" content="Documentación técnica">
+      
+      
+        <meta name="author" content="Damian, Adrian, Mauro">
+      
+      
+      
+        <link rel="prev" href="alertas.html">
+      
+      
+        <link rel="next" href="../Conectividad/tailscale.html">
+      
+      
+        
+      
+      
+      <link rel="icon" href="../assets/images/favicon.png">
+      <meta name="generator" content="mkdocs-1.6.1, mkdocs-material-9.7.7">
+    
+    
+      
+        <title>Hardening - Manual de Servidor Zabbix</title>
+      
+    
+    
+      <link rel="stylesheet" href="../assets/stylesheets/main.ec1eaa64.min.css">
+      
+        
+        <link rel="stylesheet" href="../assets/stylesheets/palette.ab4e12ef.min.css">
+      
+      
+
+
+    
+    
+      
+    
+    
+      
+        
+        
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,300i,400,400i,700,700i%7CRoboto+Mono:400,400i,700,700i&display=fallback">
+        <style>:root{--md-text-font:"Roboto";--md-code-font:"Roboto Mono"}</style>
+      
+    
+    
+      <link rel="stylesheet" href="../stylesheets/extra1.css">
+    
+    <script>__md_scope=new URL("..",location),__md_hash=e=>[...e].reduce(((e,_)=>(e<<5)-e+_.charCodeAt(0)),0),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
+    
+      
+
+    
+    
+  </head>
+  
+  
+    
+    
+      
+    
+    
+    
+    
+    <body dir="ltr" data-md-color-scheme="slate" data-md-color-primary="blue-grey" data-md-color-accent="light-blue">
+  
+    
+    <input class="md-toggle" data-md-toggle="drawer" type="checkbox" id="__drawer" autocomplete="off">
+    <input class="md-toggle" data-md-toggle="search" type="checkbox" id="__search" autocomplete="off">
+    <label class="md-overlay" for="__drawer"></label>
+    <div data-md-component="skip">
+      
+        
+        <a href="#10-reglas-de-hardening-ubuntu" class="md-skip">
+          Saltar a contenido
+        </a>
+      
+    </div>
+    <div data-md-component="announce">
+      
+    </div>
+    
+    
+      
+
+  
+
+<header class="md-header md-header--shadow" data-md-component="header">
+  <nav class="md-header__inner md-grid" aria-label="Cabecera">
+    <a href="../index.html" title="Manual de Servidor Zabbix" class="md-header__button md-logo" aria-label="Manual de Servidor Zabbix" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54"/></svg>
+
+    </a>
+    <label class="md-header__button md-icon" for="__drawer">
+      
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M3 6h18v2H3zm0 5h18v2H3zm0 5h18v2H3z"/></svg>
+    </label>
+    <div class="md-header__title" data-md-component="header-title">
+      <div class="md-header__ellipsis">
+        <div class="md-header__topic">
+          <span class="md-ellipsis">
+            Manual de Servidor Zabbix
+          </span>
+        </div>
+        <div class="md-header__topic" data-md-component="header-topic">
+          <span class="md-ellipsis">
+            
+              Hardening
+            
+          </span>
+        </div>
+      </div>
+    </div>
+    
+      
+        <form class="md-header__option" data-md-component="palette">
+  
+    
+    
+    
+    <input class="md-option" data-md-color-media="" data-md-color-scheme="slate" data-md-color-primary="blue-grey" data-md-color-accent="light-blue"  aria-hidden="true"  type="radio" name="__palette" id="__palette_0">
+    
+  
+</form>
+      
+    
+    
+      <script>var palette=__md_get("__palette");if(palette&&palette.color){if("(prefers-color-scheme)"===palette.color.media){var media=matchMedia("(prefers-color-scheme: light)"),input=document.querySelector(media.matches?"[data-md-color-media='(prefers-color-scheme: light)']":"[data-md-color-media='(prefers-color-scheme: dark)']");palette.color.media=input.getAttribute("data-md-color-media"),palette.color.scheme=input.getAttribute("data-md-color-scheme"),palette.color.primary=input.getAttribute("data-md-color-primary"),palette.color.accent=input.getAttribute("data-md-color-accent")}for(var[key,value]of Object.entries(palette.color))document.body.setAttribute("data-md-color-"+key,value)}</script>
+    
+    
+    
+      
+      
+        <label class="md-header__button md-icon" for="__search">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+        </label>
+        <div class="md-search" data-md-component="search" role="dialog">
+  <label class="md-search__overlay" for="__search"></label>
+  <div class="md-search__inner" role="search">
+    <form class="md-search__form" name="search">
+      <input type="text" class="md-search__input" name="query" aria-label="Búsqueda" placeholder="Búsqueda" autocapitalize="off" autocorrect="off" autocomplete="off" spellcheck="false" data-md-component="search-query" required>
+      <label class="md-search__icon md-icon" for="__search">
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11z"/></svg>
+      </label>
+      <nav class="md-search__options" aria-label="Buscar">
+        
+        <button type="reset" class="md-search__icon md-icon" title="Limpiar" aria-label="Limpiar" tabindex="-1">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M19 6.41 17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"/></svg>
+        </button>
+      </nav>
+      
+        <div class="md-search__suggest" data-md-component="search-suggest"></div>
+      
+    </form>
+    <div class="md-search__output">
+      <div class="md-search__scrollwrap" tabindex="0" data-md-scrollfix>
+        <div class="md-search-result" data-md-component="search-result">
+          <div class="md-search-result__meta">
+            Inicializando búsqueda
+          </div>
+          <ol class="md-search-result__list" role="presentation"></ol>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+      
+    
+    
+  </nav>
+  
+</header>
+    
+    <div class="md-container" data-md-component="container">
+      
+      
+        
+          
+        
+      
+      <main class="md-main" data-md-component="main">
+        <div class="md-main__inner md-grid">
+          
+            
+              
+              <div class="md-sidebar md-sidebar--primary" data-md-component="sidebar" data-md-type="navigation" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+
+
+<nav class="md-nav md-nav--primary" aria-label="Navegación" data-md-level="0">
+  <label class="md-nav__title" for="__drawer">
+    <a href="../index.html" title="Manual de Servidor Zabbix" class="md-nav__button md-logo" aria-label="Manual de Servidor Zabbix" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54"/></svg>
+
+    </a>
+    Manual de Servidor Zabbix
+  </label>
+  
+  <ul class="md-nav__list" data-md-scrollfix>
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../index.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Introduccion
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+      
+        
+      
+        
+      
+        
+      
+    
+    
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_2" >
+        
+          
+          <label class="md-nav__link" for="__nav_2" id="__nav_2_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Servidor
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_2_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_2">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Servidor
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../Servidor/instalacion.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Instalacion
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../Servidor/configuracion.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Configuración
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../Servidor/servicios.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Servicios
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+      
+        
+      
+        
+      
+    
+    
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_3" >
+        
+          
+          <label class="md-nav__link" for="__nav_3" id="__nav_3_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Agentes
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_3_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_3">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Agentes
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../Agentes/ubuntu.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Ubuntu - kali
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../Agentes/windows11.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Windows 10 - 11
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+      
+        
+      
+        
+      
+        
+      
+        
+      
+    
+    
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_4" >
+        
+          
+          <label class="md-nav__link" for="__nav_4" id="__nav_4_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Monitoreo
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_4_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_4">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Monitoreo
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../Monitoreo/alertastelegram.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Telegram
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../Monitoreo/alertacorreo.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Correo
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../Monitoreo/snmp.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    SNMP
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../Monitoreo/dashboard.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Dashboard
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+    
+  
+  
+  
+    
+    
+      
+        
+      
+        
+      
+    
+    
+    
+    
+    <li class="md-nav__item md-nav__item--active md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_5" checked>
+        
+          
+          <label class="md-nav__link" for="__nav_5" id="__nav_5_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Seguridad
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_5_label" aria-expanded="true">
+          <label class="md-nav__title" for="__nav_5">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Seguridad
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="alertas.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Alertas
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+    
+  
+  
+  
+    <li class="md-nav__item md-nav__item--active">
+      
+      <input class="md-nav__toggle md-toggle" type="checkbox" id="__toc">
+      
+      
+        
+      
+      
+        <label class="md-nav__link md-nav__link--active" for="__toc">
+          
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Hardening
+  
+
+    
+  </span>
+  
+  
+
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <a href="hardening1.html" class="md-nav__link md-nav__link--active">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Hardening
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+      
+        
+
+<nav class="md-nav md-nav--secondary" aria-label="Tabla de contenidos">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Tabla de contenidos
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#manual-de-implementacion-paso-a-paso" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Manual de implementación paso a paso
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#orden-correcto-de-implementacion" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Orden correcto de implementación
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Orden correcto de implementación">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#1-preparacion-y-diagnostico" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        1. Preparación y diagnóstico
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#2-cuentas-y-privilegios" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        2. Cuentas y privilegios
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#3-contrasenas-y-bloqueo-de-cuentas" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        3. Contraseñas y bloqueo de cuentas
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#4-ssh-y-tailscale" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        4. SSH y Tailscale
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#5-firewall-ufw" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        5. Firewall UFW
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#6-actualizaciones" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        6. Actualizaciones
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#7-servicios-y-puertos" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        7. Servicios y puertos
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#8-registros-apparmor-y-auditoria" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        8. Registros, AppArmor y auditoría
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#9-snmp-y-puertos-de-zabbix" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        9. SNMP y puertos de Zabbix
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#10-validacion-final" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        10. Validación final
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#que-pasos-no-debiamos-saltearnos" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        ¿Qué pasos no debiamos saltearnos?
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#1-preparacion-y-diagnostico-inicial" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        1. Preparación y diagnóstico inicial
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="1. Preparación y diagnóstico inicial">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#paso-11-verificar-el-sistema-operativo" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Paso 1.1. Verificar el sistema operativo
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#paso-12-registrar-los-servicios-activos" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Paso 1.2. Registrar los servicios activos
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#paso-13-registrar-los-puertos-abiertos" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Paso 1.3. Registrar los puertos abiertos
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#paso-14-comprobar-el-firewall" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Paso 1.4. Comprobar el firewall
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#paso-15-comprobar-tailscale-y-zabbix" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Paso 1.5. Comprobar Tailscale y Zabbix
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#paso-16-crear-una-copia-de-seguridad-de-la-configuracion" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Paso 1.6. Crear una copia de seguridad de la configuración
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#2-control-1-cuentas-y-privilegios" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        2. Control 1 — Cuentas y privilegios
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="2. Control 1 — Cuentas y privilegios">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#paso-21-revisar-las-cuentas-locales" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Paso 2.1. Revisar las cuentas locales
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#paso-22-identificar-los-usuarios-con-privilegios-administrativos" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Paso 2.2. Identificar los usuarios con privilegios administrativos
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#paso-23-revisar-los-usuarios-con-contrasena-bloqueada-o-expirada" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Paso 2.3. Revisar los usuarios con contraseña bloqueada o expirada
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#paso-24-eliminar-privilegios-innecesarios" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Paso 2.4. Eliminar privilegios innecesarios
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#verificacion" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Verificación
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#3-control-2-politica-de-contrasenas-y-bloqueo-de-intentos-fallidos" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        3. Control 2 — Política de contraseñas y bloqueo de intentos fallidos
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="3. Control 2 — Política de contraseñas y bloqueo de intentos fallidos">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#paso-31-instalar-el-modulo-de-calidad-de-contrasenas" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Paso 3.1. Instalar el módulo de calidad de contraseñas
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#paso-32-configurar-la-calidad-de-las-contrasenas" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Paso 3.2. Configurar la calidad de las contraseñas
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#paso-33-verificar-la-integracion-de-pam" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Paso 3.3. Verificar la integración de PAM
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#paso-34-configurar-el-bloqueo-por-intentos-fallidos" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Paso 3.4. Configurar el bloqueo por intentos fallidos
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#paso-35-verificar-el-resultado" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Paso 3.5. Verificar el resultado
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#4-control-3-seguridad-de-red-y-acceso-mediante-tailscale" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        4. Control 3 — Seguridad de red y acceso mediante Tailscale
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="4. Control 3 — Seguridad de red y acceso mediante Tailscale">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#paso-41-comprobar-tailscale" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Paso 4.1. Comprobar Tailscale
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#paso-42-verificar-el-servicio" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Paso 4.2. Verificar el servicio
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#paso-43-probar-la-conectividad-remota" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Paso 4.3. Probar la conectividad remota
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#paso-44-restringir-los-dispositivos-autorizados" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Paso 4.4. Restringir los dispositivos autorizados
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#5-control-4-configuracion-del-firewall-ufw" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        5. Control 4 — Configuración del firewall UFW
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="5. Control 4 — Configuración del firewall UFW">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#paso-51-revisar-las-reglas-existentes" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Paso 5.1. Revisar las reglas existentes
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#paso-52-establecer-politicas-predeterminadas" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Paso 5.2. Establecer políticas predeterminadas
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#paso-53-permitir-ssh-desde-tailscale" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Paso 5.3. Permitir SSH desde Tailscale
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#paso-54-permitir-los-puertos-de-zabbix-necesarios" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Paso 5.4. Permitir los puertos de Zabbix necesarios
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#paso-55-verificar-y-probar" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Paso 5.5. Verificar y probar
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#6-control-5-actualizaciones-de-seguridad" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        6. Control 5 — Actualizaciones de seguridad
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="6. Control 5 — Actualizaciones de seguridad">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#paso-61-actualizar-el-indice-de-paquetes" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Paso 6.1. Actualizar el índice de paquetes
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#paso-62-revisar-los-paquetes-pendientes" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Paso 6.2. Revisar los paquetes pendientes
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#paso-63-aplicar-las-actualizaciones" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Paso 6.3. Aplicar las actualizaciones
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#paso-64-revisar-si-hace-falta-reiniciar" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Paso 6.4. Revisar si hace falta reiniciar
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#paso-65-comprobar-los-servicios" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Paso 6.5. Comprobar los servicios
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#7-control-6-endurecimiento-de-ssh" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        7. Control 6 — Endurecimiento de SSH
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="7. Control 6 — Endurecimiento de SSH">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#paso-71-comprobar-el-servicio-ssh" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Paso 7.1. Comprobar el servicio SSH
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#paso-72-generar-una-clave-ssh-en-el-equipo-cliente" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Paso 7.2. Generar una clave SSH en el equipo cliente
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#paso-73-instalar-la-clave-publica-en-ubuntu" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Paso 7.3. Instalar la clave pública en Ubuntu
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#paso-74-revisar-la-configuracion-efectiva" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Paso 7.4. Revisar la configuración efectiva
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#paso-75-crear-un-archivo-de-configuracion-de-hardening" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Paso 7.5. Crear un archivo de configuración de hardening
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#paso-76-validar-antes-de-reiniciar" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Paso 7.6. Validar antes de reiniciar
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#8-control-7-servicios-y-aplicaciones-innecesarios" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        8. Control 7 — Servicios y aplicaciones innecesarios
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="8. Control 7 — Servicios y aplicaciones innecesarios">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#paso-81-inventariar-los-servicios-activos" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Paso 8.1. Inventariar los servicios activos
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#paso-82-identificar-los-puertos-asociados" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Paso 8.2. Identificar los puertos asociados
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#paso-83-comprobar-si-un-servicio-esta-habilitado" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Paso 8.3. Comprobar si un servicio está habilitado
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#paso-84-detener-un-servicio-confirmado-como-innecesario" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Paso 8.4. Detener un servicio confirmado como innecesario
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#paso-85-verificar-el-resultado" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Paso 8.5. Verificar el resultado
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#9-control-8-registros-apparmor-y-auditoria" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        9. Control 8 — Registros, AppArmor y auditoría
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="9. Control 8 — Registros, AppArmor y auditoría">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#paso-91-revisar-los-mensajes-de-advertencia-del-sistema" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Paso 9.1. Revisar los mensajes de advertencia del sistema
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#paso-92-comprobar-la-configuracion-de-apparmor" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Paso 9.2. Comprobar la configuración de AppArmor
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#paso-93-evaluar-auditd" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Paso 9.3. Evaluar auditd
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#paso-94-integrar-los-eventos-con-zabbix" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Paso 9.4. Integrar los eventos con Zabbix
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#10-control-9-snmp-y-puertos-de-zabbix" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        10. Control 9 — SNMP y puertos de Zabbix
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="10. Control 9 — SNMP y puertos de Zabbix">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#paso-101-comprobar-si-snmp-esta-instalado-en-el-servidor" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Paso 10.1. Comprobar si SNMP está instalado en el servidor
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#paso-102-determinar-si-el-servidor-necesita-ejecutar-snmp" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Paso 10.2. Determinar si el servidor necesita ejecutar SNMP
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#paso-103-restringir-el-acceso-al-servidor-zabbix" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Paso 10.3. Restringir el acceso al servidor Zabbix
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#paso-104-revisar-los-puertos-de-los-agentes" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Paso 10.4. Revisar los puertos de los agentes
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#paso-105-verificar-el-monitoreo" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Paso 10.5. Verificar el monitoreo
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#11-control-10-seguridad-de-la-maquina-virtual-y-copias-de-seguridad" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        11. Control 10 — Seguridad de la máquina virtual y copias de seguridad
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="11. Control 10 — Seguridad de la máquina virtual y copias de seguridad">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#paso-111-revisar-el-acceso-al-hipervisor" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Paso 11.1. Revisar el acceso al hipervisor
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#paso-112-crear-una-instantanea-de-la-maquina-virtual" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Paso 11.2. Crear una instantánea de la máquina virtual
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#paso-113-respaldar-la-configuracion-de-zabbix" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Paso 11.3. Respaldar la configuración de Zabbix
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#paso-114-respaldar-la-base-de-datos" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Paso 11.4. Respaldar la base de datos
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#paso-115-verificar-el-respaldo" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Paso 11.5. Verificar el respaldo
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#12-verificacion-final-del-hardening" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        12. Verificación final del hardening
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="12. Verificación final del hardening">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#121-estado-de-los-servicios" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        12.1. Estado de los servicios
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#122-estado-del-firewall" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        12.2. Estado del firewall
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#123-estado-de-ssh" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        12.3. Estado de SSH
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#124-estado-de-la-red" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        12.4. Estado de la red
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#125-registros-recientes" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        12.5. Registros recientes
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#126-comprobar-zabbix" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        12.6. Comprobar Zabbix
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#13-registro-de-implementacion" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        13. Registro de implementación
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#matriz-de-controles-de-hardening" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Matriz de controles de hardening
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#14-criterios-de-exito" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        14. Criterios de éxito
+      
+    </span>
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+      
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+      
+        
+      
+        
+      
+    
+    
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_6" >
+        
+          
+          <label class="md-nav__link" for="__nav_6" id="__nav_6_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Conectividad
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_6_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_6">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Conectividad
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../Conectividad/tailscale.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Tailscale
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../Conectividad/ssh.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    SSH
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+      
+        
+      
+        
+      
+        
+      
+        
+      
+    
+    
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_7" >
+        
+          
+          <label class="md-nav__link" for="__nav_7" id="__nav_7_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Problemas
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_7_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_7">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Problemas
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../Problemas/errortelegram.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Errores Telegram
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../Problemas/errores-agentes.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Errores Agentes
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../Problemas/errorssh.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Errores SSH
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../Problemas/errorsnmp.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Errores SNMP
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+      
+        
+      
+    
+    
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_8" >
+        
+          
+          <label class="md-nav__link" for="__nav_8" id="__nav_8_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Referencias
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_8_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_8">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Referencias
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../Referencias/documentacion-oficial.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Documentacion-oficial
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+  </ul>
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+            
+              
+              <div class="md-sidebar md-sidebar--secondary" data-md-component="sidebar" data-md-type="toc" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+<nav class="md-nav md-nav--secondary" aria-label="Tabla de contenidos">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Tabla de contenidos
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#manual-de-implementacion-paso-a-paso" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Manual de implementación paso a paso
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#orden-correcto-de-implementacion" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Orden correcto de implementación
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Orden correcto de implementación">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#1-preparacion-y-diagnostico" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        1. Preparación y diagnóstico
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#2-cuentas-y-privilegios" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        2. Cuentas y privilegios
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#3-contrasenas-y-bloqueo-de-cuentas" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        3. Contraseñas y bloqueo de cuentas
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#4-ssh-y-tailscale" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        4. SSH y Tailscale
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#5-firewall-ufw" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        5. Firewall UFW
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#6-actualizaciones" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        6. Actualizaciones
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#7-servicios-y-puertos" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        7. Servicios y puertos
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#8-registros-apparmor-y-auditoria" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        8. Registros, AppArmor y auditoría
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#9-snmp-y-puertos-de-zabbix" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        9. SNMP y puertos de Zabbix
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#10-validacion-final" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        10. Validación final
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#que-pasos-no-debiamos-saltearnos" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        ¿Qué pasos no debiamos saltearnos?
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#1-preparacion-y-diagnostico-inicial" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        1. Preparación y diagnóstico inicial
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="1. Preparación y diagnóstico inicial">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#paso-11-verificar-el-sistema-operativo" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Paso 1.1. Verificar el sistema operativo
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#paso-12-registrar-los-servicios-activos" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Paso 1.2. Registrar los servicios activos
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#paso-13-registrar-los-puertos-abiertos" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Paso 1.3. Registrar los puertos abiertos
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#paso-14-comprobar-el-firewall" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Paso 1.4. Comprobar el firewall
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#paso-15-comprobar-tailscale-y-zabbix" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Paso 1.5. Comprobar Tailscale y Zabbix
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#paso-16-crear-una-copia-de-seguridad-de-la-configuracion" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Paso 1.6. Crear una copia de seguridad de la configuración
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#2-control-1-cuentas-y-privilegios" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        2. Control 1 — Cuentas y privilegios
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="2. Control 1 — Cuentas y privilegios">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#paso-21-revisar-las-cuentas-locales" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Paso 2.1. Revisar las cuentas locales
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#paso-22-identificar-los-usuarios-con-privilegios-administrativos" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Paso 2.2. Identificar los usuarios con privilegios administrativos
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#paso-23-revisar-los-usuarios-con-contrasena-bloqueada-o-expirada" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Paso 2.3. Revisar los usuarios con contraseña bloqueada o expirada
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#paso-24-eliminar-privilegios-innecesarios" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Paso 2.4. Eliminar privilegios innecesarios
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#verificacion" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Verificación
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#3-control-2-politica-de-contrasenas-y-bloqueo-de-intentos-fallidos" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        3. Control 2 — Política de contraseñas y bloqueo de intentos fallidos
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="3. Control 2 — Política de contraseñas y bloqueo de intentos fallidos">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#paso-31-instalar-el-modulo-de-calidad-de-contrasenas" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Paso 3.1. Instalar el módulo de calidad de contraseñas
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#paso-32-configurar-la-calidad-de-las-contrasenas" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Paso 3.2. Configurar la calidad de las contraseñas
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#paso-33-verificar-la-integracion-de-pam" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Paso 3.3. Verificar la integración de PAM
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#paso-34-configurar-el-bloqueo-por-intentos-fallidos" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Paso 3.4. Configurar el bloqueo por intentos fallidos
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#paso-35-verificar-el-resultado" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Paso 3.5. Verificar el resultado
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#4-control-3-seguridad-de-red-y-acceso-mediante-tailscale" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        4. Control 3 — Seguridad de red y acceso mediante Tailscale
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="4. Control 3 — Seguridad de red y acceso mediante Tailscale">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#paso-41-comprobar-tailscale" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Paso 4.1. Comprobar Tailscale
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#paso-42-verificar-el-servicio" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Paso 4.2. Verificar el servicio
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#paso-43-probar-la-conectividad-remota" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Paso 4.3. Probar la conectividad remota
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#paso-44-restringir-los-dispositivos-autorizados" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Paso 4.4. Restringir los dispositivos autorizados
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#5-control-4-configuracion-del-firewall-ufw" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        5. Control 4 — Configuración del firewall UFW
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="5. Control 4 — Configuración del firewall UFW">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#paso-51-revisar-las-reglas-existentes" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Paso 5.1. Revisar las reglas existentes
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#paso-52-establecer-politicas-predeterminadas" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Paso 5.2. Establecer políticas predeterminadas
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#paso-53-permitir-ssh-desde-tailscale" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Paso 5.3. Permitir SSH desde Tailscale
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#paso-54-permitir-los-puertos-de-zabbix-necesarios" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Paso 5.4. Permitir los puertos de Zabbix necesarios
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#paso-55-verificar-y-probar" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Paso 5.5. Verificar y probar
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#6-control-5-actualizaciones-de-seguridad" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        6. Control 5 — Actualizaciones de seguridad
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="6. Control 5 — Actualizaciones de seguridad">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#paso-61-actualizar-el-indice-de-paquetes" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Paso 6.1. Actualizar el índice de paquetes
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#paso-62-revisar-los-paquetes-pendientes" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Paso 6.2. Revisar los paquetes pendientes
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#paso-63-aplicar-las-actualizaciones" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Paso 6.3. Aplicar las actualizaciones
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#paso-64-revisar-si-hace-falta-reiniciar" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Paso 6.4. Revisar si hace falta reiniciar
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#paso-65-comprobar-los-servicios" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Paso 6.5. Comprobar los servicios
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#7-control-6-endurecimiento-de-ssh" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        7. Control 6 — Endurecimiento de SSH
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="7. Control 6 — Endurecimiento de SSH">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#paso-71-comprobar-el-servicio-ssh" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Paso 7.1. Comprobar el servicio SSH
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#paso-72-generar-una-clave-ssh-en-el-equipo-cliente" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Paso 7.2. Generar una clave SSH en el equipo cliente
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#paso-73-instalar-la-clave-publica-en-ubuntu" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Paso 7.3. Instalar la clave pública en Ubuntu
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#paso-74-revisar-la-configuracion-efectiva" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Paso 7.4. Revisar la configuración efectiva
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#paso-75-crear-un-archivo-de-configuracion-de-hardening" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Paso 7.5. Crear un archivo de configuración de hardening
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#paso-76-validar-antes-de-reiniciar" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Paso 7.6. Validar antes de reiniciar
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#8-control-7-servicios-y-aplicaciones-innecesarios" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        8. Control 7 — Servicios y aplicaciones innecesarios
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="8. Control 7 — Servicios y aplicaciones innecesarios">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#paso-81-inventariar-los-servicios-activos" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Paso 8.1. Inventariar los servicios activos
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#paso-82-identificar-los-puertos-asociados" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Paso 8.2. Identificar los puertos asociados
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#paso-83-comprobar-si-un-servicio-esta-habilitado" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Paso 8.3. Comprobar si un servicio está habilitado
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#paso-84-detener-un-servicio-confirmado-como-innecesario" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Paso 8.4. Detener un servicio confirmado como innecesario
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#paso-85-verificar-el-resultado" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Paso 8.5. Verificar el resultado
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#9-control-8-registros-apparmor-y-auditoria" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        9. Control 8 — Registros, AppArmor y auditoría
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="9. Control 8 — Registros, AppArmor y auditoría">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#paso-91-revisar-los-mensajes-de-advertencia-del-sistema" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Paso 9.1. Revisar los mensajes de advertencia del sistema
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#paso-92-comprobar-la-configuracion-de-apparmor" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Paso 9.2. Comprobar la configuración de AppArmor
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#paso-93-evaluar-auditd" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Paso 9.3. Evaluar auditd
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#paso-94-integrar-los-eventos-con-zabbix" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Paso 9.4. Integrar los eventos con Zabbix
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#10-control-9-snmp-y-puertos-de-zabbix" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        10. Control 9 — SNMP y puertos de Zabbix
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="10. Control 9 — SNMP y puertos de Zabbix">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#paso-101-comprobar-si-snmp-esta-instalado-en-el-servidor" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Paso 10.1. Comprobar si SNMP está instalado en el servidor
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#paso-102-determinar-si-el-servidor-necesita-ejecutar-snmp" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Paso 10.2. Determinar si el servidor necesita ejecutar SNMP
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#paso-103-restringir-el-acceso-al-servidor-zabbix" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Paso 10.3. Restringir el acceso al servidor Zabbix
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#paso-104-revisar-los-puertos-de-los-agentes" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Paso 10.4. Revisar los puertos de los agentes
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#paso-105-verificar-el-monitoreo" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Paso 10.5. Verificar el monitoreo
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#11-control-10-seguridad-de-la-maquina-virtual-y-copias-de-seguridad" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        11. Control 10 — Seguridad de la máquina virtual y copias de seguridad
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="11. Control 10 — Seguridad de la máquina virtual y copias de seguridad">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#paso-111-revisar-el-acceso-al-hipervisor" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Paso 11.1. Revisar el acceso al hipervisor
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#paso-112-crear-una-instantanea-de-la-maquina-virtual" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Paso 11.2. Crear una instantánea de la máquina virtual
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#paso-113-respaldar-la-configuracion-de-zabbix" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Paso 11.3. Respaldar la configuración de Zabbix
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#paso-114-respaldar-la-base-de-datos" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Paso 11.4. Respaldar la base de datos
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#paso-115-verificar-el-respaldo" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Paso 11.5. Verificar el respaldo
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#12-verificacion-final-del-hardening" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        12. Verificación final del hardening
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="12. Verificación final del hardening">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#121-estado-de-los-servicios" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        12.1. Estado de los servicios
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#122-estado-del-firewall" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        12.2. Estado del firewall
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#123-estado-de-ssh" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        12.3. Estado de SSH
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#124-estado-de-la-red" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        12.4. Estado de la red
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#125-registros-recientes" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        12.5. Registros recientes
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#126-comprobar-zabbix" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        12.6. Comprobar Zabbix
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#13-registro-de-implementacion" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        13. Registro de implementación
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#matriz-de-controles-de-hardening" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Matriz de controles de hardening
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#14-criterios-de-exito" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        14. Criterios de éxito
+      
+    </span>
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+          
+          
+            <div class="md-content" data-md-component="content">
+              
+              <article class="md-content__inner md-typeset">
+                
+                  
+
+
+
+<h1 id="10-reglas-de-hardening-ubuntu">10 Reglas de Hardening — Ubuntu<a class="headerlink" href="#10-reglas-de-hardening-ubuntu" title="Permanent link">&para;</a></h1>
+<h2 id="manual-de-implementacion-paso-a-paso">Manual de implementación paso a paso<a class="headerlink" href="#manual-de-implementacion-paso-a-paso" title="Permanent link">&para;</a></h2>
+<p><strong>Activo:</strong> Ubuntu 20.04.1 LTS con Zabbix Server<br />
+<strong>Entorno:</strong> laboratorio en el dispositivo con monitoreo de agentes y acceso remoto mediante Tailscale.</p>
+<h2 id="orden-correcto-de-implementacion">Orden correcto de implementación<a class="headerlink" href="#orden-correcto-de-implementacion" title="Permanent link">&para;</a></h2>
+<ul>
+<li>
+<h3 id="1-preparacion-y-diagnostico">1. Preparación y diagnóstico<a class="headerlink" href="#1-preparacion-y-diagnostico" title="Permanent link">&para;</a></h3>
+</li>
+</ul>
+<p>Antes de realizar cambios, debemos crear respaldos de la configuración actual e identificar los servicios, puertos y usuarios del sistema. Comprobar también que el acceso al servidor funcione correctamente mediante consola y Tailscale.</p>
+<ul>
+<li>
+<h3 id="2-cuentas-y-privilegios">2. Cuentas y privilegios<a class="headerlink" href="#2-cuentas-y-privilegios" title="Permanent link">&para;</a></h3>
+</li>
+</ul>
+<p>Revisar las cuentas de usuario, los permisos asignados y los privilegios administrativos antes de modificar los mecanismos de autenticación.</p>
+<ul>
+<li>
+<h3 id="3-contrasenas-y-bloqueo-de-cuentas">3. Contraseñas y bloqueo de cuentas<a class="headerlink" href="#3-contrasenas-y-bloqueo-de-cuentas" title="Permanent link">&para;</a></h3>
+</li>
+</ul>
+<p>Configurar la política de contraseñas y los mecanismos de bloqueo ante intentos fallidos. Verificar la compatibilidad de los módulos PAM antes de aplicar cambios y realizar pruebas.</p>
+<ul>
+<li>
+<h3 id="4-ssh-y-tailscale">4. SSH y Tailscale<a class="headerlink" href="#4-ssh-y-tailscale" title="Permanent link">&para;</a></h3>
+</li>
+</ul>
+<p>Confirmar la conectividad remota, configurar la autenticación mediante claves SSH y comprobar que funcione correctamente desde una segunda sesión. Solo después de verificar el acceso, restringir los métodos de autenticación que no sean necesarios.</p>
+<ul>
+<li>
+<h3 id="5-firewall-ufw">5. Firewall UFW<a class="headerlink" href="#5-firewall-ufw" title="Permanent link">&para;</a></h3>
+</li>
+</ul>
+<p>Identificar los flujos de tráfico necesarios para SSH, Tailscale, Zabbix y los agentes antes de modificar las reglas del firewall. Aplicar únicamente las reglas necesarias y comprobar que la conexión remota continúe funcionando.</p>
+<ul>
+<li>
+<h3 id="6-actualizaciones">6. Actualizaciones<a class="headerlink" href="#6-actualizaciones" title="Permanent link">&para;</a></h3>
+</li>
+</ul>
+<p>Realizar las actualizaciones del sistema durante una ventana de mantenimiento, con un respaldo disponible. Al finalizar, verificar el estado de los servicios y comprobar si es necesario reiniciar el servidor.</p>
+<ul>
+<li>
+<h3 id="7-servicios-y-puertos">7. Servicios y puertos<a class="headerlink" href="#7-servicios-y-puertos" title="Permanent link">&para;</a></h3>
+</li>
+</ul>
+<p>Identificar los servicios activos y los puertos en escucha. Deshabilitar únicamente aquellos que hayan sido confirmados como innecesarios, verificando previamente sus dependencias para evitar afectar el funcionamiento del servidor.</p>
+<ul>
+<li>
+<h3 id="8-registros-apparmor-y-auditoria">8. Registros, AppArmor y auditoría<a class="headerlink" href="#8-registros-apparmor-y-auditoria" title="Permanent link">&para;</a></h3>
+</li>
+</ul>
+<p>Revisar los registros del sistema y de los servicios principales. Comprobar el estado de AppArmor y configurar herramientas de auditoría según las necesidades de seguridad y monitoreo del servidor.</p>
+<ul>
+<li>
+<h3 id="9-snmp-y-puertos-de-zabbix">9. SNMP y puertos de Zabbix<a class="headerlink" href="#9-snmp-y-puertos-de-zabbix" title="Permanent link">&para;</a></h3>
+</li>
+</ul>
+<p>Revisar la instalación y el uso de SNMP. Deshabilitarlo o eliminarlo únicamente si no es necesario. Ajustar las reglas de acceso a los puertos de Zabbix sin interrumpir la comunicación con los agentes, la recopilación de métricas ni el envío de alertas.</p>
+<ul>
+<li>
+<h3 id="10-validacion-final">10. Validación final<a class="headerlink" href="#10-validacion-final" title="Permanent link">&para;</a></h3>
+</li>
+</ul>
+<p>Comprobar que SSH, Tailscale, MySQL, Zabbix Server y los agentes continúen funcionando correctamente. Verificar las reglas del firewall, revisar los registros y confirmar que las métricas y las alertas se generen como corresponde.</p>
+<p>También se debe comprobar que los respaldos sean recuperables y que exista un procedimiento de recuperación ante posibles fallos.</p>
+<hr />
+<ul>
+<li>
+<h2 id="que-pasos-no-debiamos-saltearnos">¿Qué pasos no debiamos saltearnos?<a class="headerlink" href="#que-pasos-no-debiamos-saltearnos" title="Permanent link">&para;</a></h2>
+</li>
+<li>
+<p><strong>Antes de modificar SSH:</strong> disponer de una segunda forma de acceso y probar la autenticación mediante claves.</p>
+</li>
+<li><strong>Antes de modificar UFW:</strong> conocer los puertos utilizados y revisar las reglas actuales. Una configuración incorrecta puede bloquear la conexión remota.</li>
+<li><strong>Antes de modificar PAM:</strong> respaldar la configuración y verificar la compatibilidad de los módulos. Un error puede impedir los inicios de sesión.</li>
+<li><strong>Antes de deshabilitar servicios:</strong> identificar sus dependencias y comprobar que Zabbix no los necesite.</li>
+<li><strong>Antes de actualizar:</strong> contar con un respaldo y planificar una ventana de mantenimiento.</li>
+<li><strong>Al finalizar:</strong> comprobar que los agentes continúen enviando datos, que las métricas se actualicen y que las alertas funcionen correctamente.</li>
+</ul>
+<blockquote>
+<p><strong>Importante:</strong> el hardening debe aplicarse de forma gradual. Después de cada cambio relevante, verificar el funcionamiento del sistema antes de continuar con el siguiente paso.</p>
+</blockquote>
+<h2 id="1-preparacion-y-diagnostico-inicial">1. Preparación y diagnóstico inicial<a class="headerlink" href="#1-preparacion-y-diagnostico-inicial" title="Permanent link">&para;</a></h2>
+<p>Antes de realizar cambios, debemos conocer el estado del servidor y disponer de una forma de recuperación.</p>
+<h3 id="paso-11-verificar-el-sistema-operativo">Paso 1.1. Verificar el sistema operativo<a class="headerlink" href="#paso-11-verificar-el-sistema-operativo" title="Permanent link">&para;</a></h3>
+<p>Ejecutar:</p>
+<div class="highlight"><pre><span></span><code>lsb_release<span class="w"> </span>-a
+uname<span class="w"> </span>-r
+hostnamectl
+</code></pre></div>
+<p><img alt="Panel principal de Zabbix" src="../Imagenes/hardening/paso%201/1.1.png" /></p>
+<p>Estos comandos permiten identificar la versión de Ubuntu, el kernel y el nombre del servidor.</p>
+<h3 id="paso-12-registrar-los-servicios-activos">Paso 1.2. Registrar los servicios activos<a class="headerlink" href="#paso-12-registrar-los-servicios-activos" title="Permanent link">&para;</a></h3>
+<div class="highlight"><pre><span></span><code>systemctl<span class="w"> </span>--type<span class="o">=</span>service<span class="w"> </span>--state<span class="o">=</span>running
+</code></pre></div>
+<p><img alt="Panel principal de Zabbix" src="../Imagenes/hardening/paso%201/1.2.png" /></p>
+<h3 id="paso-13-registrar-los-puertos-abiertos">Paso 1.3. Registrar los puertos abiertos<a class="headerlink" href="#paso-13-registrar-los-puertos-abiertos" title="Permanent link">&para;</a></h3>
+<div class="highlight"><pre><span></span><code>sudo<span class="w"> </span>ss<span class="w"> </span>-tulpn
+</code></pre></div>
+<p><img alt="Panel principal de Zabbix" src="../Imagenes/hardening/paso%201/1.3.png" /></p>
+<h3 id="paso-14-comprobar-el-firewall">Paso 1.4. Comprobar el firewall<a class="headerlink" href="#paso-14-comprobar-el-firewall" title="Permanent link">&para;</a></h3>
+<div class="highlight"><pre><span></span><code>sudo<span class="w"> </span>ufw<span class="w"> </span>status<span class="w"> </span>verbose
+sudo<span class="w"> </span>ufw<span class="w"> </span>status<span class="w"> </span>numbered
+</code></pre></div>
+<p><img alt="Panel principal de Zabbix" src="../Imagenes/hardening/paso%201/1.4.png" /></p>
+<h3 id="paso-15-comprobar-tailscale-y-zabbix">Paso 1.5. Comprobar Tailscale y Zabbix<a class="headerlink" href="#paso-15-comprobar-tailscale-y-zabbix" title="Permanent link">&para;</a></h3>
+<div class="highlight"><pre><span></span><code>tailscale<span class="w"> </span>status
+systemctl<span class="w"> </span>status<span class="w"> </span>zabbix-server
+</code></pre></div>
+<p><img alt="Panel principal de Zabbix" src="../Imagenes/hardening/paso%201/1.5%20%28%20status%20zabbix-server%20%29.png" /></p>
+<p>Si utilizás MySQL:</p>
+<div class="highlight"><pre><span></span><code>systemctl<span class="w"> </span>status<span class="w"> </span>mysql
+</code></pre></div>
+<p><img alt="Panel principal de Zabbix" src="../Imagenes/hardening/paso%201/1.5.%20%28%20MySQL%20%29.png" /></p>
+<p>Si la instalación utiliza Apache:</p>
+<div class="highlight"><pre><span></span><code>systemctl<span class="w"> </span>status<span class="w"> </span>apache2
+</code></pre></div>
+<p><img alt="Panel principal de Zabbix" src="../Imagenes/hardening/paso%201/1.5..%20%28%20Apache%20%29.png" /></p>
+<p>Los servicios pueden variar según la arquitectura instalada.</p>
+<h3 id="paso-16-crear-una-copia-de-seguridad-de-la-configuracion">Paso 1.6. Crear una copia de seguridad de la configuración<a class="headerlink" href="#paso-16-crear-una-copia-de-seguridad-de-la-configuracion" title="Permanent link">&para;</a></h3>
+<p>Crear un directorio para guardar los respaldos:</p>
+<div class="highlight"><pre><span></span><code>sudo<span class="w"> </span>mkdir<span class="w"> </span>-p<span class="w"> </span>/root/hardening-backup
+sudo<span class="w"> </span>chmod<span class="w"> </span><span class="m">700</span><span class="w"> </span>/root/hardening-backup
+</code></pre></div>
+<p><img alt="Panel principal de Zabbix" src="../Imagenes/hardening/paso%201/1.6%20%28%20crear%20directorio%20%29.png" /></p>
+<p>Respaldar los archivos de configuración más importantes:</p>
+<div class="highlight"><pre><span></span><code>sudo<span class="w"> </span>tar<span class="w"> </span>-czpf<span class="w"> </span>~/root/hardening-backup/configuracion-inicial.tar.gz<span class="w"> </span><span class="se">\</span>
+/etc/ssh<span class="w"> </span><span class="se">\</span>
+/etc/ufw<span class="w"> </span><span class="se">\</span>
+/etc/pam.d<span class="w"> </span><span class="se">\</span>
+/etc/security<span class="w"> </span><span class="se">\</span>
+/etc/sysctl.conf<span class="w"> </span><span class="se">\</span>
+/etc/sysctl.d<span class="w"> </span><span class="se">\</span>
+/etc/zabbix
+</code></pre></div>
+<p><img alt="Panel principal de Zabbix" src="../Imagenes/hardening/paso%201/1.6.%20%28respaldar%20los%20archivos%29.png" /></p>
+<p>Si algún directorio no existe, revisar el mensaje de error y adaptar el comando a los componentes instalados.</p>
+<p><strong>Importante:</strong> este respaldo protege archivos de configuración, pero no reemplaza una copia de la base de datos de Zabbix ni una copia completa de la máquina virtual. Para disponer de una recuperación completa, crear también una instantánea de la VM y un respaldo de la base de datos.</p>
+<hr />
+<h2 id="2-control-1-cuentas-y-privilegios">2. Control 1 — Cuentas y privilegios<a class="headerlink" href="#2-control-1-cuentas-y-privilegios" title="Permanent link">&para;</a></h2>
+<p><strong>Objetivo:</strong> reducir el riesgo de accesos no autorizados y evitar que las cuentas dispongan de privilegios innecesarios.</p>
+<h3 id="paso-21-revisar-las-cuentas-locales">Paso 2.1. Revisar las cuentas locales<a class="headerlink" href="#paso-21-revisar-las-cuentas-locales" title="Permanent link">&para;</a></h3>
+<div class="highlight"><pre><span></span><code>getent<span class="w"> </span>passwd
+</code></pre></div>
+<p><img alt="Panel principal de Zabbix" src="../Imagenes/hardening\paso 1/2.1 (revisar las cuentas locales).png" /></p>
+<p>Para ver las cuentas que utilizan una shell de inicio de sesión:</p>
+<div class="highlight"><pre><span></span><code>awk<span class="w"> </span>-F:<span class="w"> </span><span class="s1">'7! /(no login|false)$/ {print $1, $7}'</span><span class="w"> </span>/etc/passwd
+</code></pre></div>
+<p><img alt="Panel principal de Zabbix" src="../Imagenes/hardening/paso%202/2.1.%20%28cuentas%20que%20utilizan%20una%20shell%20de%20sesion%20%29.png" /></p>
+<p>Revisar cuáles son cuentas administrativas, cuáles corresponden a servicios y cuáles se utilizan para iniciar sesión.</p>
+<p>No todas las cuentas del sistema representan usuarios humanos. Algunas son necesarias para ejecutar servicios.</p>
+<h3 id="paso-22-identificar-los-usuarios-con-privilegios-administrativos">Paso 2.2. Identificar los usuarios con privilegios administrativos<a class="headerlink" href="#paso-22-identificar-los-usuarios-con-privilegios-administrativos" title="Permanent link">&para;</a></h3>
+<div class="highlight"><pre><span></span><code>getent<span class="w"> </span>group<span class="w"> </span>sudo
+</code></pre></div>
+<p><img alt="Panel principal de Zabbix" src="../Imagenes/hardening/paso%202/2.2%20%28usuarios%20con%20privilegios%29.png" /></p>
+<p>También se puede revisar quién puede ejecutar comandos con privilegios elevados:</p>
+<div class="highlight"><pre><span></span><code>sudo<span class="w"> </span>-l
+</code></pre></div>
+<p><img alt="Panel principal de Zabbix" src="../Imagenes/hardening/paso%202/2.2.%20%28quien%20puede%20ejecutar%20comandos%20con%20privilegios%20elevados%29.png" /></p>
+<p>Ejecutar <code>sudo -l</code> desde la cuenta que se desea analizar. Para inspeccionar otra cuenta, utilizar un procedimiento de administración apropiado.</p>
+<h3 id="paso-23-revisar-los-usuarios-con-contrasena-bloqueada-o-expirada">Paso 2.3. Revisar los usuarios con contraseña bloqueada o expirada<a class="headerlink" href="#paso-23-revisar-los-usuarios-con-contrasena-bloqueada-o-expirada" title="Permanent link">&para;</a></h3>
+<div class="highlight"><pre><span></span><code>sudo<span class="w"> </span>passwd<span class="w"> </span>-S<span class="w"> </span>USUARIO
+sudo<span class="w"> </span>chage<span class="w"> </span>-l<span class="w"> </span>USUARIO
+</code></pre></div>
+<p><img alt="Panel principal de Zabbix" src="../Imagenes/hardening/paso%202/2.3.png" /></p>
+<p>Reemplazar <code>USUARIO</code> por la cuenta que se desea comprobar.</p>
+<h3 id="paso-24-eliminar-privilegios-innecesarios">Paso 2.4. Eliminar privilegios innecesarios<a class="headerlink" href="#paso-24-eliminar-privilegios-innecesarios" title="Permanent link">&para;</a></h3>
+<p>Si se confirma que una cuenta no necesita privilegios administrativos, se puede quitar del grupo <code>sudo</code>:</p>
+<div class="highlight"><pre><span></span><code>sudo<span class="w"> </span>deluser<span class="w"> </span>USUARIO<span class="w"> </span>sudo
+</code></pre></div>
+<p>Antes de ejecutar el comando, comprobar que exista otra cuenta administrativa funcional.</p>
+<p>Si una cuenta está obsoleta, primero verificar que no pertenezca a un servicio, tarea programada o proceso automatizado. No eliminar cuentas del sistema sin analizar sus dependencias.</p>
+<h3 id="verificacion">Verificación<a class="headerlink" href="#verificacion" title="Permanent link">&para;</a></h3>
+<div class="highlight"><pre><span></span><code>getent<span class="w"> </span>group<span class="w"> </span>sudo
+sudo<span class="w"> </span>-l
+</code></pre></div>
+<p><strong>Resultado esperado:</strong> solamente las cuentas autorizadas deben disponer de privilegios administrativos.</p>
+<hr />
+<h2 id="3-control-2-politica-de-contrasenas-y-bloqueo-de-intentos-fallidos">3. Control 2 — Política de contraseñas y bloqueo de intentos fallidos<a class="headerlink" href="#3-control-2-politica-de-contrasenas-y-bloqueo-de-intentos-fallidos" title="Permanent link">&para;</a></h2>
+<p><strong>Objetivo:</strong> dificultar los ataques de fuerza bruta y reducir el riesgo de contraseñas débiles.</p>
+<h3 id="paso-31-instalar-el-modulo-de-calidad-de-contrasenas">Paso 3.1. Instalar el módulo de calidad de contraseñas<a class="headerlink" href="#paso-31-instalar-el-modulo-de-calidad-de-contrasenas" title="Permanent link">&para;</a></h3>
+<div class="highlight"><pre><span></span><code>sudo<span class="w"> </span>apt<span class="w"> </span>update
+sudo<span class="w"> </span>apt<span class="w"> </span>install<span class="w"> </span>libpam-pwquality<span class="w"> </span>-y
+</code></pre></div>
+<p><img alt="Panel principal de Zabbix" src="../Imagenes/hardening/paso%203/3.1.png" /></p>
+<h3 id="paso-32-configurar-la-calidad-de-las-contrasenas">Paso 3.2. Configurar la calidad de las contraseñas<a class="headerlink" href="#paso-32-configurar-la-calidad-de-las-contrasenas" title="Permanent link">&para;</a></h3>
+<p>Crear una copia del archivo antes de modificarlo:</p>
+<div class="highlight"><pre><span></span><code>sudo<span class="w"> </span>cp<span class="w"> </span>/etc/security/pwquality.conf<span class="w"> </span><span class="se">\</span>
+/etc/security/pwquality.conf.bak
+</code></pre></div>
+<p><img alt="Panel principal de Zabbix" src="../Imagenes/hardening/paso%203/3.2.png" /></p>
+<p>Abrir la configuración:</p>
+<div class="highlight"><pre><span></span><code>sudo<span class="w"> </span>nano<span class="w"> </span>/etc/security/pwquality.conf
+</code></pre></div>
+<p><img alt="Panel principal de Zabbix" src="../Imagenes/hardening/paso%203/3.2.%28dentro%20de%20nano%29.png" /></p>
+<p>Configurar o ajustar estos parámetros:</p>
+<div class="highlight"><pre><span></span><code><span class="na">minlen</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">12</span>
+<span class="na">dcredit</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">-1</span>
+<span class="na">ucredit</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">-1</span>
+<span class="na">lcredit</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">-1</span>
+<span class="na">ocredit</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">-1</span>
+</code></pre></div>
+<p>Significado:</p>
+<ul>
+<li><code>minlen = 12</code>: establece una longitud mínima de 12 caracteres.</li>
+<li><code>dcredit = -1</code>: exige al menos un dígito.</li>
+<li><code>ucredit = -1</code>: exige al menos una letra mayúscula.</li>
+<li><code>lcredit = -1</code>: exige al menos una letra minúscula.</li>
+<li><code>ocredit = -1</code>: exige al menos un carácter no alfanumérico.</li>
+</ul>
+<p>Guardar con <code>Ctrl + O</code>, confirmar con <code>Enter</code> y salir con <code>Ctrl + X</code>.</p>
+<p><strong>Precaución:</strong> estos parámetros se aplican cuando el módulo está integrado en la política PAM correspondiente. Modificar el archivo no garantiza por sí solo que todos los mecanismos de autenticación los utilicen.</p>
+<h3 id="paso-33-verificar-la-integracion-de-pam">Paso 3.3. Verificar la integración de PAM<a class="headerlink" href="#paso-33-verificar-la-integracion-de-pam" title="Permanent link">&para;</a></h3>
+<p>Comprobar la configuración:</p>
+<div class="highlight"><pre><span></span><code>grep<span class="w"> </span>-n<span class="w"> </span><span class="s2">"pam_pwquality"</span><span class="w"> </span>/etc/pam.d/common-password
+</code></pre></div>
+<p><img alt="Panel principal de Zabbix" src="../Imagenes/hardening/paso%203/3.3.png" /></p>
+<p>Si no aparece ninguna coincidencia, revisar la configuración de PAM antes de continuar. No agregar líneas indiscriminadamente: una configuración incorrecta de PAM puede impedir la autenticación.</p>
+<h3 id="paso-34-configurar-el-bloqueo-por-intentos-fallidos">Paso 3.4. Configurar el bloqueo por intentos fallidos<a class="headerlink" href="#paso-34-configurar-el-bloqueo-por-intentos-fallidos" title="Permanent link">&para;</a></h3>
+<p>Primero, comprobar si <code>pam_faillock</code> está disponible:</p>
+<div class="highlight"><pre><span></span><code><span class="nb">command</span><span class="w"> </span>-v<span class="w"> </span>faillock
+</code></pre></div>
+<p><img alt="Panel principal de Zabbix" src="../Imagenes/hardening/paso%203/3.4.png" /></p>
+<p><img alt="Panel principal de Zabbix" src="../Imagenes/hardening/paso%203/3.4%20%28PAM%29.png" /></p>
+<p><img alt="Panel principal de Zabbix" src="../Imagenes/hardening/paso%203/3.4%20%28politica%20requerida%29%20%28numero%20de%20intentos%2C%20etc%29.png" /></p>
+<p>Consultar la ayuda disponible:</p>
+<div class="highlight"><pre><span></span><code>man<span class="w"> </span>pam_faillock
+</code></pre></div>
+<p>La política debe definir, como mínimo:</p>
+<ul>
+<li>Número de intentos fallidos permitidos.</li>
+<li>Duración del bloqueo.</li>
+<li>Tiempo de observación de los intentos.</li>
+<li>Excepciones justificadas para cuentas de servicio o recuperación.</li>
+</ul>
+<p>En sistemas compatibles con <code>pam_faillock</code>, los parámetros habituales incluyen <code>deny</code>, <code>fail_interval</code> y <code>unlock_time</code>. Por ejemplo, una política de prueba podría utilizar cinco intentos fallidos y un bloqueo temporal de 900 segundos.</p>
+<p>La integración se realiza en PAM y depende de la versión y configuración de Ubuntu. Antes de editar los archivos de <code>/etc/pam.d/</code>, revisar la documentación de la versión instalada y respaldar los archivos originales.</p>
+<p>No copiar bloques PAM de otra distribución sin verificar su compatibilidad.</p>
+<h3 id="paso-35-verificar-el-resultado">Paso 3.5. Verificar el resultado<a class="headerlink" href="#paso-35-verificar-el-resultado" title="Permanent link">&para;</a></h3>
+<p>Si está disponible:</p>
+<div class="highlight"><pre><span></span><code>sudo<span class="w"> </span>faillock
+</code></pre></div>
+<p>Consultar los parámetros de calidad:</p>
+<div class="highlight"><pre><span></span><code>grep<span class="w"> </span>-E<span class="w"> </span><span class="s1">'^(minlen|dcredit|ucredit|lcredit|ocredit)'</span><span class="w"> </span><span class="se">\</span>
+/etc/security/pwquality.conf
+</code></pre></div>
+<p><img alt="Panel principal de Zabbix" src="../Imagenes/hardening/paso%203/3.5%20%28parametros%20de%20calidad%29.png" /></p>
+<p><img alt="Panel principal de Zabbix" src="../Imagenes/hardening/paso%203/3.5%20%28si%20esta%20disponible%29.png" /></p>
+<p>Realizar una prueba controlada con una cuenta de laboratorio, nunca con la única cuenta administrativa.</p>
+<p><strong>Resultado esperado:</strong> las contraseñas débiles deben rechazarse cuando corresponda y los intentos fallidos deben registrarse conforme a la política implementada.</p>
+<hr />
+<h2 id="4-control-3-seguridad-de-red-y-acceso-mediante-tailscale">4. Control 3 — Seguridad de red y acceso mediante Tailscale<a class="headerlink" href="#4-control-3-seguridad-de-red-y-acceso-mediante-tailscale" title="Permanent link">&para;</a></h2>
+<p><strong>Objetivo:</strong> proteger la administración remota del servidor y limitar el acceso a dispositivos autorizados.</p>
+<h3 id="paso-41-comprobar-tailscale">Paso 4.1. Comprobar Tailscale<a class="headerlink" href="#paso-41-comprobar-tailscale" title="Permanent link">&para;</a></h3>
+<div class="highlight"><pre><span></span><code>tailscale<span class="w"> </span>status
+tailscale<span class="w"> </span>ip<span class="w"> </span>-4
+</code></pre></div>
+<p><img alt="Panel principal de Zabbix" src="../Imagenes/hardening/paso%204/4.1.png" /></p>
+<p>El primer comando muestra los dispositivos visibles en la red. El segundo muestra las direcciones IPv4 de Tailscale del servidor.</p>
+<h3 id="paso-42-verificar-el-servicio">Paso 4.2. Verificar el servicio<a class="headerlink" href="#paso-42-verificar-el-servicio" title="Permanent link">&para;</a></h3>
+<div class="highlight"><pre><span></span><code>sudo<span class="w"> </span>systemctl<span class="w"> </span>status<span class="w"> </span>tailscaled
+</code></pre></div>
+<p><img alt="Panel principal de Zabbix" src="../Imagenes/hardening/paso%204/4.2.png" /></p>
+<p>Si el servicio está instalado pero no está habilitado para iniciarse automáticamente:</p>
+<div class="highlight"><pre><span></span><code>sudo<span class="w"> </span>systemctl<span class="w"> </span><span class="nb">enable</span><span class="w"> </span>--now<span class="w"> </span>tailscaled
+</code></pre></div>
+<p>No ejecutar nuevamente la autenticación de Tailscale si el servidor ya está correctamente vinculado a la red.</p>
+<h3 id="paso-43-probar-la-conectividad-remota">Paso 4.3. Probar la conectividad remota<a class="headerlink" href="#paso-43-probar-la-conectividad-remota" title="Permanent link">&para;</a></h3>
+<p>Desde un equipo autorizado:</p>
+<div class="highlight"><pre><span></span><code>tailscale<span class="w"> </span>ping<span class="w"> </span>IP_TAILSCALE_SERVIDOR
+</code></pre></div>
+<p><img alt="Panel principal de Zabbix" src="../Imagenes/hardening/paso%204/4.3.png" /></p>
+<p>Reemplazar <code>IP_TAILSCALE_SERVIDOR</code> por la dirección real del servidor.</p>
+<p>También se puede comprobar SSH:</p>
+<div class="highlight"><pre><span></span><code>ssh<span class="w"> </span>USUARIO@IP_TAILSCALE_SERVIDOR
+</code></pre></div>
+<h3 id="paso-44-restringir-los-dispositivos-autorizados">Paso 4.4. Restringir los dispositivos autorizados<a class="headerlink" href="#paso-44-restringir-los-dispositivos-autorizados" title="Permanent link">&para;</a></h3>
+<p>Desde la consola administrativa de Tailscale:</p>
+<ol>
+<li>Revisar los dispositivos vinculados.</li>
+<li>Identificar equipos desconocidos u obsoletos.</li>
+<li>Revisar los permisos de usuarios y dispositivos.</li>
+<li>Aplicar políticas de acceso para permitir únicamente las conexiones necesarias.</li>
+<li>Probar que el equipo administrativo autorizado conserve el acceso.</li>
+</ol>
+<p><strong>En este caso no tenemos dispositivos desconocidos ni obsoletos, los mismo para los usuarios ya que solo se encuentra el administrador de tailscale</strong></p>
+<p><img alt="Panel principal de Zabbix" src="../Imagenes/hardening/paso%204/4.4%28disp.%20vinculados%29.png" /></p>
+<p><img alt="Panel principal de Zabbix" src="../Imagenes/hardening/paso%204/4.4%20%28permisos%29.png" /></p>
+<p>No eliminar el dispositivo del servidor ni cambiar las políticas de acceso sin disponer de una vía de recuperación.</p>
+<p><strong>Resultado esperado:</strong> el servidor debe ser accesible desde los equipos autorizados, pero no desde dispositivos que carezcan de permisos.</p>
+<hr />
+<h2 id="5-control-4-configuracion-del-firewall-ufw">5. Control 4 — Configuración del firewall UFW<a class="headerlink" href="#5-control-4-configuracion-del-firewall-ufw" title="Permanent link">&para;</a></h2>
+<p><strong>Objetivo:</strong> reducir la superficie de ataque mediante el control del tráfico de red.</p>
+<h3 id="paso-51-revisar-las-reglas-existentes">Paso 5.1. Revisar las reglas existentes<a class="headerlink" href="#paso-51-revisar-las-reglas-existentes" title="Permanent link">&para;</a></h3>
+<div class="highlight"><pre><span></span><code>sudo<span class="w"> </span>ufw<span class="w"> </span>status<span class="w"> </span>numbered
+</code></pre></div>
+<p><img alt="Panel principal de Zabbix" src="../Imagenes/hardening/paso%205/5.1%20%28reglas%20exitentes%29.png" /></p>
+<p>Antes de cambiar reglas, identificar qué servicios requieren conexiones entrantes.</p>
+<p>En un servidor Zabbix, los puertos pueden incluir:</p>
+<table>
+<thead>
+<tr>
+<th>Puerto</th>
+<th>Uso</th>
+<th>Consideración</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>TCP 22</td>
+<td>SSH</td>
+<td>Permitir únicamente desde orígenes autorizados.</td>
+</tr>
+<tr>
+<td>TCP 80</td>
+<td>HTTP</td>
+<td>Abrir solo si el servicio web lo necesita.</td>
+</tr>
+<tr>
+<td>TCP 443</td>
+<td>HTTPS</td>
+<td>Abrir solo si el servicio web lo necesita.</td>
+</tr>
+<tr>
+<td>TCP 10051</td>
+<td>Zabbix server/trapper</td>
+<td>Necesario para determinados flujos de agentes y proxies.</td>
+</tr>
+<tr>
+<td>TCP 10050</td>
+<td>Agente Zabbix</td>
+<td>Necesario en el servidor únicamente si recibe comprobaciones pasivas del agente local u otros agentes.</td>
+</tr>
+<tr>
+<td>UDP 161</td>
+<td>SNMP</td>
+<td>Abrir solo si este servidor necesita recibir consultas SNMP.</td>
+</tr>
+</tbody>
+</table>
+<p>La dirección del tráfico y el origen autorizado son tan importantes como el número del puerto.</p>
+<h3 id="paso-52-establecer-politicas-predeterminadas">Paso 5.2. Establecer políticas predeterminadas<a class="headerlink" href="#paso-52-establecer-politicas-predeterminadas" title="Permanent link">&para;</a></h3>
+<p>Una vez verificado el acceso remoto y la necesidad de los servicios:</p>
+<div class="highlight"><pre><span></span><code>sudo<span class="w"> </span>ufw<span class="w"> </span>default<span class="w"> </span>deny<span class="w"> </span>incoming
+sudo<span class="w"> </span>ufw<span class="w"> </span>default<span class="w"> </span>allow<span class="w"> </span>outgoing
+</code></pre></div>
+<p><img alt="Panel principal de Zabbix" src="../Imagenes/hardening/paso%205/5.2%20deny%20all.png" /></p>
+<p><img alt="Panel principal de Zabbix" src="../Imagenes/hardening/paso%205/5.1%2C%20%28a%C3%B1adimos%20puertos%29.png" /></p>
+<p>Estas reglas deniegan las conexiones entrantes no autorizadas por reglas específicas y permiten el tráfico saliente.</p>
+<h3 id="paso-53-permitir-ssh-desde-tailscale">Paso 5.3. Permitir SSH desde Tailscale<a class="headerlink" href="#paso-53-permitir-ssh-desde-tailscale" title="Permanent link">&para;</a></h3>
+<p>Si la administración SSH se realiza exclusivamente mediante Tailscale, se puede restringir el acceso a su interfaz:</p>
+<div class="highlight"><pre><span></span><code>sudo<span class="w"> </span>ufw<span class="w"> </span>allow<span class="w"> </span><span class="k">in</span><span class="w"> </span>on<span class="w"> </span>tailscale0<span class="w"> </span>to<span class="w"> </span>any<span class="w"> </span>port<span class="w"> </span><span class="m">22</span><span class="w"> </span>proto<span class="w"> </span>tcp
+</code></pre></div>
+<p>Si se necesita limitarlo a un dispositivo específico, agregar también la dirección de origen autorizada.</p>
+<p><strong>No aplicar esta restricción sin comprobar que la interfaz <code>tailscale0</code> exista y que la sesión SSH actual funcione a través de ella.</strong></p>
+<h3 id="paso-54-permitir-los-puertos-de-zabbix-necesarios">Paso 5.4. Permitir los puertos de Zabbix necesarios<a class="headerlink" href="#paso-54-permitir-los-puertos-de-zabbix-necesarios" title="Permanent link">&para;</a></h3>
+<p>Por ejemplo, si el servidor debe recibir conexiones de agentes activos:</p>
+<div class="highlight"><pre><span></span><code>sudo<span class="w"> </span>ufw<span class="w"> </span>allow<span class="w"> </span><span class="k">in</span><span class="w"> </span>on<span class="w"> </span>tailscale0<span class="w"> </span>to<span class="w"> </span>any<span class="w"> </span>port<span class="w"> </span><span class="m">10051</span><span class="w"> </span>proto<span class="w"> </span>tcp
+</code></pre></div>
+<p>Si el servidor necesita recibir comprobaciones pasivas en su agente local:</p>
+<div class="highlight"><pre><span></span><code>sudo<span class="w"> </span>ufw<span class="w"> </span>allow<span class="w"> </span><span class="k">in</span><span class="w"> </span>on<span class="w"> </span>tailscale0<span class="w"> </span>to<span class="w"> </span>any<span class="w"> </span>port<span class="w"> </span><span class="m">10050</span><span class="w"> </span>proto<span class="w"> </span>tcp
+</code></pre></div>
+<p>Aplicar la segunda regla únicamente si el flujo de monitoreo lo requiere.</p>
+<p>No abrir automáticamente todos los puertos de la tabla. Si la interfaz web debe estar disponible solo por VPN, restringir también el acceso a HTTP/HTTPS a la interfaz y los orígenes apropiados.</p>
+<h3 id="paso-55-verificar-y-probar">Paso 5.5. Verificar y probar<a class="headerlink" href="#paso-55-verificar-y-probar" title="Permanent link">&para;</a></h3>
+<p><div class="highlight"><pre><span></span><code>sudo<span class="w"> </span>ufw<span class="w"> </span>status<span class="w"> </span>verbose
+sudo<span class="w"> </span>ufw<span class="w"> </span>status<span class="w"> </span>numbered
+</code></pre></div>
+<img alt="Panel principal de Zabbix" src="../Imagenes/hardening/paso%205/5.3%20-%20Copy.png" /></p>
+<p>Desde el equipo administrativo, comprobar SSH y la interfaz web de Zabbix. Confirmar también que los agentes continúen enviando datos.</p>
+<p><strong>Resultado esperado:</strong> solamente los servicios necesarios deben aceptar conexiones entrantes.</p>
+<hr />
+<h2 id="6-control-5-actualizaciones-de-seguridad">6. Control 5 — Actualizaciones de seguridad<a class="headerlink" href="#6-control-5-actualizaciones-de-seguridad" title="Permanent link">&para;</a></h2>
+<p><strong>Objetivo:</strong> corregir vulnerabilidades conocidas y mantener los paquetes del sistema actualizados.</p>
+<h3 id="paso-61-actualizar-el-indice-de-paquetes">Paso 6.1. Actualizar el índice de paquetes<a class="headerlink" href="#paso-61-actualizar-el-indice-de-paquetes" title="Permanent link">&para;</a></h3>
+<div class="highlight"><pre><span></span><code>sudo<span class="w"> </span>apt<span class="w"> </span>update
+</code></pre></div>
+<p><img alt="Panel principal de Zabbix" src="../Imagenes/hardening/6/6.1.png" /></p>
+<h3 id="paso-62-revisar-los-paquetes-pendientes">Paso 6.2. Revisar los paquetes pendientes<a class="headerlink" href="#paso-62-revisar-los-paquetes-pendientes" title="Permanent link">&para;</a></h3>
+<div class="highlight"><pre><span></span><code>apt<span class="w"> </span>list<span class="w"> </span>--upgradable
+</code></pre></div>
+<p><img alt="Panel principal de Zabbix" src="../Imagenes/hardening/6/6.2.png" /></p>
+<p>Examinar los paquetes disponibles antes de instalarlos, especialmente si afectan a Zabbix, MySQL, Apache, SSH o al kernel.</p>
+<h3 id="paso-63-aplicar-las-actualizaciones">Paso 6.3. Aplicar las actualizaciones<a class="headerlink" href="#paso-63-aplicar-las-actualizaciones" title="Permanent link">&para;</a></h3>
+<p>Durante una ventana de mantenimiento:</p>
+<div class="highlight"><pre><span></span><code>sudo<span class="w"> </span>apt<span class="w"> </span>upgrade
+</code></pre></div>
+<p>Leer las operaciones que propone APT y confirmar cuando corresponda. No automatizar la aceptación de cambios importantes sin revisarlos.</p>
+<h3 id="paso-64-revisar-si-hace-falta-reiniciar">Paso 6.4. Revisar si hace falta reiniciar<a class="headerlink" href="#paso-64-revisar-si-hace-falta-reiniciar" title="Permanent link">&para;</a></h3>
+<div class="highlight"><pre><span></span><code><span class="k">if</span><span class="w"> </span><span class="o">[</span><span class="w"> </span>-f<span class="w"> </span>/var/run/reboot-required<span class="w"> </span><span class="o">]</span><span class="p">;</span><span class="w"> </span><span class="k">then</span>
+<span class="w">    </span>cat<span class="w"> </span>/var/run/reboot-required
+<span class="k">else</span>
+<span class="w">    </span><span class="nb">echo</span><span class="w"> </span><span class="s2">"No se detectó el indicador de reinicio requerido."</span>
+<span class="k">fi</span>
+</code></pre></div>
+<p><img alt="Panel principal de Zabbix" src="../Imagenes/hardening/6/6.4.png" /></p>
+<p>Si hace falta reiniciar, verificar primero que exista un respaldo y que sea posible recuperar el servidor.</p>
+<h3 id="paso-65-comprobar-los-servicios">Paso 6.5. Comprobar los servicios<a class="headerlink" href="#paso-65-comprobar-los-servicios" title="Permanent link">&para;</a></h3>
+<p>Después de actualizar:</p>
+<div class="highlight"><pre><span></span><code>systemctl<span class="w"> </span>--failed
+systemctl<span class="w"> </span>status<span class="w"> </span>zabbix-server
+systemctl<span class="w"> </span>status<span class="w"> </span>tailscaled
+</code></pre></div>
+<p><img alt="Panel principal de Zabbix" src="../Imagenes/hardening/6/6.5.png" /></p>
+<p>Verificar también la base de datos y el servidor web si corresponden.</p>
+<p><strong>Resultado esperado:</strong> el sistema queda actualizado sin perder la conectividad ni el funcionamiento de Zabbix.</p>
+<hr />
+<h2 id="7-control-6-endurecimiento-de-ssh">7. Control 6 — Endurecimiento de SSH<a class="headerlink" href="#7-control-6-endurecimiento-de-ssh" title="Permanent link">&para;</a></h2>
+<p><strong>Objetivo:</strong> reducir el riesgo de acceso remoto no autorizado.</p>
+<h3 id="paso-71-comprobar-el-servicio-ssh">Paso 7.1. Comprobar el servicio SSH<a class="headerlink" href="#paso-71-comprobar-el-servicio-ssh" title="Permanent link">&para;</a></h3>
+<div class="highlight"><pre><span></span><code>sudo<span class="w"> </span>systemctl<span class="w"> </span>status<span class="w"> </span>ssh
+</code></pre></div>
+<p>Si SSH no está instalado y es necesario para la administración:</p>
+<div class="highlight"><pre><span></span><code>sudo<span class="w"> </span>apt<span class="w"> </span>install<span class="w"> </span>openssh-server<span class="w"> </span>-y
+</code></pre></div>
+<h3 id="paso-72-generar-una-clave-ssh-en-el-equipo-cliente">Paso 7.2. Generar una clave SSH en el equipo cliente<a class="headerlink" href="#paso-72-generar-una-clave-ssh-en-el-equipo-cliente" title="Permanent link">&para;</a></h3>
+<p>Desde Windows PowerShell:</p>
+<div class="highlight"><pre><span></span><code><span class="n">ssh-keygen</span> <span class="n">-t</span> <span class="n">ed25519</span>
+</code></pre></div>
+<p><img alt="Panel principal de Zabbix" src="../Imagenes/keygen.png" /></p>
+<p>Seguir las instrucciones y proteger la clave privada con una frase de contraseña cuando sea posible.</p>
+<h3 id="paso-73-instalar-la-clave-publica-en-ubuntu">Paso 7.3. Instalar la clave pública en Ubuntu<a class="headerlink" href="#paso-73-instalar-la-clave-publica-en-ubuntu" title="Permanent link">&para;</a></h3>
+<p>Copiar el contenido del archivo público <code>id_ed25519.pub</code> del cliente y agregarlo a <code>~/.ssh/authorized_keys</code> de la cuenta que se utilizará para conectarse.</p>
+<p>En Ubuntu, con esa cuenta:</p>
+<div class="highlight"><pre><span></span><code>mkdir<span class="w"> </span>-p<span class="w"> </span>~/.ssh
+chmod<span class="w"> </span><span class="m">700</span><span class="w"> </span>~/.ssh
+nano<span class="w"> </span>~/.ssh/authorized_keys
+</code></pre></div>
+<p>Pegar la clave pública completa en una sola línea, guardar y salir.</p>
+<p><img alt="Panel principal de Zabbix" src="../Imagenes/SSH/authorized_keys.png" /></p>
+<p>Luego:</p>
+<div class="highlight"><pre><span></span><code>chmod<span class="w"> </span><span class="m">600</span><span class="w"> </span>~/.ssh/authorized_keys
+</code></pre></div>
+<p>Comprobar que la clave funcione antes de modificar la política de autenticación.</p>
+<h3 id="paso-74-revisar-la-configuracion-efectiva">Paso 7.4. Revisar la configuración efectiva<a class="headerlink" href="#paso-74-revisar-la-configuracion-efectiva" title="Permanent link">&para;</a></h3>
+<div class="highlight"><pre><span></span><code>sudo<span class="w"> </span>sshd<span class="w"> </span>-T<span class="w"> </span><span class="p">|</span><span class="w"> </span>grep<span class="w"> </span>-E<span class="w"> </span><span class="se">\</span>
+<span class="s1">'^(permitrootlogin|pubkeyauthentication|passwordauthentication|maxauthtries)'</span>
+</code></pre></div>
+<h3 id="paso-75-crear-un-archivo-de-configuracion-de-hardening">Paso 7.5. Crear un archivo de configuración de hardening<a class="headerlink" href="#paso-75-crear-un-archivo-de-configuracion-de-hardening" title="Permanent link">&para;</a></h3>
+<p>Respaldar la configuración principal:</p>
+<div class="highlight"><pre><span></span><code>sudo<span class="w"> </span>cp<span class="w"> </span>/etc/ssh/sshd_config<span class="w"> </span><span class="se">\</span>
+/etc/ssh/sshd_config.hardening-backup
+</code></pre></div>
+<p><img alt="Panel principal de Zabbix" src="../Imagenes/SSH/backup.png" /></p>
+<p>Si la versión de OpenSSH admite archivos de configuración adicionales, crear un archivo independiente:</p>
+<div class="highlight"><pre><span></span><code>sudo<span class="w"> </span>nano<span class="w"> </span>/etc/ssh/sshd_config.d/00-hardening.conf
+</code></pre></div>
+<p>Ejemplo de configuración:</p>
+<div class="highlight"><pre><span></span><code>PermitRootLogin no
+PubkeyAuthentication yes
+MaxAuthTries 3
+</code></pre></div>
+<p><img alt="Panel principal de Zabbix" src="../Imagenes/SSH/nano.png" /></p>
+<p>No establecer <code>PasswordAuthentication no</code> hasta confirmar que la autenticación por clave funciona y que existe un acceso alternativo de recuperación. Si se decide deshabilitar contraseñas, agregar esa directiva solo después de comprobar la configuración efectiva y la autenticación de la cuenta administrativa.</p>
+<h3 id="paso-76-validar-antes-de-reiniciar">Paso 7.6. Validar antes de reiniciar<a class="headerlink" href="#paso-76-validar-antes-de-reiniciar" title="Permanent link">&para;</a></h3>
+<div class="highlight"><pre><span></span><code>sudo<span class="w"> </span>sshd<span class="w"> </span>-t
+</code></pre></div>
+<p>Si el comando no informa errores, revisar los valores efectivos:</p>
+<div class="highlight"><pre><span></span><code>sudo<span class="w"> </span>sshd<span class="w"> </span>-T<span class="w"> </span><span class="p">|</span><span class="w"> </span>grep<span class="w"> </span>-E<span class="w"> </span><span class="se">\</span>
+<span class="s1">'^(permitrootlogin|pubkeyauthentication|passwordauthentication|maxauthtries)'</span>
+</code></pre></div>
+<p><img alt="Panel principal de Zabbix" src="../Imagenes/SSH/revision.png" /></p>
+<p>Mantener abierta la sesión SSH actual. Abrir una segunda terminal y probar una conexión nueva.</p>
+<p>Si todo funciona, recargar el servicio:</p>
+<div class="highlight"><pre><span></span><code>sudo<span class="w"> </span>systemctl<span class="w"> </span>reload<span class="w"> </span>ssh
+</code></pre></div>
+<p><strong>Resultado esperado:</strong> el acceso administrativo continúa funcionando y se reducen los métodos de autenticación innecesarios.</p>
+<hr />
+<h2 id="8-control-7-servicios-y-aplicaciones-innecesarios">8. Control 7 — Servicios y aplicaciones innecesarios<a class="headerlink" href="#8-control-7-servicios-y-aplicaciones-innecesarios" title="Permanent link">&para;</a></h2>
+<p><strong>Objetivo:</strong> reducir los servicios expuestos y evitar que se ejecuten componentes que no cumplen ninguna función en el servidor.</p>
+<h3 id="paso-81-inventariar-los-servicios-activos">Paso 8.1. Inventariar los servicios activos<a class="headerlink" href="#paso-81-inventariar-los-servicios-activos" title="Permanent link">&para;</a></h3>
+<div class="highlight"><pre><span></span><code>systemctl<span class="w"> </span>--type<span class="o">=</span>service<span class="w"> </span>--state<span class="o">=</span>running
+</code></pre></div>
+<p><img alt="Panel principal de Zabbix" src="../Imagenes/hardening/8/8.png" /></p>
+<h3 id="paso-82-identificar-los-puertos-asociados">Paso 8.2. Identificar los puertos asociados<a class="headerlink" href="#paso-82-identificar-los-puertos-asociados" title="Permanent link">&para;</a></h3>
+<div class="highlight"><pre><span></span><code>sudo<span class="w"> </span>ss<span class="w"> </span>-tulpn
+</code></pre></div>
+<p><img alt="Panel principal de Zabbix" src="../Imagenes/hardening/8/8.2.png" /></p>
+<p>Relacionar cada puerto con su proceso y servicio correspondiente.</p>
+<h3 id="paso-83-comprobar-si-un-servicio-esta-habilitado">Paso 8.3. Comprobar si un servicio está habilitado<a class="headerlink" href="#paso-83-comprobar-si-un-servicio-esta-habilitado" title="Permanent link">&para;</a></h3>
+<p>Para un servicio concreto:</p>
+<div class="highlight"><pre><span></span><code>systemctl<span class="w"> </span>is-enabled<span class="w"> </span>NOMBRE_SERVICIO
+systemctl<span class="w"> </span>status<span class="w"> </span>NOMBRE_SERVICIO
+</code></pre></div>
+<p><img alt="Panel principal de Zabbix" src="../Imagenes/hardening/8/8.3.png" /></p>
+<p>Reemplazar <code>NOMBRE_SERVICIO</code> por el nombre real.</p>
+<h3 id="paso-84-detener-un-servicio-confirmado-como-innecesario">Paso 8.4. Detener un servicio confirmado como innecesario<a class="headerlink" href="#paso-84-detener-un-servicio-confirmado-como-innecesario" title="Permanent link">&para;</a></h3>
+<p>Primero detenerlo temporalmente:</p>
+<div class="highlight"><pre><span></span><code>sudo<span class="w"> </span>systemctl<span class="w"> </span>stop<span class="w"> </span>NOMBRE_SERVICIO
+</code></pre></div>
+<p>Comprobar que no se haya afectado el funcionamiento del servidor. Si el servicio no es necesario y se confirma que no tiene dependencias importantes, deshabilitar su inicio automático:</p>
+<div class="highlight"><pre><span></span><code>sudo<span class="w"> </span>systemctl<span class="w"> </span>disable<span class="w"> </span>NOMBRE_SERVICIO
+</code></pre></div>
+<p><img alt="Panel principal de Zabbix" src="../Imagenes/hardening/8/8.4-8.5.png" /></p>
+<p>No detener ni deshabilitar servicios de Zabbix, MySQL, Apache, SSH o Tailscale sin comprobar primero su función.</p>
+<h3 id="paso-85-verificar-el-resultado">Paso 8.5. Verificar el resultado<a class="headerlink" href="#paso-85-verificar-el-resultado" title="Permanent link">&para;</a></h3>
+<div class="highlight"><pre><span></span><code>systemctl<span class="w"> </span>--failed
+sudo<span class="w"> </span>ss<span class="w"> </span>-tulpn
+</code></pre></div>
+<p><strong>Resultado esperado:</strong> se mantienen activos los servicios necesarios y se documenta la justificación de cada servicio deshabilitado.</p>
+<hr />
+<h2 id="9-control-8-registros-apparmor-y-auditoria">9. Control 8 — Registros, AppArmor y auditoría<a class="headerlink" href="#9-control-8-registros-apparmor-y-auditoria" title="Permanent link">&para;</a></h2>
+<p><strong>Objetivo:</strong> mejorar la detección de eventos, conservar evidencias y facilitar el diagnóstico de incidentes.</p>
+<h3 id="paso-91-revisar-los-mensajes-de-advertencia-del-sistema">Paso 9.1. Revisar los mensajes de advertencia del sistema<a class="headerlink" href="#paso-91-revisar-los-mensajes-de-advertencia-del-sistema" title="Permanent link">&para;</a></h3>
+<div class="highlight"><pre><span></span><code>sudo<span class="w"> </span>journalctl<span class="w"> </span>-p<span class="w"> </span>warning<span class="w"> </span>-b<span class="w"> </span>--no-pager
+</code></pre></div>
+<p><img alt="Panel principal de Zabbix" src="../Imagenes/hardening/9/9.1.png" /></p>
+<p>Para consultar los mensajes de SSH:</p>
+<div class="highlight"><pre><span></span><code>sudo<span class="w"> </span>journalctl<span class="w"> </span>-u<span class="w"> </span>ssh<span class="w"> </span>--since<span class="w"> </span>today<span class="w"> </span>--no-pager
+</code></pre></div>
+<p><img alt="Panel principal de Zabbix" src="../Imagenes/hardening/9/9.1%281%29.png" /></p>
+<p>Para revisar los mensajes del servidor Zabbix:</p>
+<div class="highlight"><pre><span></span><code>sudo<span class="w"> </span>journalctl<span class="w"> </span>-u<span class="w"> </span>zabbix-server<span class="w"> </span>--since<span class="w"> </span>today<span class="w"> </span>--no-pager
+</code></pre></div>
+<p><img alt="Panel principal de Zabbix" src="../Imagenes/hardening/9/9.1%282%29.png" /></p>
+<p>La ubicación de los registros puede variar según la instalación y la configuración de los servicios.</p>
+<h3 id="paso-92-comprobar-la-configuracion-de-apparmor">Paso 9.2. Comprobar la configuración de AppArmor<a class="headerlink" href="#paso-92-comprobar-la-configuracion-de-apparmor" title="Permanent link">&para;</a></h3>
+<div class="highlight"><pre><span></span><code>sudo<span class="w"> </span>aa-status
+</code></pre></div>
+<p><img alt="Panel principal de Zabbix" src="../Imagenes/hardening/9/9.2.png" /></p>
+<p>Si AppArmor está instalado, comprobar que esté activo y revisar los perfiles en uso.</p>
+<p>No deshabilitar AppArmor para solucionar un problema sin identificar primero qué perfil lo está causando.</p>
+<h3 id="paso-93-evaluar-auditd">Paso 9.3. Evaluar auditd<a class="headerlink" href="#paso-93-evaluar-auditd" title="Permanent link">&para;</a></h3>
+<p>Comprobar si está instalado:</p>
+<div class="highlight"><pre><span></span><code>dpkg<span class="w"> </span>-l<span class="w"> </span>auditd
+</code></pre></div>
+<p>Si se decide incorporar auditoría adicional:</p>
+<div class="highlight"><pre><span></span><code>sudo<span class="w"> </span>apt<span class="w"> </span>install<span class="w"> </span>auditd<span class="w"> </span>audispd-plugins<span class="w"> </span>-y
+sudo<span class="w"> </span>systemctl<span class="w"> </span><span class="nb">enable</span><span class="w"> </span>--now<span class="w"> </span>auditd
+</code></pre></div>
+<p>Verificar su estado:</p>
+<div class="highlight"><pre><span></span><code>sudo<span class="w"> </span>systemctl<span class="w"> </span>status<span class="w"> </span>auditd
+</code></pre></div>
+<p><img alt="Panel principal de Zabbix" src="../Imagenes/hardening/9/9.3%281%29.png" />
+Consultar los eventos recientes:</p>
+<div class="highlight"><pre><span></span><code>sudo<span class="w"> </span>ausearch<span class="w"> </span>-m<span class="w"> </span>USER_LOGIN<span class="w"> </span>--start<span class="w"> </span>today
+</code></pre></div>
+<p><img alt="Panel principal de Zabbix" src="../Imagenes/hardening/9/9.3%283%29.png" /></p>
+<p>La disponibilidad de tipos de eventos depende de las reglas de auditoría activas. Instalar auditd no configura automáticamente todas las reglas necesarias para registrar cualquier actividad.</p>
+<h3 id="paso-94-integrar-los-eventos-con-zabbix">Paso 9.4. Integrar los eventos con Zabbix<a class="headerlink" href="#paso-94-integrar-los-eventos-con-zabbix" title="Permanent link">&para;</a></h3>
+<p>Definir qué eventos son importantes para el laboratorio, por ejemplo:</p>
+<ul>
+<li>Intentos de inicio de sesión fallidos.</li>
+<li>Detención inesperada de servicios.</li>
+<li>Pérdida de conectividad con agentes.</li>
+<li>Uso elevado de CPU o memoria.</li>
+<li>Problemas de disponibilidad del servidor.</li>
+</ul>
+<p>Crear los ítems, triggers y acciones correspondientes, y comprobar que las alertas lleguen al medio de notificación configurado.</p>
+<p><strong>Resultado esperado:</strong> los registros relevantes pueden consultarse y los eventos críticos generan alertas verificables.</p>
+<hr />
+<h2 id="10-control-9-snmp-y-puertos-de-zabbix">10. Control 9 — SNMP y puertos de Zabbix<a class="headerlink" href="#10-control-9-snmp-y-puertos-de-zabbix" title="Permanent link">&para;</a></h2>
+<p><strong>Objetivo:</strong> evitar servicios innecesarios y limitar el acceso a los componentes de monitoreo.</p>
+<h3 id="paso-101-comprobar-si-snmp-esta-instalado-en-el-servidor">Paso 10.1. Comprobar si SNMP está instalado en el servidor<a class="headerlink" href="#paso-101-comprobar-si-snmp-esta-instalado-en-el-servidor" title="Permanent link">&para;</a></h3>
+<div class="highlight"><pre><span></span><code>dpkg<span class="w"> </span>-l<span class="w"> </span><span class="p">|</span><span class="w"> </span>grep<span class="w"> </span>-E<span class="w"> </span><span class="s1">'snmp|snmpd'</span>
+</code></pre></div>
+<p><img alt="Panel principal de Zabbix" src="../Imagenes/hardening/10/10.1.png" /></p>
+<h3 id="paso-102-determinar-si-el-servidor-necesita-ejecutar-snmp">Paso 10.2. Determinar si el servidor necesita ejecutar SNMP<a class="headerlink" href="#paso-102-determinar-si-el-servidor-necesita-ejecutar-snmp" title="Permanent link">&para;</a></h3>
+<p>Si el servidor Zabbix solo consulta dispositivos remotos y no debe responder consultas SNMP, es posible que no necesite el servicio <code>snmpd</code>.</p>
+<p>Antes de eliminarlo, comprobar si otro proceso depende de él.</p>
+<p>Si se confirma que no es necesario, detenerlo y deshabilitar su inicio:</p>
+<div class="highlight"><pre><span></span><code>sudo<span class="w"> </span>systemctl<span class="w"> </span>disable<span class="w"> </span>--now<span class="w"> </span>snmpd
+</code></pre></div>
+<p>Solo si se confirma que no se utiliza y se desea eliminar el paquete:</p>
+<div class="highlight"><pre><span></span><code>sudo<span class="w"> </span>apt<span class="w"> </span>remove<span class="w"> </span>snmpd
+</code></pre></div>
+<p>No ejecutar estos comandos en un dispositivo Linux que sí deba responder a consultas SNMP.</p>
+<h3 id="paso-103-restringir-el-acceso-al-servidor-zabbix">Paso 10.3. Restringir el acceso al servidor Zabbix<a class="headerlink" href="#paso-103-restringir-el-acceso-al-servidor-zabbix" title="Permanent link">&para;</a></h3>
+<p>Comprobar las reglas actuales:</p>
+<div class="highlight"><pre><span></span><code>sudo<span class="w"> </span>ufw<span class="w"> </span>status<span class="w"> </span>numbered
+</code></pre></div>
+<p><img alt="Panel principal de Zabbix" src="../Imagenes/hardening/10/10.4.png" /></p>
+<p>Revisar que TCP 10051 solo esté accesible desde las redes o dispositivos que necesiten enviar datos al servidor. Si se utiliza Tailscale, puede limitarse la regla a esa interfaz.</p>
+<p>Por ejemplo:</p>
+<div class="highlight"><pre><span></span><code>sudo<span class="w"> </span>ufw<span class="w"> </span>allow<span class="w"> </span><span class="k">in</span><span class="w"> </span>on<span class="w"> </span>tailscale0<span class="w"> </span>to<span class="w"> </span>any<span class="w"> </span>port<span class="w"> </span><span class="m">10051</span><span class="w"> </span>proto<span class="w"> </span>tcp
+</code></pre></div>
+<p>Esta regla es ilustrativa: si ya existe una regla más amplia, hay que identificarla y retirarla de forma controlada después de confirmar la conectividad.</p>
+<h3 id="paso-104-revisar-los-puertos-de-los-agentes">Paso 10.4. Revisar los puertos de los agentes<a class="headerlink" href="#paso-104-revisar-los-puertos-de-los-agentes" title="Permanent link">&para;</a></h3>
+<p>TCP 10050 se utiliza para las comprobaciones pasivas de los agentes. Si el servidor no necesita recibir conexiones de ese tipo, no debe mantenerse una regla de entrada innecesaria.</p>
+<p>Para comprobar los puertos:</p>
+<div class="highlight"><pre><span></span><code>sudo<span class="w"> </span>ss<span class="w"> </span>-tulpn
+sudo<span class="w"> </span>ufw<span class="w"> </span>status<span class="w"> </span>verbose
+</code></pre></div>
+<h3 id="paso-105-verificar-el-monitoreo">Paso 10.5. Verificar el monitoreo<a class="headerlink" href="#paso-105-verificar-el-monitoreo" title="Permanent link">&para;</a></h3>
+<p>Desde la interfaz de Zabbix, comprobar que los hosts necesarios continúen enviando métricas y que no aparezcan problemas por pérdida de conectividad.</p>
+<p><strong>Resultado esperado:</strong> los puertos de monitoreo están disponibles únicamente cuando son necesarios y se limita el acceso a los orígenes autorizados.</p>
+<p><img alt="Panel principal de Zabbix" src="../Imagenes/hardening/10/zabbix.png" /></p>
+<hr />
+<h2 id="11-control-10-seguridad-de-la-maquina-virtual-y-copias-de-seguridad">11. Control 10 — Seguridad de la máquina virtual y copias de seguridad<a class="headerlink" href="#11-control-10-seguridad-de-la-maquina-virtual-y-copias-de-seguridad" title="Permanent link">&para;</a></h2>
+<p><strong>Objetivo:</strong> proteger la plataforma que ejecuta Ubuntu Server y permitir la recuperación del servicio ante errores o incidentes.</p>
+<h3 id="paso-111-revisar-el-acceso-al-hipervisor">Paso 11.1. Revisar el acceso al hipervisor<a class="headerlink" href="#paso-111-revisar-el-acceso-al-hipervisor" title="Permanent link">&para;</a></h3>
+<p>En el equipo anfitrión:</p>
+<ol>
+<li>Identificar quién puede iniciar sesión en el hipervisor.</li>
+<li>Restringir los permisos de administración a los usuarios autorizados.</li>
+<li>Evitar exponer la interfaz de administración del hipervisor a redes públicas.</li>
+<li>Mantener actualizado el software de virtualización.</li>
+<li>Proteger las credenciales administrativas.</li>
+</ol>
+<p>Los pasos concretos dependen del hipervisor utilizado, como VirtualBox, VMware o Proxmox.</p>
+<h3 id="paso-112-crear-una-instantanea-de-la-maquina-virtual">Paso 11.2. Crear una instantánea de la máquina virtual<a class="headerlink" href="#paso-112-crear-una-instantanea-de-la-maquina-virtual" title="Permanent link">&para;</a></h3>
+<p>Antes de cambios importantes:</p>
+<ol>
+<li>Comprobar que los servicios estén estables.</li>
+<li>Crear una instantánea desde el hipervisor.</li>
+<li>Asignar un nombre descriptivo, por ejemplo <code>pre-hardening</code>.</li>
+<li>Registrar la fecha y los cambios que se realizarán.</li>
+</ol>
+<p>Una instantánea facilita la recuperación de un estado anterior, pero no sustituye un respaldo independiente.</p>
+<h3 id="paso-113-respaldar-la-configuracion-de-zabbix">Paso 11.3. Respaldar la configuración de Zabbix<a class="headerlink" href="#paso-113-respaldar-la-configuracion-de-zabbix" title="Permanent link">&para;</a></h3>
+<p>Los archivos de configuración pueden copiarse mediante el respaldo de <code>/etc/zabbix</code> creado en la preparación.</p>
+<p>Para revisar su contenido:</p>
+<div class="highlight"><pre><span></span><code>sudo<span class="w"> </span>tar<span class="w"> </span>-tzf<span class="w"> </span>/root/hardening-backup/configuracion-inicial.tar.gz
+</code></pre></div>
+<p><img alt="Panel principal de Zabbix" src="../Imagenes/hardening/11/11.3.png" /></p>
+<p>El archivo puede contener datos sensibles. Mantenerlo con permisos restrictivos y no publicarlo en el repositorio de documentación.</p>
+<h3 id="paso-114-respaldar-la-base-de-datos">Paso 11.4. Respaldar la base de datos<a class="headerlink" href="#paso-114-respaldar-la-base-de-datos" title="Permanent link">&para;</a></h3>
+<p>Si la instalación utiliza MySQL, primero confirmar el motor y la base de datos:</p>
+<div class="highlight"><pre><span></span><code>systemctl<span class="w"> </span>status<span class="w"> </span>mysql
+</code></pre></div>
+<p>El respaldo debe realizarse con credenciales que tengan permisos suficientes. No colocar contraseñas directamente en el historial de comandos.</p>
+<p>Ejemplo para una base de datos llamada <code>zabbix</code>:</p>
+<div class="highlight"><pre><span></span><code>sudo<span class="w"> </span>mysqldump<span class="w"> </span>--single-transaction<span class="w"> </span>zabbix<span class="w"> </span><span class="se">\</span>
+&gt;<span class="w"> </span>/root/hardening-backup/zabbix.sql
+</code></pre></div>
+<p><img alt="Panel principal de Zabbix" src="../Imagenes/hardening/11/11.4.png" /></p>
+<p>Este comando solo funcionará si la autenticación configurada permite la conexión con esas opciones. Si el acceso requiere credenciales específicas, utilizar el método seguro correspondiente a la instalación.</p>
+<p>Proteger el archivo:</p>
+<div class="highlight"><pre><span></span><code>sudo<span class="w"> </span>chmod<span class="w"> </span><span class="m">600</span><span class="w"> </span>/root/hardening-backup/zabbix.sql
+</code></pre></div>
+<p>Si la base de datos utiliza un motor diferente, adaptar el procedimiento al motor instalado.</p>
+<h3 id="paso-115-verificar-el-respaldo">Paso 11.5. Verificar el respaldo<a class="headerlink" href="#paso-115-verificar-el-respaldo" title="Permanent link">&para;</a></h3>
+<p>Comprobar que los archivos existan y tengan un tamaño razonable:</p>
+<div class="highlight"><pre><span></span><code>sudo<span class="w"> </span>ls<span class="w"> </span>-lh<span class="w"> </span>/root/hardening-backup/
+</code></pre></div>
+<p>Una copia solo puede considerarse confiable después de verificar su integridad y probar la restauración en un entorno controlado.</p>
+<p><strong>Resultado esperado:</strong> existe una copia recuperable de la configuración y de la base de datos, almacenada de forma segura y separada de la documentación pública.</p>
+<hr />
+<h2 id="12-verificacion-final-del-hardening">12. Verificación final del hardening<a class="headerlink" href="#12-verificacion-final-del-hardening" title="Permanent link">&para;</a></h2>
+<p>Una vez completados los controles, ejecutar las siguientes comprobaciones.</p>
+<h3 id="121-estado-de-los-servicios">12.1. Estado de los servicios<a class="headerlink" href="#121-estado-de-los-servicios" title="Permanent link">&para;</a></h3>
+<div class="highlight"><pre><span></span><code>systemctl<span class="w"> </span>--failed
+systemctl<span class="w"> </span>status<span class="w"> </span>zabbix-server
+systemctl<span class="w"> </span>status<span class="w"> </span>tailscaled
+</code></pre></div>
+<p><img alt="Panel principal de Zabbix" src="../Imagenes/hardening/12/12.1.1.png" /></p>
+<p><img alt="Panel principal de Zabbix" src="../Imagenes/hardening/12/12.1.png" /></p>
+<p>Comprobar MySQL y Apache si están instalados.</p>
+<h3 id="122-estado-del-firewall">12.2. Estado del firewall<a class="headerlink" href="#122-estado-del-firewall" title="Permanent link">&para;</a></h3>
+<div class="highlight"><pre><span></span><code>sudo<span class="w"> </span>ufw<span class="w"> </span>status<span class="w"> </span>verbose
+sudo<span class="w"> </span>ufw<span class="w"> </span>status<span class="w"> </span>numbered
+</code></pre></div>
+<p><img alt="Panel principal de Zabbix" src="../Imagenes/hardening/12/12.2.png" /></p>
+<h3 id="123-estado-de-ssh">12.3. Estado de SSH<a class="headerlink" href="#123-estado-de-ssh" title="Permanent link">&para;</a></h3>
+<div class="highlight"><pre><span></span><code>sudo<span class="w"> </span>sshd<span class="w"> </span>-t
+sudo<span class="w"> </span>sshd<span class="w"> </span>-T<span class="w"> </span><span class="p">|</span><span class="w"> </span>grep<span class="w"> </span>-E<span class="w"> </span><span class="se">\</span>
+<span class="s1">'^(permitrootlogin|pubkeyauthentication|passwordauthentication|maxauthtries)'</span>
+</code></pre></div>
+<p><img alt="Panel principal de Zabbix" src="../Imagenes/hardening/12/12.3.png" /></p>
+<h3 id="124-estado-de-la-red">12.4. Estado de la red<a class="headerlink" href="#124-estado-de-la-red" title="Permanent link">&para;</a></h3>
+<div class="highlight"><pre><span></span><code>tailscale<span class="w"> </span>status
+sudo<span class="w"> </span>ss<span class="w"> </span>-tulpn
+</code></pre></div>
+<p><img alt="Panel principal de Zabbix" src="../Imagenes/hardening/12/12.4.png" /></p>
+<p><img alt="Panel principal de Zabbix" src="../Imagenes/hardening/12/12.4.4.png" /></p>
+<h3 id="125-registros-recientes">12.5. Registros recientes<a class="headerlink" href="#125-registros-recientes" title="Permanent link">&para;</a></h3>
+<div class="highlight"><pre><span></span><code>sudo<span class="w"> </span>journalctl<span class="w"> </span>-p<span class="w"> </span>warning<span class="w"> </span>-b<span class="w"> </span>--no-pager
+</code></pre></div>
+<p><img alt="Panel principal de Zabbix" src="../Imagenes/hardening/12/12.5.png" /></p>
+<h3 id="126-comprobar-zabbix">12.6. Comprobar Zabbix<a class="headerlink" href="#126-comprobar-zabbix" title="Permanent link">&para;</a></h3>
+<p>Desde la interfaz web:</p>
+<ol>
+<li>Revisar la disponibilidad de los hosts.</li>
+<li>Comprobar que los agentes sigan enviando métricas.</li>
+<li>Verificar los ítems y triggers críticos.</li>
+<li>Probar las notificaciones por correo electrónico y Telegram.</li>
+<li>Confirmar que no existan problemas provocados por los cambios de firewall o SSH.</li>
+</ol>
+<h2 id="13-registro-de-implementacion">13. Registro de implementación<a class="headerlink" href="#13-registro-de-implementacion" title="Permanent link">&para;</a></h2>
+<p>Completar la siguiente tabla con el estado real de cada control:</p>
+<h2 id="matriz-de-controles-de-hardening">Matriz de controles de hardening<a class="headerlink" href="#matriz-de-controles-de-hardening" title="Permanent link">&para;</a></h2>
+<p>La siguiente tabla resume los controles de seguridad implementados en el servidor y las evidencias utilizadas para verificar su configuración.</p>
+<table>
+<thead>
+<tr>
+<th>Control</th>
+<th>Estado</th>
+<th>Evidencia</th>
+<th>Observaciones</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Cuentas y privilegios</td>
+<td>Aplicado</td>
+<td>Revisión de usuarios y permisos del sistema.</td>
+<td>Se aplicó el principio de mínimo privilegio.</td>
+</tr>
+<tr>
+<td>Contraseñas y bloqueo</td>
+<td>Aplicado</td>
+<td>Configuración de políticas de autenticación y límites de intentos.</td>
+<td>Se buscó reducir los accesos no autorizados.</td>
+</tr>
+<tr>
+<td>Tailscale y red</td>
+<td>Aplicado</td>
+<td>Pruebas de conectividad mediante direcciones Tailscale.</td>
+<td>Se implementó la comunicación segura entre los equipos del laboratorio.</td>
+</tr>
+<tr>
+<td>Firewall UFW</td>
+<td>Aplicado</td>
+<td><code>sudo ufw status verbose</code></td>
+<td>Firewall activo, con conexiones entrantes bloqueadas por defecto y los puertos necesarios habilitados.</td>
+</tr>
+<tr>
+<td>Actualizaciones</td>
+<td>Aplicado</td>
+<td>Actualización de paquetes mediante APT.</td>
+<td>Se mantienen los paquetes del sistema actualizados.</td>
+</tr>
+<tr>
+<td>SSH</td>
+<td>Aplicado</td>
+<td>Revisión de <code>sshd_config</code> y parámetros efectivos de SSH.</td>
+<td>Se limitaron los intentos de autenticación y el acceso directo de root.</td>
+</tr>
+<tr>
+<td>Servicios</td>
+<td>Aplicado</td>
+<td>Revisión de servicios activos mediante <code>systemctl</code>.</td>
+<td>Se verificaron los servicios necesarios para el funcionamiento del servidor.</td>
+</tr>
+<tr>
+<td>Registros y auditoría</td>
+<td>Aplicado</td>
+<td>Revisión de registros del sistema y <code>/var/log/auth.log</code>.</td>
+<td>Se utilizan los registros para detectar intentos de acceso fallidos.</td>
+</tr>
+<tr>
+<td>SNMP y Zabbix</td>
+<td>Aplicado</td>
+<td>Monitoreo de agentes Zabbix y dispositivo SNMP simulado.</td>
+<td>Se supervizaron equipos, métricas y eventos desde una plataforma centralizada (zabbix).</td>
+</tr>
+<tr>
+<td>Plataforma y copias</td>
+<td>Pendiente</td>
+<td>Verificación de copias de seguridad y pruebas de restauración.</td>
+<td>Se debe generar y comprobar una copia de seguridad de la configuración y los datos.</td>
+</tr>
+</tbody>
+</table>
+<h2 id="14-criterios-de-exito">14. Criterios de éxito<a class="headerlink" href="#14-criterios-de-exito" title="Permanent link">&para;</a></h2>
+<p>El proyecto puede considerarse implementado cuando se compruebe que:</p>
+<ul>
+<li>Los usuarios y privilegios están revisados.</li>
+<li>La política de contraseñas y el bloqueo están configurados y probados.</li>
+<li>SSH funciona con los métodos de autenticación previstos.</li>
+<li>UFW permite únicamente el tráfico necesario.</li>
+<li>Las actualizaciones se aplicaron de forma controlada.</li>
+<li>No hay servicios innecesarios expuestos.</li>
+<li>Los registros y las alertas funcionan.</li>
+<li>Zabbix continúa monitoreando los equipos requeridos.</li>
+<li>Existen respaldos verificados.</li>
+<li>Los riesgos residuales y los controles pendientes están documentados.</li>
+</ul>
+
+
+
+
+
+
+
+
+
+
+
+
+                
+              </article>
+            </div>
+          
+          
+<script>var target=document.getElementById(location.hash.slice(1));target&&target.name&&(target.checked=target.name.startsWith("__tabbed_"))</script>
+        </div>
+        
+          <button type="button" class="md-top md-icon" data-md-component="top" hidden>
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M13 20h-2V8l-5.5 5.5-1.42-1.42L12 4.16l7.92 7.92-1.42 1.42L13 8z"/></svg>
+  Volver al principio
+</button>
+        
+      </main>
+      
+        <footer class="md-footer">
+  
+  <div class="md-footer-meta md-typeset">
+    <div class="md-footer-meta__inner md-grid">
+      <div class="md-copyright">
+  
+  
+    Made with
+    <a href="https://squidfunk.github.io/mkdocs-material/" target="_blank" rel="noopener">
+      Material for MkDocs
+    </a>
+  
+</div>
+      
+    </div>
+  </div>
+</footer>
+      
+    </div>
+    <div class="md-dialog" data-md-component="dialog">
+      <div class="md-dialog__inner md-typeset"></div>
+    </div>
+    
+    
+    
+      
+      
+      <script id="__config" type="application/json">{"annotate": null, "base": "..", "features": ["navigation.top", "navigation.indexes", "search.suggest", "search.highlight", "content.code.copy"], "search": "../assets/javascripts/workers/search.2c215733.min.js", "tags": null, "translations": {"clipboard.copied": "Copiado al portapapeles", "clipboard.copy": "Copiar al portapapeles", "search.result.more.one": "1 m\u00e1s en esta p\u00e1gina", "search.result.more.other": "# m\u00e1s en esta p\u00e1gina", "search.result.none": "No se encontraron documentos", "search.result.one": "1 documento encontrado", "search.result.other": "# documentos encontrados", "search.result.placeholder": "Teclee para comenzar b\u00fasqueda", "search.result.term.missing": "Falta", "select.version": "Seleccionar versi\u00f3n"}, "version": null}</script>
+    
+    
+      <script src="../assets/javascripts/bundle.d7400e89.min.js"></script>
+      
+    
+  </body>
+</html>

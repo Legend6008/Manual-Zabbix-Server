@@ -1,0 +1,500 @@
+
+/* ==========================================
+   MANUAL DE REDES Y CIBERSEGURIDAD
+   Estilo oscuro inspirado en la referencia
+   ========================================== */
+
+:root {
+  --md-primary-fg-color: #050505;
+  --md-primary-fg-color--light: #151515;
+  --md-primary-fg-color--dark: #000000;
+
+  --md-accent-fg-color: #00dce8;
+  --md-accent-fg-color--transparent: #00dce822;
+
+  --md-default-bg-color: #080909;
+  --md-default-fg-color: #f5f5f5;
+  --md-default-fg-color--light: #c7c7c7;
+  --md-default-fg-color--lighter: #888888;
+
+  --custom-cyan: #00dce8;
+  --custom-border: #303434;
+  --custom-panel: #101212;
+}
+
+/* Fondo general */
+[data-md-color-scheme="slate"] {
+  --md-default-bg-color: #080909;
+  --md-default-fg-color: #f5f5f5;
+  --md-code-bg-color: #111414;
+  --md-typeset-color: #f0f0f0;
+}
+
+body,
+.md-container {
+  background-color: #080909;
+}
+
+/* Barra superior */
+.md-header {
+  background-color: #050505;
+  border-bottom: 1px solid #202525;
+  box-shadow: none;
+}
+
+.md-tabs {
+  background-color: #080909;
+  border-bottom: 1px solid var(--custom-border);
+}
+
+/* Contenido principal */
+.md-main {
+  background-color: #080909;
+}
+
+.md-content {
+  max-width: 1100px;
+  margin: 0 auto;
+}
+
+.md-content__inner {
+  padding-top: 1.5rem;
+}
+
+/* Tipografía */
+.md-typeset {
+  color: #eeeeee;
+  font-size: 0.78rem;
+  line-height: 1.8;
+}
+
+.md-typeset p {
+  margin-bottom: 1.1rem;
+}
+
+.md-typeset strong {
+  color: #ffffff;
+  font-weight: 750;
+}
+
+/* Títulos */
+.md-typeset h1,
+.md-typeset h2,
+.md-typeset h3,
+.md-typeset h4 {
+  color: #ffffff;
+  font-weight: 850;
+  letter-spacing: -0.035em;
+  line-height: 1.1;
+}
+
+.md-typeset h1 {
+  font-size: 2rem;
+  text-transform: uppercase;
+  border-bottom: 2px solid var(--custom-cyan);
+  padding-bottom: 0.65rem;
+}
+
+.md-typeset h2 {
+  font-size: 1.45rem;
+  margin-top: 2.3rem;
+}
+
+.md-typeset h3 {
+  font-size: 1.05rem;
+  margin-top: 1.8rem;
+}
+
+.md-typeset h2::before {
+  content: "";
+  display: inline-block;
+  width: 4px;
+  height: 1em;
+  background: var(--custom-cyan);
+  margin-right: 0.55rem;
+  vertical-align: -0.12em;
+}
+
+/* Enlaces */
+.md-typeset a {
+  color: var(--custom-cyan);
+  text-decoration: underline;
+  text-decoration-color: #00dce855;
+  text-underline-offset: 3px;
+}
+
+.md-typeset a:hover {
+  color: #ffffff;
+  text-decoration-color: var(--custom-cyan);
+}
+
+/* Tablas técnicas */
+.md-typeset table:not([class]) {
+  display: table;
+  width: 100%;
+  overflow: hidden;
+  border: 1px solid var(--custom-border);
+  border-collapse: collapse;
+  border-radius: 3px;
+  background: #080909;
+  font-size: 0.72rem;
+}
+
+.md-typeset table:not([class]) th {
+  background: var(--custom-cyan);
+  color: #001113;
+  font-weight: 800;
+  text-align: left;
+  padding: 0.8rem;
+  border: 1px solid #087e84;
+}
+
+.md-typeset table:not([class]) td {
+  padding: 0.8rem;
+  border: 1px solid var(--custom-border);
+  color: #eeeeee;
+}
+
+.md-typeset table:not([class]) tr:hover td {
+  background: #111b1c;
+}
+
+/* Bloques de código */
+.md-typeset pre {
+  border: 1px solid #293536;
+  border-left: 3px solid var(--custom-cyan);
+  border-radius: 4px;
+  background: #101212 !important;
+}
+
+.md-typeset code {
+  background: #171b1c;
+  color: #00e5ee;
+  border-radius: 3px;
+  padding: 0.1em 0.3em;
+}
+
+.md-typeset pre code {
+  color: #e8eeee;
+  background: transparent;
+  border: none;
+}
+
+/* Botón copiar código */
+.md-clipboard {
+  color: var(--custom-cyan) !important;
+}
+
+.md-clipboard:hover {
+  color: #ffffff !important;
+}
+
+/* Citas y advertencias */
+.md-typeset blockquote {
+  border-left: 3px solid var(--custom-cyan);
+  background: #101414;
+  padding: 0.7rem 1rem;
+  color: #dddddd;
+}
+
+.md-typeset .admonition,
+.md-typeset details {
+  border: 1px solid var(--custom-border);
+  border-left: 3px solid var(--custom-cyan);
+  border-radius: 4px;
+  background: #101212;
+  box-shadow: none;
+}
+
+.md-typeset .admonition-title,
+.md-typeset summary {
+  background: #151b1c;
+  color: #ffffff;
+  font-weight: 750;
+}
+
+/* Navegación lateral */
+.md-sidebar {
+  background: #080909;
+}
+
+.md-nav__title {
+  color: #ffffff;
+  font-weight: 800;
+}
+
+.md-nav__link {
+  color: #bcbcbc;
+  transition: color 0.15s ease;
+}
+
+.md-nav__link:hover,
+.md-nav__link--active {
+  color: var(--custom-cyan) !important;
+}
+
+.md-nav__link--active {
+  font-weight: 750;
+}
+
+/* Buscador */
+.md-search__form {
+  background: #151818;
+  border: 1px solid #303838;
+  border-radius: 4px;
+}
+
+.md-search__input {
+  color: #ffffff;
+}
+
+/* Separadores */
+.md-typeset hr {
+  border-bottom: 1px solid var(--custom-border);
+}
+
+/* Selección de texto */
+::selection {
+  color: #000000;
+  background: var(--custom-cyan);
+}
+
+/* Barra de desplazamiento */
+::-webkit-scrollbar {
+  width: 9px;
+}
+
+::-webkit-scrollbar-track {
+  background: #080909;
+}
+
+::-webkit-scrollbar-thumb {
+  background: #343b3c;
+  border-radius: 5px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: var(--custom-cyan);
+}
+
+/* Ajustes para pantallas pequeñas */
+@media screen and (max-width: 768px) {
+  .md-typeset h1 {
+    font-size: 1.6rem;
+  }
+
+  .md-content__inner {
+    padding-top: 1rem;
+  }
+
+  .md-typeset table:not([class]) {
+    font-size: 0.65rem;
+  }
+}
+
+
+/* ==========================================
+   LISTAS: VIÑETAS COLOR CIAN
+   ========================================== */
+
+/* Viñetas de listas */
+.md-typeset ul > li::marker {
+  color: #00dce8;
+}
+
+/* Viñetas de listas anidadas */
+.md-typeset ul ul > li::marker {
+  color: #00aeb8;
+}
+
+/* Espaciado y legibilidad */
+.md-typeset ul > li {
+  padding-left: 0.2rem;
+  margin-bottom: 0.45rem;
+}
+
+
+/* ==========================================
+   NAVEGACIÓN: CATEGORÍAS DESPLEGABLES
+   ========================================== */
+
+/* Categorías del menú */
+.md-nav__link {
+    color: #cbd5e1;
+}
+
+/* Categorías principales */
+.md-sidebar .md-nav__item--nested > .md-nav__link {
+  font-weight: 650;
+color: #cbd5e1;
+  border-left: 2px solid transparent;
+  padding-left: 0.65rem;
+  transition: background-color 0.2s ease,
+              color 0.2s ease,
+              border-color 0.2s ease;
+}
+
+/* Categoría desplegada */
+.md-sidebar .md-nav__item--nested
+> input.md-nav__toggle:checked
+~ .md-nav__link {
+  color: #00dce8 !important;
+  font-weight: 800;
+  background: #00dce810;
+  border-left: 2px solid #00dce8;
+  border-radius: 0 4px 4px 0;
+}
+
+/* Categoría activa */
+.md-sidebar .md-nav__item--active
+> .md-nav__link {
+  color: #00dce8 !important;
+  font-weight: 800;
+}
+
+/* Flechas de las categorías */
+.md-sidebar .md-nav__icon {
+  color: #00dce8;
+}
+
+/* Subcategorías */
+.md-sidebar .md-nav__item--nested
+.md-nav .md-nav__link {
+  padding-left: 1rem;
+  font-size: 0.76rem;
+}
+
+/* Subcategoría seleccionada */
+.md-sidebar .md-nav__item--active
+> .md-nav__link:not(.md-nav__link--passed) {
+  color: #00e5ee !important;
+  font-weight: 800;
+}
+
+/* ==========================================
+   ÍNDICE LATERAL DERECHO - TABLA DE CONTENIDOS
+   ========================================== */
+
+/* Reducir tamaño de los títulos del índice */
+.md-sidebar--secondary .md-nav__link {
+  font-size: 0.68rem;
+  line-height: 1.3;
+  padding-top: 0.12rem;
+  padding-bottom: 0.12rem;
+}
+
+/* Reducir separación entre elementos */
+.md-sidebar--secondary .md-nav__item {
+  margin-top: 0.08rem;
+}
+
+/* Aprovechar el espacio vertical disponible */
+.md-sidebar--secondary .md-sidebar__scrollwrap {
+  max-height: calc(100vh - 5rem);
+  overflow-y: auto;
+}
+
+/* Destacar el apartado seleccionado */
+.md-sidebar--secondary .md-nav__link--active {
+  color: #00dce8 !important;
+  font-weight: 800;
+}
+
+/* Ajustar los subtítulos anidados */
+.md-sidebar--secondary .md-nav__list .md-nav__list {
+  padding-left: 0.55rem;
+}
+
+/* ==========================================
+   NAVEGACIÓN CON DESPLAZAMIENTO SUAVE
+   ========================================== */
+
+/* Desplazamiento progresivo entre secciones */
+html {
+  scroll-behavior: smooth;
+  scroll-padding-top: 90px;
+}
+
+/* Transición suave al navegar por los títulos */
+.md-content__inner {
+  scroll-behavior: smooth;
+}
+
+/* Transición visual de los enlaces del índice */
+.md-sidebar--secondary .md-nav__link {
+  transition:
+    color 0.25s ease,
+    background-color 0.25s ease,
+    padding-left 0.25s ease;
+}
+
+/* Destacar suavemente el título seleccionado */
+.md-sidebar--secondary .md-nav__link--active {
+  color: #00dce8 !important;
+  font-weight: 800;
+}
+
+
+/* ==========================================
+   TRANSICIÓN ENTRE PÁGINAS
+   ========================================== */
+
+/* Animación de entrada del contenido */
+@keyframes page-enter {
+    from {
+        opacity: 0;
+        transform: translateY(12px);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+/* Aplicar animación al abrir una página */
+.md-content__inner {
+    animation: page-enter 0.45s ease-out both;
+}
+
+/* ==========================================
+   MENÚ LATERAL IZQUIERDO
+   ========================================== */
+
+/* Transición de las opciones del menú */
+.md-sidebar--primary .md-nav__link {
+    transition:
+        color 0.25s ease,
+        background-color 0.25s ease,
+        padding-left 0.25s ease;
+    border-radius: 5px;
+}
+
+/* Efecto al pasar el cursor */
+.md-sidebar--primary .md-nav__link:hover {
+    color: #00dce8 !important;
+    background-color: rgba(0, 220, 232, 0.07);
+    padding-left: 0.75rem;
+}
+
+/* Página seleccionada */
+.md-sidebar--primary .md-nav__link--active {
+    color: #00dce8 !important;
+    font-weight: 800;
+    background-color: rgba(0, 220, 232, 0.08);
+    border-left: 2px solid #00dce8;
+}
+
+/* ==========================================
+   ACCESIBILIDAD
+   ========================================== */
+
+@media (prefers-reduced-motion: reduce) {
+    .md-content__inner {
+        animation: none;
+    }
+
+    .md-sidebar--primary .md-nav__link {
+        transition: none;
+    }
+}

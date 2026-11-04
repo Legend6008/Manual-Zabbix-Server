@@ -1,0 +1,2134 @@
+
+<!doctype html>
+<html lang="es" class="no-js">
+  <head>
+    
+      <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width,initial-scale=1">
+      
+        <meta name="description" content="Documentación técnica">
+      
+      
+        <meta name="author" content="Damian, Adrian, Mauro">
+      
+      
+      
+        <link rel="prev" href="instalacion.html">
+      
+      
+        <link rel="next" href="servicios.html">
+      
+      
+        
+      
+      
+      <link rel="icon" href="../assets/images/favicon.png">
+      <meta name="generator" content="mkdocs-1.6.1, mkdocs-material-9.7.7">
+    
+    
+      
+        <title>Configuración - Manual de Servidor Zabbix</title>
+      
+    
+    
+      <link rel="stylesheet" href="../assets/stylesheets/main.ec1eaa64.min.css">
+      
+        
+        <link rel="stylesheet" href="../assets/stylesheets/palette.ab4e12ef.min.css">
+      
+      
+
+
+    
+    
+      
+    
+    
+      
+        
+        
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,300i,400,400i,700,700i%7CRoboto+Mono:400,400i,700,700i&display=fallback">
+        <style>:root{--md-text-font:"Roboto";--md-code-font:"Roboto Mono"}</style>
+      
+    
+    
+      <link rel="stylesheet" href="../stylesheets/extra1.css">
+    
+    <script>__md_scope=new URL("..",location),__md_hash=e=>[...e].reduce(((e,_)=>(e<<5)-e+_.charCodeAt(0)),0),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
+    
+      
+
+    
+    
+  </head>
+  
+  
+    
+    
+      
+    
+    
+    
+    
+    <body dir="ltr" data-md-color-scheme="slate" data-md-color-primary="blue-grey" data-md-color-accent="light-blue">
+  
+    
+    <input class="md-toggle" data-md-toggle="drawer" type="checkbox" id="__drawer" autocomplete="off">
+    <input class="md-toggle" data-md-toggle="search" type="checkbox" id="__search" autocomplete="off">
+    <label class="md-overlay" for="__drawer"></label>
+    <div data-md-component="skip">
+      
+        
+        <a href="#instalacion-del-servidor-zabbix" class="md-skip">
+          Saltar a contenido
+        </a>
+      
+    </div>
+    <div data-md-component="announce">
+      
+    </div>
+    
+    
+      
+
+  
+
+<header class="md-header md-header--shadow" data-md-component="header">
+  <nav class="md-header__inner md-grid" aria-label="Cabecera">
+    <a href="../index.html" title="Manual de Servidor Zabbix" class="md-header__button md-logo" aria-label="Manual de Servidor Zabbix" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54"/></svg>
+
+    </a>
+    <label class="md-header__button md-icon" for="__drawer">
+      
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M3 6h18v2H3zm0 5h18v2H3zm0 5h18v2H3z"/></svg>
+    </label>
+    <div class="md-header__title" data-md-component="header-title">
+      <div class="md-header__ellipsis">
+        <div class="md-header__topic">
+          <span class="md-ellipsis">
+            Manual de Servidor Zabbix
+          </span>
+        </div>
+        <div class="md-header__topic" data-md-component="header-topic">
+          <span class="md-ellipsis">
+            
+              Configuración
+            
+          </span>
+        </div>
+      </div>
+    </div>
+    
+      
+        <form class="md-header__option" data-md-component="palette">
+  
+    
+    
+    
+    <input class="md-option" data-md-color-media="" data-md-color-scheme="slate" data-md-color-primary="blue-grey" data-md-color-accent="light-blue"  aria-hidden="true"  type="radio" name="__palette" id="__palette_0">
+    
+  
+</form>
+      
+    
+    
+      <script>var palette=__md_get("__palette");if(palette&&palette.color){if("(prefers-color-scheme)"===palette.color.media){var media=matchMedia("(prefers-color-scheme: light)"),input=document.querySelector(media.matches?"[data-md-color-media='(prefers-color-scheme: light)']":"[data-md-color-media='(prefers-color-scheme: dark)']");palette.color.media=input.getAttribute("data-md-color-media"),palette.color.scheme=input.getAttribute("data-md-color-scheme"),palette.color.primary=input.getAttribute("data-md-color-primary"),palette.color.accent=input.getAttribute("data-md-color-accent")}for(var[key,value]of Object.entries(palette.color))document.body.setAttribute("data-md-color-"+key,value)}</script>
+    
+    
+    
+      
+      
+        <label class="md-header__button md-icon" for="__search">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+        </label>
+        <div class="md-search" data-md-component="search" role="dialog">
+  <label class="md-search__overlay" for="__search"></label>
+  <div class="md-search__inner" role="search">
+    <form class="md-search__form" name="search">
+      <input type="text" class="md-search__input" name="query" aria-label="Búsqueda" placeholder="Búsqueda" autocapitalize="off" autocorrect="off" autocomplete="off" spellcheck="false" data-md-component="search-query" required>
+      <label class="md-search__icon md-icon" for="__search">
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11z"/></svg>
+      </label>
+      <nav class="md-search__options" aria-label="Buscar">
+        
+        <button type="reset" class="md-search__icon md-icon" title="Limpiar" aria-label="Limpiar" tabindex="-1">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M19 6.41 17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"/></svg>
+        </button>
+      </nav>
+      
+        <div class="md-search__suggest" data-md-component="search-suggest"></div>
+      
+    </form>
+    <div class="md-search__output">
+      <div class="md-search__scrollwrap" tabindex="0" data-md-scrollfix>
+        <div class="md-search-result" data-md-component="search-result">
+          <div class="md-search-result__meta">
+            Inicializando búsqueda
+          </div>
+          <ol class="md-search-result__list" role="presentation"></ol>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+      
+    
+    
+  </nav>
+  
+</header>
+    
+    <div class="md-container" data-md-component="container">
+      
+      
+        
+          
+        
+      
+      <main class="md-main" data-md-component="main">
+        <div class="md-main__inner md-grid">
+          
+            
+              
+              <div class="md-sidebar md-sidebar--primary" data-md-component="sidebar" data-md-type="navigation" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+
+
+<nav class="md-nav md-nav--primary" aria-label="Navegación" data-md-level="0">
+  <label class="md-nav__title" for="__drawer">
+    <a href="../index.html" title="Manual de Servidor Zabbix" class="md-nav__button md-logo" aria-label="Manual de Servidor Zabbix" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54"/></svg>
+
+    </a>
+    Manual de Servidor Zabbix
+  </label>
+  
+  <ul class="md-nav__list" data-md-scrollfix>
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../index.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Introduccion
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+    
+  
+  
+  
+    
+    
+      
+        
+      
+        
+      
+        
+      
+    
+    
+    
+    
+    <li class="md-nav__item md-nav__item--active md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_2" checked>
+        
+          
+          <label class="md-nav__link" for="__nav_2" id="__nav_2_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Servidor
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_2_label" aria-expanded="true">
+          <label class="md-nav__title" for="__nav_2">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Servidor
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="instalacion.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Instalacion
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+    
+  
+  
+  
+    <li class="md-nav__item md-nav__item--active">
+      
+      <input class="md-nav__toggle md-toggle" type="checkbox" id="__toc">
+      
+      
+        
+      
+      
+        <label class="md-nav__link md-nav__link--active" for="__toc">
+          
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Configuración
+  
+
+    
+  </span>
+  
+  
+
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <a href="configuracion.html" class="md-nav__link md-nav__link--active">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Configuración
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+      
+        
+
+<nav class="md-nav md-nav--secondary" aria-label="Tabla de contenidos">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Tabla de contenidos
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#1-instalacion-de-zabbix" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        1. Instalación de Zabbix
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="1. Instalación de Zabbix">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#11-actualizacion-de-los-paquetes" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        1.1. Actualización de los paquetes
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#12-instalacion-de-los-modulos-de-php" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        1.2. Instalación de los módulos de PHP
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#13-descarga-e-instalacion-del-repositorio-de-zabbix" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        1.3. Descarga e instalación del repositorio de Zabbix
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#14-actualizacion-de-los-repositorios" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        1.4. Actualización de los repositorios
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#15-instalacion-del-servidor-y-la-interfaz-web" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        1.5. Instalación del servidor y la interfaz web
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#16-instalacion-del-agente-local" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        1.6. Instalación del agente local
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#2-configuracion-de-la-base-de-datos-mysql" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        2. Configuración de la base de datos MySQL
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="2. Configuración de la base de datos MySQL">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#21-acceso-a-mysql" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        2.1. Acceso a MySQL
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#22-creacion-de-la-base-de-datos" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        2.2. Creación de la base de datos
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#23-creacion-del-usuario-y-asignacion-de-permisos" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        2.3. Creación del usuario y asignación de permisos
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#24-aplicacion-de-los-permisos" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        2.4. Aplicación de los permisos
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#25-salida-del-cliente-mysql" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        2.5. Salida del cliente MySQL
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#26-importacion-del-esquema-inicial" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        2.6. Importación del esquema inicial
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#27-configuracion-de-la-contrasena-en-zabbix" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        2.7. Configuración de la contraseña en Zabbix
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#3-configuracion-de-php-y-apache" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        3. Configuración de PHP y Apache
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="3. Configuración de PHP y Apache">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#31-edicion-de-la-configuracion-de-apache" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        3.1. Edición de la configuración de Apache
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#32-configuracion-de-la-zona-horaria" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        3.2. Configuración de la zona horaria
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#33-reinicio-de-apache" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        3.3. Reinicio de Apache
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#4-inicio-y-verificacion-del-servidor-zabbix" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        4. Inicio y verificación del servidor Zabbix
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="4. Inicio y verificación del servidor Zabbix">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#41-inicio-del-servicio" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        4.1. Inicio del servicio
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#42-comprobacion-del-estado" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        4.2. Comprobación del estado
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#43-habilitacion-del-inicio-automatico" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        4.3. Habilitación del inicio automático
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#5-resumen-del-procedimiento" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        5. Resumen del procedimiento
+      
+    </span>
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="servicios.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Servicios
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+      
+        
+      
+        
+      
+    
+    
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_3" >
+        
+          
+          <label class="md-nav__link" for="__nav_3" id="__nav_3_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Agentes
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_3_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_3">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Agentes
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../Agentes/ubuntu.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Ubuntu - kali
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../Agentes/windows11.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Windows 10 - 11
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+      
+        
+      
+        
+      
+        
+      
+        
+      
+    
+    
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_4" >
+        
+          
+          <label class="md-nav__link" for="__nav_4" id="__nav_4_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Monitoreo
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_4_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_4">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Monitoreo
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../Monitoreo/alertastelegram.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Telegram
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../Monitoreo/alertacorreo.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Correo
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../Monitoreo/snmp.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    SNMP
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../Monitoreo/dashboard.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Dashboard
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+      
+        
+      
+        
+      
+    
+    
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_5" >
+        
+          
+          <label class="md-nav__link" for="__nav_5" id="__nav_5_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Seguridad
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_5_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_5">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Seguridad
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../Seguridad/alertas.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Alertas
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../Seguridad/hardening1.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Hardening
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+      
+        
+      
+        
+      
+    
+    
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_6" >
+        
+          
+          <label class="md-nav__link" for="__nav_6" id="__nav_6_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Conectividad
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_6_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_6">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Conectividad
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../Conectividad/tailscale.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Tailscale
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../Conectividad/ssh.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    SSH
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+      
+        
+      
+        
+      
+        
+      
+        
+      
+    
+    
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_7" >
+        
+          
+          <label class="md-nav__link" for="__nav_7" id="__nav_7_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Problemas
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_7_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_7">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Problemas
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../Problemas/errortelegram.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Errores Telegram
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../Problemas/errores-agentes.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Errores Agentes
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../Problemas/errorssh.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Errores SSH
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../Problemas/errorsnmp.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Errores SNMP
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+      
+        
+      
+    
+    
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_8" >
+        
+          
+          <label class="md-nav__link" for="__nav_8" id="__nav_8_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Referencias
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_8_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_8">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Referencias
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../Referencias/documentacion-oficial.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Documentacion-oficial
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+  </ul>
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+            
+              
+              <div class="md-sidebar md-sidebar--secondary" data-md-component="sidebar" data-md-type="toc" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+<nav class="md-nav md-nav--secondary" aria-label="Tabla de contenidos">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Tabla de contenidos
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#1-instalacion-de-zabbix" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        1. Instalación de Zabbix
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="1. Instalación de Zabbix">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#11-actualizacion-de-los-paquetes" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        1.1. Actualización de los paquetes
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#12-instalacion-de-los-modulos-de-php" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        1.2. Instalación de los módulos de PHP
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#13-descarga-e-instalacion-del-repositorio-de-zabbix" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        1.3. Descarga e instalación del repositorio de Zabbix
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#14-actualizacion-de-los-repositorios" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        1.4. Actualización de los repositorios
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#15-instalacion-del-servidor-y-la-interfaz-web" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        1.5. Instalación del servidor y la interfaz web
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#16-instalacion-del-agente-local" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        1.6. Instalación del agente local
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#2-configuracion-de-la-base-de-datos-mysql" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        2. Configuración de la base de datos MySQL
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="2. Configuración de la base de datos MySQL">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#21-acceso-a-mysql" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        2.1. Acceso a MySQL
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#22-creacion-de-la-base-de-datos" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        2.2. Creación de la base de datos
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#23-creacion-del-usuario-y-asignacion-de-permisos" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        2.3. Creación del usuario y asignación de permisos
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#24-aplicacion-de-los-permisos" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        2.4. Aplicación de los permisos
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#25-salida-del-cliente-mysql" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        2.5. Salida del cliente MySQL
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#26-importacion-del-esquema-inicial" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        2.6. Importación del esquema inicial
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#27-configuracion-de-la-contrasena-en-zabbix" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        2.7. Configuración de la contraseña en Zabbix
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#3-configuracion-de-php-y-apache" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        3. Configuración de PHP y Apache
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="3. Configuración de PHP y Apache">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#31-edicion-de-la-configuracion-de-apache" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        3.1. Edición de la configuración de Apache
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#32-configuracion-de-la-zona-horaria" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        3.2. Configuración de la zona horaria
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#33-reinicio-de-apache" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        3.3. Reinicio de Apache
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#4-inicio-y-verificacion-del-servidor-zabbix" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        4. Inicio y verificación del servidor Zabbix
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="4. Inicio y verificación del servidor Zabbix">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#41-inicio-del-servicio" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        4.1. Inicio del servicio
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#42-comprobacion-del-estado" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        4.2. Comprobación del estado
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#43-habilitacion-del-inicio-automatico" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        4.3. Habilitación del inicio automático
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#5-resumen-del-procedimiento" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        5. Resumen del procedimiento
+      
+    </span>
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+          
+          
+            <div class="md-content" data-md-component="content">
+              
+              <article class="md-content__inner md-typeset">
+                
+                  
+
+
+
+<h1 id="instalacion-del-servidor-zabbix">Instalación del servidor Zabbix<a class="headerlink" href="#instalacion-del-servidor-zabbix" title="Permanent link">&para;</a></h1>
+<h2 id="1-instalacion-de-zabbix">1. Instalación de Zabbix<a class="headerlink" href="#1-instalacion-de-zabbix" title="Permanent link">&para;</a></h2>
+<h3 id="11-actualizacion-de-los-paquetes">1.1. Actualización de los paquetes<a class="headerlink" href="#11-actualizacion-de-los-paquetes" title="Permanent link">&para;</a></h3>
+<p>Antes de instalar Zabbix, actualizamos la lista de paquetes disponibles en los repositorios configurados en Ubuntu.</p>
+<div class="highlight"><pre><span></span><code>sudo<span class="w"> </span>apt-get<span class="w"> </span>update
+</code></pre></div>
+<p><strong>Explicación:</strong></p>
+<ul>
+<li><code>sudo</code>: ejecuta el comando con privilegios de administrador.</li>
+<li><code>apt-get</code>: administra los paquetes del sistema.</li>
+<li><code>update</code>: actualiza el índice de paquetes disponibles, sin instalar actualizaciones por sí mismo.</li>
+</ul>
+<h3 id="12-instalacion-de-los-modulos-de-php">1.2. Instalación de los módulos de PHP<a class="headerlink" href="#12-instalacion-de-los-modulos-de-php" title="Permanent link">&para;</a></h3>
+<p>Instalamos los módulos de PHP necesarios para que la interfaz web de Zabbix pueda realizar determinadas operaciones.</p>
+<div class="highlight"><pre><span></span><code>sudo<span class="w"> </span>apt-get<span class="w"> </span>install<span class="w"> </span>php7.0-xml<span class="w"> </span>php7.0-bcmath<span class="w"> </span>php7.0-mbstring
+</code></pre></div>
+<p><strong>Explicación de los módulos:</strong></p>
+<ul>
+<li><code>php7.0-xml</code>: permite procesar datos y estructuras XML.</li>
+<li><code>php7.0-bcmath</code>: proporciona operaciones matemáticas de precisión arbitraria.</li>
+<li><code>php7.0-mbstring</code>: permite trabajar con cadenas de texto multibyte, útiles para distintos idiomas y caracteres.</li>
+</ul>
+<p>La versión de PHP debe ser compatible con la versión de Zabbix y con el sistema operativo utilizado.</p>
+<h3 id="13-descarga-e-instalacion-del-repositorio-de-zabbix">1.3. Descarga e instalación del repositorio de Zabbix<a class="headerlink" href="#13-descarga-e-instalacion-del-repositorio-de-zabbix" title="Permanent link">&para;</a></h3>
+<p>Descargamos el paquete que agrega el repositorio de Zabbix 3.2 a Ubuntu 16.04.</p>
+<div class="highlight"><pre><span></span><code>wget<span class="w"> </span>http://repo.zabbix.com/zabbix/3.2/ubuntu/pool/main/z/zabbix-release/zabbix-release_3.2-1+xenial_all.deb
+</code></pre></div>
+<p><strong>Explicación:</strong></p>
+<ul>
+<li><code>wget</code>: descarga archivos desde una dirección web.</li>
+<li>La URL indica la ubicación del paquete de configuración del repositorio.</li>
+<li>El archivo descargado termina en <code>.deb</code>, formato de paquetes utilizado por Debian y Ubuntu.</li>
+</ul>
+<p>Instalamos el paquete descargado:</p>
+<div class="highlight"><pre><span></span><code>sudo<span class="w"> </span>dpkg<span class="w"> </span>-i<span class="w"> </span>zabbix-release_3.2-1+xenial_all.deb
+</code></pre></div>
+<ul>
+<li><code>dpkg</code>: instala y administra paquetes <code>.deb</code>.</li>
+<li><code>-i</code>: indica que se debe instalar el paquete especificado.</li>
+</ul>
+<p>Este paso configura el repositorio desde el cual se obtendrán los paquetes de Zabbix.</p>
+<h3 id="14-actualizacion-de-los-repositorios">1.4. Actualización de los repositorios<a class="headerlink" href="#14-actualizacion-de-los-repositorios" title="Permanent link">&para;</a></h3>
+<p>Actualizamos nuevamente el índice de paquetes para incluir el repositorio de Zabbix que acabamos de agregar.</p>
+<div class="highlight"><pre><span></span><code>sudo<span class="w"> </span>apt-get<span class="w"> </span>update
+</code></pre></div>
+<h3 id="15-instalacion-del-servidor-y-la-interfaz-web">1.5. Instalación del servidor y la interfaz web<a class="headerlink" href="#15-instalacion-del-servidor-y-la-interfaz-web" title="Permanent link">&para;</a></h3>
+<p>Instalamos el servidor Zabbix y su interfaz web con soporte para MySQL.</p>
+<div class="highlight"><pre><span></span><code>sudo<span class="w"> </span>apt-get<span class="w"> </span>install<span class="w"> </span>zabbix-server-mysql<span class="w"> </span>zabbix-frontend-php
+</code></pre></div>
+<p><strong>Explicación:</strong></p>
+<ul>
+<li><code>zabbix-server-mysql</code>: instala el servicio central de Zabbix con soporte para bases de datos MySQL.</li>
+<li><code>zabbix-frontend-php</code>: instala los componentes de la interfaz web basada en PHP.</li>
+</ul>
+<p>El servidor procesa los datos recibidos de los agentes y realiza las tareas de monitoreo. La interfaz web permite administrar hosts, métricas, triggers y alertas.</p>
+<h3 id="16-instalacion-del-agente-local">1.6. Instalación del agente local<a class="headerlink" href="#16-instalacion-del-agente-local" title="Permanent link">&para;</a></h3>
+<p>Instalamos el agente de Zabbix en el mismo servidor para poder monitorear su propio estado y rendimiento.</p>
+<div class="highlight"><pre><span></span><code>sudo<span class="w"> </span>apt-get<span class="w"> </span>install<span class="w"> </span>zabbix-agent
+</code></pre></div>
+<p>El agente permite recopilar información del equipo, como utilización de CPU, memoria, discos y otros parámetros disponibles. Para que funcione, debe configurarse y comunicarse correctamente con el servidor Zabbix.</p>
+<hr />
+<h2 id="2-configuracion-de-la-base-de-datos-mysql">2. Configuración de la base de datos MySQL<a class="headerlink" href="#2-configuracion-de-la-base-de-datos-mysql" title="Permanent link">&para;</a></h2>
+<p>Zabbix necesita una base de datos para almacenar la configuración de monitoreo, los hosts registrados, los elementos de datos y el historial recopilado.</p>
+<h3 id="21-acceso-a-mysql">2.1. Acceso a MySQL<a class="headerlink" href="#21-acceso-a-mysql" title="Permanent link">&para;</a></h3>
+<p>Ingresamos al cliente de MySQL con el usuario administrador <code>root</code>.</p>
+<div class="highlight"><pre><span></span><code>mysql<span class="w"> </span>-uroot<span class="w"> </span>-p
+</code></pre></div>
+<p><strong>Explicación:</strong></p>
+<ul>
+<li><code>mysql</code>: abre el cliente de línea de comandos de MySQL.</li>
+<li><code>-u root</code>: especifica el usuario con el que se iniciará sesión.</li>
+<li><code>-p</code>: solicita la contraseña de ese usuario.</li>
+</ul>
+<h3 id="22-creacion-de-la-base-de-datos">2.2. Creación de la base de datos<a class="headerlink" href="#22-creacion-de-la-base-de-datos" title="Permanent link">&para;</a></h3>
+<p>Dentro del cliente de MySQL, creamos la base de datos <code>zabbix</code> con codificación UTF-8 y ordenamiento binario.</p>
+<div class="highlight"><pre><span></span><code><span class="k">CREATE</span><span class="w"> </span><span class="k">DATABASE</span><span class="w"> </span><span class="n">zabbix</span><span class="w"> </span><span class="nb">CHARACTER</span><span class="w"> </span><span class="k">SET</span><span class="w"> </span><span class="n">utf8</span><span class="w"> </span><span class="k">COLLATE</span><span class="w"> </span><span class="n">utf8_bin</span><span class="p">;</span>
+</code></pre></div>
+<p><strong>Explicación:</strong></p>
+<ul>
+<li><code>CREATE DATABASE zabbix</code>: crea una base de datos llamada <code>zabbix</code>.</li>
+<li><code>CHARACTER SET utf8</code>: define la codificación de caracteres.</li>
+<li><code>COLLATE utf8_bin</code>: establece una comparación binaria de los valores de texto.</li>
+</ul>
+<blockquote>
+<p>Nota: esta instrucción corresponde al esquema antiguo. Las versiones modernas de Zabbix pueden requerir otra codificación y configuración de base de datos.</p>
+</blockquote>
+<h3 id="23-creacion-del-usuario-y-asignacion-de-permisos">2.3. Creación del usuario y asignación de permisos<a class="headerlink" href="#23-creacion-del-usuario-y-asignacion-de-permisos" title="Permanent link">&para;</a></h3>
+<p>Creamos el usuario de base de datos que utilizará Zabbix y le otorgamos permisos sobre su propia base.</p>
+<div class="highlight"><pre><span></span><code><span class="k">GRANT</span><span class="w"> </span><span class="k">ALL</span><span class="w"> </span><span class="k">PRIVILEGES</span><span class="w"> </span><span class="k">ON</span><span class="w"> </span><span class="n">zabbix</span><span class="p">.</span><span class="o">*</span><span class="w"> </span><span class="k">TO</span><span class="w"> </span><span class="s1">'zabbix'</span><span class="o">@</span><span class="s1">'localhost'</span><span class="w"> </span><span class="n">IDENTIFIED</span><span class="w"> </span><span class="k">BY</span><span class="w"> </span><span class="s1">'your_password'</span><span class="p">;</span>
+</code></pre></div>
+<p><strong>Explicación:</strong></p>
+<ul>
+<li><code>GRANT ALL PRIVILEGES</code>: concede los permisos indicados.</li>
+<li><code>zabbix.*</code>: limita los permisos a todos los objetos de la base <code>zabbix</code>.</li>
+<li><code>'zabbix'@'localhost'</code>: identifica al usuario que se conecta desde el propio servidor.</li>
+<li><code>IDENTIFIED BY</code>: establece la contraseña en las versiones antiguas de MySQL que admiten esta sintaxis.</li>
+</ul>
+<p>Reemplazá <code>your_password</code> por una contraseña segura. No publiques contraseñas reales en la documentación.</p>
+<p><strong>Importante:</strong> en versiones modernas de MySQL, la creación del usuario y la asignación de permisos pueden requerir instrucciones separadas.</p>
+<h3 id="24-aplicacion-de-los-permisos">2.4. Aplicación de los permisos<a class="headerlink" href="#24-aplicacion-de-los-permisos" title="Permanent link">&para;</a></h3>
+<div class="highlight"><pre><span></span><code><span class="n">FLUSH</span><span class="w"> </span><span class="k">PRIVILEGES</span><span class="p">;</span>
+</code></pre></div>
+<p>Este comando solicita a MySQL que vuelva a cargar las tablas de privilegios. En versiones actuales, los cambios realizados mediante <code>GRANT</code> normalmente se aplican inmediatamente.</p>
+<h3 id="25-salida-del-cliente-mysql">2.5. Salida del cliente MySQL<a class="headerlink" href="#25-salida-del-cliente-mysql" title="Permanent link">&para;</a></h3>
+<div class="highlight"><pre><span></span><code><span class="n">QUIT</span><span class="p">;</span>
+</code></pre></div>
+<p>Cierra la sesión del cliente y regresa a la terminal del sistema operativo.</p>
+<h3 id="26-importacion-del-esquema-inicial">2.6. Importación del esquema inicial<a class="headerlink" href="#26-importacion-del-esquema-inicial" title="Permanent link">&para;</a></h3>
+<p>Importamos las tablas iniciales proporcionadas por el paquete de Zabbix.</p>
+<div class="highlight"><pre><span></span><code>zcat<span class="w"> </span>/usr/share/doc/zabbix-server-mysql/create.sql.gz<span class="w"> </span><span class="p">|</span><span class="w"> </span>mysql<span class="w"> </span>-uzabbix<span class="w"> </span>-p<span class="w"> </span>zabbix
+</code></pre></div>
+<p><strong>Explicación:</strong></p>
+<ul>
+<li><code>zcat</code>: descomprime y muestra el contenido de un archivo <code>.gz</code> sin guardar una copia descomprimida.</li>
+<li><code>/usr/share/doc/zabbix-server-mysql/create.sql.gz</code>: archivo comprimido que contiene las instrucciones SQL del esquema inicial.</li>
+<li><code>|</code>: envía la salida del primer comando como entrada del segundo.</li>
+<li><code>mysql -uzabbix -p zabbix</code>: se conecta a la base de datos <code>zabbix</code> utilizando el usuario <code>zabbix</code> y solicita su contraseña.</li>
+</ul>
+<p>Este proceso crea las tablas que Zabbix necesita para funcionar. El esquema debe corresponder a la versión instalada.</p>
+<h3 id="27-configuracion-de-la-contrasena-en-zabbix">2.7. Configuración de la contraseña en Zabbix<a class="headerlink" href="#27-configuracion-de-la-contrasena-en-zabbix" title="Permanent link">&para;</a></h3>
+<p>Abrimos el archivo de configuración del servidor:</p>
+<div class="highlight"><pre><span></span><code>sudo<span class="w"> </span>nano<span class="w"> </span>/etc/zabbix/zabbix_server.conf
+</code></pre></div>
+<p>Buscamos la opción <code>DBPassword</code> y configuramos la contraseña del usuario de base de datos:</p>
+<div class="highlight"><pre><span></span><code><span class="na">DBPassword</span><span class="o">=</span><span class="s">your_password</span>
+</code></pre></div>
+<p><strong>Explicación:</strong></p>
+<ul>
+<li><code>sudo</code>: permite editar el archivo con privilegios de administrador.</li>
+<li><code>nano</code>: abre el editor de texto en la terminal.</li>
+<li><code>/etc/zabbix/zabbix_server.conf</code>: contiene parámetros del servicio Zabbix Server.</li>
+<li><code>DBPassword</code>: indica la contraseña utilizada para conectarse a la base de datos.</li>
+</ul>
+<p>La contraseña debe coincidir con la configurada para el usuario de MySQL. Si no se utiliza contraseña, esta opción se deja comentada, según la configuración admitida por la versión instalada.</p>
+<p>En Nano, guardamos con <code>Ctrl + O</code>, confirmamos con <code>Enter</code> y salimos con <code>Ctrl + X</code>.</p>
+<hr />
+<h2 id="3-configuracion-de-php-y-apache">3. Configuración de PHP y Apache<a class="headerlink" href="#3-configuracion-de-php-y-apache" title="Permanent link">&para;</a></h2>
+<p>La interfaz web de Zabbix utiliza PHP. Por ello, algunos parámetros de ejecución deben adaptarse a los requisitos de la versión instalada.</p>
+<h3 id="31-edicion-de-la-configuracion-de-apache">3.1. Edición de la configuración de Apache<a class="headerlink" href="#31-edicion-de-la-configuracion-de-apache" title="Permanent link">&para;</a></h3>
+<p>Abrimos el archivo de configuración proporcionado por el paquete:</p>
+<div class="highlight"><pre><span></span><code>sudo<span class="w"> </span>vim<span class="w"> </span>/etc/zabbix/apache.conf
+</code></pre></div>
+<p>Configuracion para bloque PHP 7:</p>
+<div class="highlight"><pre><span></span><code><span class="nt">&lt;IfModule</span><span class="w"> </span><span class="s">mod_php7.c</span><span class="nt">&gt;</span>
+<span class="w">    </span><span class="nb">php_value</span><span class="w"> </span>max_execution_time<span class="w"> </span><span class="m">300</span>
+<span class="w">    </span><span class="nb">php_value</span><span class="w"> </span>memory_limit<span class="w"> </span><span class="m">128</span>M
+<span class="w">    </span><span class="nb">php_value</span><span class="w"> </span>post_max_size<span class="w"> </span><span class="m">16</span>M
+<span class="w">    </span><span class="nb">php_value</span><span class="w"> </span>upload_max_filesize<span class="w"> </span><span class="m">2</span>M
+<span class="w">    </span><span class="nb">php_value</span><span class="w"> </span>max_input_time<span class="w"> </span><span class="m">300</span>
+<span class="w">    </span><span class="nb">php_value</span><span class="w"> </span>always_populate_raw_post_data<span class="w"> </span>-1
+<span class="w">    </span><span class="c"># php_value date.timezone Europe/Riga</span>
+<span class="nt">&lt;/IfModule&gt;</span>
+</code></pre></div>
+<p><strong>Explicación de los parámetros:</strong></p>
+<ul>
+<li><code>IfModule mod_php7.c</code>: aplica las directivas cuando el módulo correspondiente de PHP está cargado en Apache.</li>
+<li><code>max_execution_time 300</code>: establece un máximo de 300 segundos para la ejecución de un script PHP.</li>
+<li><code>memory_limit 128M</code>: limita a 128 MB la memoria que puede utilizar un script.</li>
+<li><code>post_max_size 16M</code>: limita el tamaño máximo de los datos recibidos mediante solicitudes POST.</li>
+<li><code>upload_max_filesize 2M</code>: limita el tamaño de los archivos que pueden subirse mediante PHP.</li>
+<li><code>max_input_time 300</code>: establece el tiempo máximo destinado al análisis de los datos de entrada.</li>
+<li><code>always_populate_raw_post_data -1</code>: es una directiva heredada de versiones antiguas de PHP.</li>
+<li><code>date.timezone</code>: permite especificar la zona horaria utilizada por PHP cuando se configura en este archivo.</li>
+</ul>
+<blockquote>
+<p><strong>Importante:</strong> este bloque corresponde a una configuración antigua. Algunas directivas ya no existen en versiones modernas de PHP, y el archivo puede variar según el método de integración de PHP con Apache.</p>
+</blockquote>
+<h3 id="32-configuracion-de-la-zona-horaria">3.2. Configuración de la zona horaria<a class="headerlink" href="#32-configuracion-de-la-zona-horaria" title="Permanent link">&para;</a></h3>
+<p>La línea de zona horaria del ejemplo está comentada porque comienza con <code>#</code>.</p>
+<p>En una instalación compatible, se puede habilitar y reemplazar <code>Europe/Riga</code> por la zona correspondiente. Por ejemplo, para Mendoza, Argentina, se utiliza:</p>
+<div class="highlight"><pre><span></span><code><span class="na">php_value date.timezone America/Argentina/Mendoza</span>
+</code></pre></div>
+<p>La directiva debe colocarse en un archivo y contexto compatibles con la versión de PHP instalada. En sistemas modernos, la zona horaria puede configurarse en <code>php.ini</code> o en la configuración específica de PHP para Apache.</p>
+<h3 id="33-reinicio-de-apache">3.3. Reinicio de Apache<a class="headerlink" href="#33-reinicio-de-apache" title="Permanent link">&para;</a></h3>
+<p>Después de realizar cambios en una configuración compatible, reiniciamos Apache para que los aplique.</p>
+<div class="highlight"><pre><span></span><code>sudo<span class="w"> </span>systemctl<span class="w"> </span>restart<span class="w"> </span>apache2
+</code></pre></div>
+<ul>
+<li><code>systemctl</code>: administra servicios mediante systemd.</li>
+<li><code>restart</code>: detiene y vuelve a iniciar el servicio.</li>
+<li><code>apache2</code>: nombre del servicio web en Ubuntu y Debian.</li>
+</ul>
+<p>Si Apache no inicia, debemos revisar sus registros y comprobar la sintaxis de la configuración.</p>
+<hr />
+<h2 id="4-inicio-y-verificacion-del-servidor-zabbix">4. Inicio y verificación del servidor Zabbix<a class="headerlink" href="#4-inicio-y-verificacion-del-servidor-zabbix" title="Permanent link">&para;</a></h2>
+<h3 id="41-inicio-del-servicio">4.1. Inicio del servicio<a class="headerlink" href="#41-inicio-del-servicio" title="Permanent link">&para;</a></h3>
+<p>Iniciamos el servidor Zabbix:</p>
+<div class="highlight"><pre><span></span><code>sudo<span class="w"> </span>systemctl<span class="w"> </span>start<span class="w"> </span>zabbix-server
+</code></pre></div>
+<p>El comando solicita a systemd que inicie el servicio. No garantiza por sí solo que el servidor haya completado correctamente su inicialización.</p>
+<h3 id="42-comprobacion-del-estado">4.2. Comprobación del estado<a class="headerlink" href="#42-comprobacion-del-estado" title="Permanent link">&para;</a></h3>
+<p>Consultamos el estado del servicio:</p>
+<div class="highlight"><pre><span></span><code>sudo<span class="w"> </span>systemctl<span class="w"> </span>status<span class="w"> </span>zabbix-server
+</code></pre></div>
+<p><img alt="Panel principal de Zabbix" src="../Imagenes/serverstatuszabbix.png" /></p>
+<p>El resultado esperado incluye una línea similar a:</p>
+<div class="highlight"><pre><span></span><code>Active: active (running)
+</code></pre></div>
+<p>Esto indica que systemd considera que el servicio está activo y ejecutándose.</p>
+<p>Si aparece <code>failed</code>, <code>inactive</code> u otro estado inesperado, se deben revisar los registros y la configuración de conexión a la base de datos.</p>
+<h3 id="43-habilitacion-del-inicio-automatico">4.3. Habilitación del inicio automático<a class="headerlink" href="#43-habilitacion-del-inicio-automatico" title="Permanent link">&para;</a></h3>
+<p>Finalmente, habilitamos el inicio automático de Zabbix Server al arrancar el sistema:</p>
+<div class="highlight"><pre><span></span><code>sudo<span class="w"> </span>systemctl<span class="w"> </span><span class="nb">enable</span><span class="w"> </span>zabbix-server
+</code></pre></div>
+<ul>
+<li><code>enable</code>: configura el servicio para que se inicie automáticamente durante el arranque.</li>
+<li>No inicia el servicio inmediatamente por sí solo; esa acción se realiza con <code>start</code>.</li>
+</ul>
+<p>De esta manera, Zabbix Server queda configurado para arrancar automáticamente en los próximos inicios del sistema.</p>
+<hr />
+<h2 id="5-resumen-del-procedimiento">5. Resumen del procedimiento<a class="headerlink" href="#5-resumen-del-procedimiento" title="Permanent link">&para;</a></h2>
+<ol>
+<li>Actualizar los índices de paquetes.</li>
+<li>Instalar los módulos de PHP necesarios.</li>
+<li>Agregar el repositorio correspondiente a la versión de Zabbix.</li>
+<li>Instalar el servidor, la interfaz web y el agente.</li>
+<li>Crear la base de datos y el usuario de MySQL.</li>
+<li>Importar el esquema inicial.</li>
+<li>Configurar las credenciales de base de datos en <code>zabbix_server.conf</code>.</li>
+<li>Revisar la configuración de PHP y Apache.</li>
+<li>Iniciar y verificar el servicio Zabbix Server.</li>
+<li>Habilitar el inicio automático del servicio.</li>
+</ol>
+
+
+
+
+
+
+
+
+
+
+
+
+                
+              </article>
+            </div>
+          
+          
+<script>var target=document.getElementById(location.hash.slice(1));target&&target.name&&(target.checked=target.name.startsWith("__tabbed_"))</script>
+        </div>
+        
+          <button type="button" class="md-top md-icon" data-md-component="top" hidden>
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M13 20h-2V8l-5.5 5.5-1.42-1.42L12 4.16l7.92 7.92-1.42 1.42L13 8z"/></svg>
+  Volver al principio
+</button>
+        
+      </main>
+      
+        <footer class="md-footer">
+  
+  <div class="md-footer-meta md-typeset">
+    <div class="md-footer-meta__inner md-grid">
+      <div class="md-copyright">
+  
+  
+    Made with
+    <a href="https://squidfunk.github.io/mkdocs-material/" target="_blank" rel="noopener">
+      Material for MkDocs
+    </a>
+  
+</div>
+      
+    </div>
+  </div>
+</footer>
+      
+    </div>
+    <div class="md-dialog" data-md-component="dialog">
+      <div class="md-dialog__inner md-typeset"></div>
+    </div>
+    
+    
+    
+      
+      
+      <script id="__config" type="application/json">{"annotate": null, "base": "..", "features": ["navigation.top", "navigation.indexes", "search.suggest", "search.highlight", "content.code.copy"], "search": "../assets/javascripts/workers/search.2c215733.min.js", "tags": null, "translations": {"clipboard.copied": "Copiado al portapapeles", "clipboard.copy": "Copiar al portapapeles", "search.result.more.one": "1 m\u00e1s en esta p\u00e1gina", "search.result.more.other": "# m\u00e1s en esta p\u00e1gina", "search.result.none": "No se encontraron documentos", "search.result.one": "1 documento encontrado", "search.result.other": "# documentos encontrados", "search.result.placeholder": "Teclee para comenzar b\u00fasqueda", "search.result.term.missing": "Falta", "select.version": "Seleccionar versi\u00f3n"}, "version": null}</script>
+    
+    
+      <script src="../assets/javascripts/bundle.d7400e89.min.js"></script>
+      
+    
+  </body>
+</html>

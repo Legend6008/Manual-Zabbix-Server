@@ -1,0 +1,4312 @@
+
+<!doctype html>
+<html lang="es" class="no-js">
+  <head>
+    
+      <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width,initial-scale=1">
+      
+        <meta name="description" content="Documentación técnica">
+      
+      
+        <meta name="author" content="Damian, Adrian, Mauro">
+      
+      
+      
+        <link rel="prev" href="../Monitoreo/dashboard.html">
+      
+      
+        <link rel="next" href="hardening1.html">
+      
+      
+        
+      
+      
+      <link rel="icon" href="../assets/images/favicon.png">
+      <meta name="generator" content="mkdocs-1.6.1, mkdocs-material-9.7.7">
+    
+    
+      
+        <title>Alertas - Manual de Servidor Zabbix</title>
+      
+    
+    
+      <link rel="stylesheet" href="../assets/stylesheets/main.ec1eaa64.min.css">
+      
+        
+        <link rel="stylesheet" href="../assets/stylesheets/palette.ab4e12ef.min.css">
+      
+      
+
+
+    
+    
+      
+    
+    
+      
+        
+        
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,300i,400,400i,700,700i%7CRoboto+Mono:400,400i,700,700i&display=fallback">
+        <style>:root{--md-text-font:"Roboto";--md-code-font:"Roboto Mono"}</style>
+      
+    
+    
+      <link rel="stylesheet" href="../stylesheets/extra1.css">
+    
+    <script>__md_scope=new URL("..",location),__md_hash=e=>[...e].reduce(((e,_)=>(e<<5)-e+_.charCodeAt(0)),0),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
+    
+      
+
+    
+    
+  </head>
+  
+  
+    
+    
+      
+    
+    
+    
+    
+    <body dir="ltr" data-md-color-scheme="slate" data-md-color-primary="blue-grey" data-md-color-accent="light-blue">
+  
+    
+    <input class="md-toggle" data-md-toggle="drawer" type="checkbox" id="__drawer" autocomplete="off">
+    <input class="md-toggle" data-md-toggle="search" type="checkbox" id="__search" autocomplete="off">
+    <label class="md-overlay" for="__drawer"></label>
+    <div data-md-component="skip">
+      
+        
+        <a href="#creacion-y-configuracion-de-alertas" class="md-skip">
+          Saltar a contenido
+        </a>
+      
+    </div>
+    <div data-md-component="announce">
+      
+    </div>
+    
+    
+      
+
+  
+
+<header class="md-header md-header--shadow" data-md-component="header">
+  <nav class="md-header__inner md-grid" aria-label="Cabecera">
+    <a href="../index.html" title="Manual de Servidor Zabbix" class="md-header__button md-logo" aria-label="Manual de Servidor Zabbix" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54"/></svg>
+
+    </a>
+    <label class="md-header__button md-icon" for="__drawer">
+      
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M3 6h18v2H3zm0 5h18v2H3zm0 5h18v2H3z"/></svg>
+    </label>
+    <div class="md-header__title" data-md-component="header-title">
+      <div class="md-header__ellipsis">
+        <div class="md-header__topic">
+          <span class="md-ellipsis">
+            Manual de Servidor Zabbix
+          </span>
+        </div>
+        <div class="md-header__topic" data-md-component="header-topic">
+          <span class="md-ellipsis">
+            
+              Alertas
+            
+          </span>
+        </div>
+      </div>
+    </div>
+    
+      
+        <form class="md-header__option" data-md-component="palette">
+  
+    
+    
+    
+    <input class="md-option" data-md-color-media="" data-md-color-scheme="slate" data-md-color-primary="blue-grey" data-md-color-accent="light-blue"  aria-hidden="true"  type="radio" name="__palette" id="__palette_0">
+    
+  
+</form>
+      
+    
+    
+      <script>var palette=__md_get("__palette");if(palette&&palette.color){if("(prefers-color-scheme)"===palette.color.media){var media=matchMedia("(prefers-color-scheme: light)"),input=document.querySelector(media.matches?"[data-md-color-media='(prefers-color-scheme: light)']":"[data-md-color-media='(prefers-color-scheme: dark)']");palette.color.media=input.getAttribute("data-md-color-media"),palette.color.scheme=input.getAttribute("data-md-color-scheme"),palette.color.primary=input.getAttribute("data-md-color-primary"),palette.color.accent=input.getAttribute("data-md-color-accent")}for(var[key,value]of Object.entries(palette.color))document.body.setAttribute("data-md-color-"+key,value)}</script>
+    
+    
+    
+      
+      
+        <label class="md-header__button md-icon" for="__search">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+        </label>
+        <div class="md-search" data-md-component="search" role="dialog">
+  <label class="md-search__overlay" for="__search"></label>
+  <div class="md-search__inner" role="search">
+    <form class="md-search__form" name="search">
+      <input type="text" class="md-search__input" name="query" aria-label="Búsqueda" placeholder="Búsqueda" autocapitalize="off" autocorrect="off" autocomplete="off" spellcheck="false" data-md-component="search-query" required>
+      <label class="md-search__icon md-icon" for="__search">
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11z"/></svg>
+      </label>
+      <nav class="md-search__options" aria-label="Buscar">
+        
+        <button type="reset" class="md-search__icon md-icon" title="Limpiar" aria-label="Limpiar" tabindex="-1">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M19 6.41 17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"/></svg>
+        </button>
+      </nav>
+      
+        <div class="md-search__suggest" data-md-component="search-suggest"></div>
+      
+    </form>
+    <div class="md-search__output">
+      <div class="md-search__scrollwrap" tabindex="0" data-md-scrollfix>
+        <div class="md-search-result" data-md-component="search-result">
+          <div class="md-search-result__meta">
+            Inicializando búsqueda
+          </div>
+          <ol class="md-search-result__list" role="presentation"></ol>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+      
+    
+    
+  </nav>
+  
+</header>
+    
+    <div class="md-container" data-md-component="container">
+      
+      
+        
+          
+        
+      
+      <main class="md-main" data-md-component="main">
+        <div class="md-main__inner md-grid">
+          
+            
+              
+              <div class="md-sidebar md-sidebar--primary" data-md-component="sidebar" data-md-type="navigation" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+
+
+<nav class="md-nav md-nav--primary" aria-label="Navegación" data-md-level="0">
+  <label class="md-nav__title" for="__drawer">
+    <a href="../index.html" title="Manual de Servidor Zabbix" class="md-nav__button md-logo" aria-label="Manual de Servidor Zabbix" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54"/></svg>
+
+    </a>
+    Manual de Servidor Zabbix
+  </label>
+  
+  <ul class="md-nav__list" data-md-scrollfix>
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../index.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Introduccion
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+      
+        
+      
+        
+      
+        
+      
+    
+    
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_2" >
+        
+          
+          <label class="md-nav__link" for="__nav_2" id="__nav_2_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Servidor
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_2_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_2">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Servidor
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../Servidor/instalacion.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Instalacion
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../Servidor/configuracion.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Configuración
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../Servidor/servicios.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Servicios
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+      
+        
+      
+        
+      
+    
+    
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_3" >
+        
+          
+          <label class="md-nav__link" for="__nav_3" id="__nav_3_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Agentes
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_3_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_3">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Agentes
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../Agentes/ubuntu.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Ubuntu - kali
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../Agentes/windows11.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Windows 10 - 11
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+      
+        
+      
+        
+      
+        
+      
+        
+      
+    
+    
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_4" >
+        
+          
+          <label class="md-nav__link" for="__nav_4" id="__nav_4_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Monitoreo
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_4_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_4">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Monitoreo
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../Monitoreo/alertastelegram.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Telegram
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../Monitoreo/alertacorreo.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Correo
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../Monitoreo/snmp.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    SNMP
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../Monitoreo/dashboard.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Dashboard
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+    
+  
+  
+  
+    
+    
+      
+        
+      
+        
+      
+    
+    
+    
+    
+    <li class="md-nav__item md-nav__item--active md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_5" checked>
+        
+          
+          <label class="md-nav__link" for="__nav_5" id="__nav_5_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Seguridad
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_5_label" aria-expanded="true">
+          <label class="md-nav__title" for="__nav_5">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Seguridad
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+    
+  
+  
+  
+    <li class="md-nav__item md-nav__item--active">
+      
+      <input class="md-nav__toggle md-toggle" type="checkbox" id="__toc">
+      
+      
+        
+      
+      
+        <label class="md-nav__link md-nav__link--active" for="__toc">
+          
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Alertas
+  
+
+    
+  </span>
+  
+  
+
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <a href="alertas.html" class="md-nav__link md-nav__link--active">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Alertas
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+      
+        
+
+<nav class="md-nav md-nav--secondary" aria-label="Tabla de contenidos">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Tabla de contenidos
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#1-espacio-libre-en-disco" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        1. Espacio libre en disco
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="1. Espacio libre en disco">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#11-crear-el-item" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        1.1. Crear el item
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#12-crear-el-trigger" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        1.2. Crear el trigger
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#forzarmor-alerta-espacio-libre-en-disco" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Forzarmor alerta espacio libre en disco:
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#2-uso-de-cpu" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        2. Uso de CPU
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="2. Uso de CPU">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#21-crear-el-item" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        2.1. Crear el item
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#22-crear-el-trigger" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        2.2. Crear el trigger
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#forzar-alerta-por-alto-uso-de-cpu" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Forzar alerta por alto uso de CPU
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Forzar alerta por alto uso de CPU">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#instalar-stress-ng" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Instalar stress-ng
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#forzar-el-uso-de-cpu" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Forzar el uso de CPU
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#explicacion-de-los-parametros" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Explicación de los parámetros
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#detener-la-prueba-antes-de-tiempo" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Detener la prueba antes de tiempo
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#3-memoria-ram-disponible" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        3. Memoria RAM disponible
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="3. Memoria RAM disponible">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#31-crear-el-item" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        3.1. Crear el item
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#32-crear-el-trigger" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        3.2. Crear el trigger
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#33-configurar-la-expresion-de-recuperacion-de-memoria-ram-en-windows-11" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        3.3 Configurar la expresión de recuperación de memoria RAM en Windows 11
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#34-expresion-de-problema" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        3.4 Expresión de problema
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#35-expresion-de-recuperacion" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        3.5 Expresión de recuperación
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#36-comportamiento-que-se-espera" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        3.6 Comportamiento que se espera
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#resultado" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Resultado
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#forzar-alerta-en-ubuntu" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Forzar alerta en Ubuntu
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Forzar alerta en Ubuntu">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#instalar-la-herramienta" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Instalar la herramienta
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#generar-consumo-de-memoria" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Generar consumo de memoria
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#explicacion-de-los-parametros_1" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Explicación de los parámetros
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#verificar-la-memoria-ram-disponible" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Verificar la memoria RAM disponible
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#detener-la-prueba" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Detener la prueba
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#precaucion" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Precaución
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#forzar-alerta-en-windows-11-ltsc" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Forzar alerta en Windows 11 LTSC
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Forzar alerta en Windows 11 LTSC">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#abrir-powershell-como-administrador" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Abrir PowerShell como administrador
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#consumir-memoria-ram" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Consumir memoria RAM
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#verificar-la-memoria-disponible" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Verificar la memoria disponible
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#liberar-la-memoria" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Liberar la memoria
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#precaucion_1" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Precaución
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#4-estado-del-servicio-web" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        4. Estado del servicio web
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="4. Estado del servicio web">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#41-crear-el-item" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        4.1. Crear el item
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#42-crear-el-trigger" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        4.2. Crear el trigger
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#forzar-una-alerta-por-caida-del-servicio-http-en-ubuntu" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Forzar una alerta por caída del servicio HTTP en Ubuntu
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Forzar una alerta por caída del servicio HTTP en Ubuntu">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#verificar-que-servicio-utiliza-el-puerto-80" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Verificar qué servicio utiliza el puerto 80
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#detener-el-servicio" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Detener el servicio
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#alerta-esperada" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Alerta esperada
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#comprobar-que-el-puerto-esta-cerrado" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Comprobar que el puerto está cerrado
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#recuperar-el-servicio" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Recuperar el servicio
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#resultado-esperado" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Resultado esperado
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#5-linux-cpu-idle-time" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        5. Linux CPU Idle Time
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="5. Linux CPU Idle Time">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#51-crear-el-item" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        5.1. Crear el item
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#52-crear-el-trigger" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        5.2. Crear el trigger
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#forzar-una-alerta-por-bajo-cpu-idle-time-en-ubuntu" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Forzar una alerta por bajo CPU Idle Time en Ubuntu
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Forzar una alerta por bajo CPU Idle Time en Ubuntu">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#instalar-stress-ng_1" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Instalar stress-ng
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#generar-carga-de-cpu" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Generar carga de CPU
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#verificar-el-uso-de-cpu" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Verificar el uso de CPU
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#detener-la-prueba_1" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Detener la prueba
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#resultado-esperado_1" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Resultado esperado
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#6-uptime" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        6. Uptime
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="6. Uptime">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#61-crear-el-item" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        6.1. Crear el item
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#62-crear-el-trigger" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        6.2. Crear el trigger
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#7-logs-fallidos-de-inicio-de-sesion" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        7. Logs fallidos de inicio de sesión
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="7. Logs fallidos de inicio de sesión">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#71-verificar-el-registro-de-autenticacion" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        7.1. Verificar el registro de autenticación
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#72-crear-el-item" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        7.2. Crear el item
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#73-crear-el-trigger" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        7.3. Crear el trigger
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#forzar-alerta-por-ssh-o-terminal-de-ubuntu" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Forzar Alerta por SSH o terminal de Ubuntu
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Forzar Alerta por SSH o terminal de Ubuntu">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#verificar-los-registros-del-sistema" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Verificar los registros del sistema
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#comprobar-la-alerta-en-zabbix" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Comprobar la alerta en Zabbix
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#resultado-esperado_2" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Resultado esperado
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#8-trafico-de-red-entrante" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        8. Tráfico de red entrante
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="8. Tráfico de red entrante">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#81-identificar-la-interfaz-de-red" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        8.1. Identificar la interfaz de red
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#82-crear-el-item" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        8.2. Crear el item
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#83-crear-el-trigger" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        8.3. Crear el trigger
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#forzar-alerta-trafico-entrante" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Forzar alerta trafico entrante
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Forzar alerta trafico entrante">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#descargar-iperf3" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Descargar iperf3
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#extraer-los-archivos" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Extraer los archivos
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#ejecutar-desde-powershell" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Ejecutar desde PowerShell
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#realizar-la-prueba-de-trafico" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Realizar la prueba de tráfico
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#resultado-esperado_3" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Resultado esperado
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#9-verificacion-de-los-items-y-triggers" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        9. Verificación de los items y triggers
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="9. Verificación de los items y triggers">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#91-verificar-los-items" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        9.1. Verificar los items
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#92-verificar-los-triggers" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        9.2. Verificar los triggers
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#93-consideraciones-finales" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        9.3. Consideraciones finales
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="hardening1.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Hardening
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+      
+        
+      
+        
+      
+    
+    
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_6" >
+        
+          
+          <label class="md-nav__link" for="__nav_6" id="__nav_6_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Conectividad
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_6_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_6">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Conectividad
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../Conectividad/tailscale.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Tailscale
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../Conectividad/ssh.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    SSH
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+      
+        
+      
+        
+      
+        
+      
+        
+      
+    
+    
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_7" >
+        
+          
+          <label class="md-nav__link" for="__nav_7" id="__nav_7_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Problemas
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_7_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_7">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Problemas
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../Problemas/errortelegram.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Errores Telegram
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../Problemas/errores-agentes.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Errores Agentes
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../Problemas/errorssh.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Errores SSH
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../Problemas/errorsnmp.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Errores SNMP
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+      
+        
+      
+    
+    
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_8" >
+        
+          
+          <label class="md-nav__link" for="__nav_8" id="__nav_8_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Referencias
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_8_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_8">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Referencias
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../Referencias/documentacion-oficial.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Documentacion-oficial
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+  </ul>
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+            
+              
+              <div class="md-sidebar md-sidebar--secondary" data-md-component="sidebar" data-md-type="toc" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+<nav class="md-nav md-nav--secondary" aria-label="Tabla de contenidos">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Tabla de contenidos
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#1-espacio-libre-en-disco" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        1. Espacio libre en disco
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="1. Espacio libre en disco">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#11-crear-el-item" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        1.1. Crear el item
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#12-crear-el-trigger" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        1.2. Crear el trigger
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#forzarmor-alerta-espacio-libre-en-disco" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Forzarmor alerta espacio libre en disco:
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#2-uso-de-cpu" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        2. Uso de CPU
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="2. Uso de CPU">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#21-crear-el-item" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        2.1. Crear el item
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#22-crear-el-trigger" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        2.2. Crear el trigger
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#forzar-alerta-por-alto-uso-de-cpu" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Forzar alerta por alto uso de CPU
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Forzar alerta por alto uso de CPU">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#instalar-stress-ng" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Instalar stress-ng
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#forzar-el-uso-de-cpu" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Forzar el uso de CPU
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#explicacion-de-los-parametros" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Explicación de los parámetros
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#detener-la-prueba-antes-de-tiempo" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Detener la prueba antes de tiempo
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#3-memoria-ram-disponible" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        3. Memoria RAM disponible
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="3. Memoria RAM disponible">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#31-crear-el-item" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        3.1. Crear el item
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#32-crear-el-trigger" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        3.2. Crear el trigger
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#33-configurar-la-expresion-de-recuperacion-de-memoria-ram-en-windows-11" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        3.3 Configurar la expresión de recuperación de memoria RAM en Windows 11
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#34-expresion-de-problema" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        3.4 Expresión de problema
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#35-expresion-de-recuperacion" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        3.5 Expresión de recuperación
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#36-comportamiento-que-se-espera" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        3.6 Comportamiento que se espera
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#resultado" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Resultado
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#forzar-alerta-en-ubuntu" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Forzar alerta en Ubuntu
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Forzar alerta en Ubuntu">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#instalar-la-herramienta" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Instalar la herramienta
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#generar-consumo-de-memoria" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Generar consumo de memoria
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#explicacion-de-los-parametros_1" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Explicación de los parámetros
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#verificar-la-memoria-ram-disponible" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Verificar la memoria RAM disponible
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#detener-la-prueba" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Detener la prueba
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#precaucion" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Precaución
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#forzar-alerta-en-windows-11-ltsc" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Forzar alerta en Windows 11 LTSC
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Forzar alerta en Windows 11 LTSC">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#abrir-powershell-como-administrador" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Abrir PowerShell como administrador
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#consumir-memoria-ram" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Consumir memoria RAM
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#verificar-la-memoria-disponible" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Verificar la memoria disponible
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#liberar-la-memoria" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Liberar la memoria
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#precaucion_1" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Precaución
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#4-estado-del-servicio-web" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        4. Estado del servicio web
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="4. Estado del servicio web">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#41-crear-el-item" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        4.1. Crear el item
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#42-crear-el-trigger" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        4.2. Crear el trigger
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#forzar-una-alerta-por-caida-del-servicio-http-en-ubuntu" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Forzar una alerta por caída del servicio HTTP en Ubuntu
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Forzar una alerta por caída del servicio HTTP en Ubuntu">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#verificar-que-servicio-utiliza-el-puerto-80" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Verificar qué servicio utiliza el puerto 80
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#detener-el-servicio" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Detener el servicio
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#alerta-esperada" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Alerta esperada
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#comprobar-que-el-puerto-esta-cerrado" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Comprobar que el puerto está cerrado
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#recuperar-el-servicio" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Recuperar el servicio
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#resultado-esperado" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Resultado esperado
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#5-linux-cpu-idle-time" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        5. Linux CPU Idle Time
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="5. Linux CPU Idle Time">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#51-crear-el-item" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        5.1. Crear el item
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#52-crear-el-trigger" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        5.2. Crear el trigger
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#forzar-una-alerta-por-bajo-cpu-idle-time-en-ubuntu" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Forzar una alerta por bajo CPU Idle Time en Ubuntu
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Forzar una alerta por bajo CPU Idle Time en Ubuntu">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#instalar-stress-ng_1" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Instalar stress-ng
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#generar-carga-de-cpu" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Generar carga de CPU
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#verificar-el-uso-de-cpu" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Verificar el uso de CPU
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#detener-la-prueba_1" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Detener la prueba
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#resultado-esperado_1" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Resultado esperado
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#6-uptime" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        6. Uptime
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="6. Uptime">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#61-crear-el-item" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        6.1. Crear el item
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#62-crear-el-trigger" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        6.2. Crear el trigger
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#7-logs-fallidos-de-inicio-de-sesion" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        7. Logs fallidos de inicio de sesión
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="7. Logs fallidos de inicio de sesión">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#71-verificar-el-registro-de-autenticacion" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        7.1. Verificar el registro de autenticación
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#72-crear-el-item" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        7.2. Crear el item
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#73-crear-el-trigger" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        7.3. Crear el trigger
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#forzar-alerta-por-ssh-o-terminal-de-ubuntu" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Forzar Alerta por SSH o terminal de Ubuntu
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Forzar Alerta por SSH o terminal de Ubuntu">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#verificar-los-registros-del-sistema" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Verificar los registros del sistema
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#comprobar-la-alerta-en-zabbix" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Comprobar la alerta en Zabbix
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#resultado-esperado_2" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Resultado esperado
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#8-trafico-de-red-entrante" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        8. Tráfico de red entrante
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="8. Tráfico de red entrante">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#81-identificar-la-interfaz-de-red" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        8.1. Identificar la interfaz de red
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#82-crear-el-item" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        8.2. Crear el item
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#83-crear-el-trigger" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        8.3. Crear el trigger
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#forzar-alerta-trafico-entrante" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Forzar alerta trafico entrante
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Forzar alerta trafico entrante">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#descargar-iperf3" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Descargar iperf3
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#extraer-los-archivos" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Extraer los archivos
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#ejecutar-desde-powershell" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Ejecutar desde PowerShell
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#realizar-la-prueba-de-trafico" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Realizar la prueba de tráfico
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#resultado-esperado_3" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Resultado esperado
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#9-verificacion-de-los-items-y-triggers" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        9. Verificación de los items y triggers
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="9. Verificación de los items y triggers">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#91-verificar-los-items" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        9.1. Verificar los items
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#92-verificar-los-triggers" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        9.2. Verificar los triggers
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#93-consideraciones-finales" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        9.3. Consideraciones finales
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+          
+          
+            <div class="md-content" data-md-component="content">
+              
+              <article class="md-content__inner md-typeset">
+                
+                  
+
+
+
+<h1 id="creacion-y-configuracion-de-alertas">Creacion y Configuración de alertas<a class="headerlink" href="#creacion-y-configuracion-de-alertas" title="Permanent link">&para;</a></h1>
+<p><strong>A tener en cuenta:</strong> los hostnames, se deben remplazar por los nombres reales registrados en zabbix. </p>
+<h2 id="1-espacio-libre-en-disco">1. Espacio libre en disco<a class="headerlink" href="#1-espacio-libre-en-disco" title="Permanent link">&para;</a></h2>
+<p><strong>Equipo:</strong> NOTEBOOK UBUNTU<br />
+<strong>Objetivo:</strong> detectar cuándo el espacio libre de la partición raíz es insuficiente.</p>
+<h3 id="11-crear-el-item">1.1. Crear el item<a class="headerlink" href="#11-crear-el-item" title="Permanent link">&para;</a></h3>
+<ol>
+<li>Ingresar a la interfaz web de Zabbix.</li>
+<li>Ir a <strong>Data collection → Hosts</strong>.</li>
+<li>Seleccionar el host correspondiente a NOTEBOOK UBUNTU.</li>
+<li>Abrir la pestaña <strong>Items</strong> y presionar <strong>Create item</strong>.</li>
+<li>Completar los siguientes campos:</li>
+</ol>
+<table>
+<thead>
+<tr>
+<th>Campo</th>
+<th>Valor</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Name</td>
+<td><code>Espacio libre en la particion raíz</code></td>
+</tr>
+<tr>
+<td>Type</td>
+<td><code>Zabbix agent</code></td>
+</tr>
+<tr>
+<td>Key</td>
+<td><code>vfs.fs.size[/,pfree]</code></td>
+</tr>
+<tr>
+<td>Type of information</td>
+<td><code>Numeric (float)</code></td>
+</tr>
+<tr>
+<td>Host Interface</td>
+<td><code>127.0.0.1:10050</code></td>
+</tr>
+<tr>
+<td>Units</td>
+<td><code>%</code></td>
+</tr>
+<tr>
+<td>Update interval</td>
+<td><code>1s</code></td>
+</tr>
+<tr>
+<td>Enabled</td>
+<td><code>Sí</code></td>
+</tr>
+</tbody>
+</table>
+<p><img alt="Panel principal de Zabbix" src="../Imagenes/Triggers%20e%20Items/Triggers%20e%20Items/Trigger1/Item1/1.ItemEspacioen%20disco.png" /></p>
+<ol>
+<li>Guardar el item con <strong>Add</strong>.</li>
+</ol>
+<p>Este item mide el porcentaje de espacio libre de la partición raíz <code>/</code>.</p>
+<h3 id="12-crear-el-trigger">1.2. Crear el trigger<a class="headerlink" href="#12-crear-el-trigger" title="Permanent link">&para;</a></h3>
+<ol>
+<li>Ingresar al host y abrir la pestaña <strong>Triggers</strong>.</li>
+<li>Presionar <strong>Create trigger</strong>.</li>
+<li>Completar los campos:</li>
+</ol>
+<table>
+<thead>
+<tr>
+<th>Campo</th>
+<th>Valor</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Name</td>
+<td><code>Poco espacio libre en disco raiz (&lt;10%)</code></td>
+</tr>
+<tr>
+<td>Severity</td>
+<td><code>High</code></td>
+</tr>
+<tr>
+<td>Expression</td>
+<td><code>last(/NOTEBOOK_UBUNTU/vfs.fs.size[/,pfree])&lt;10</code></td>
+</tr>
+</tbody>
+</table>
+<p><img alt="Panel principal de Zabbix" src="../Imagenes/Triggers%20e%20Items/Triggers%20e%20Items/Trigger1/1.TriggerDeespacioendisco.png" /></p>
+<ol>
+<li>Guardar el trigger.</li>
+</ol>
+<p><strong>Funcionamiento:</strong> se genera una alerta cuando queda menos del 10 % de espacio libre.</p>
+<h2 id="forzarmor-alerta-espacio-libre-en-disco">Forzarmor alerta espacio libre en disco:<a class="headerlink" href="#forzarmor-alerta-espacio-libre-en-disco" title="Permanent link">&para;</a></h2>
+<p>Para forzar la alerta de poco espacio en disco en tu Ubuntu, puedes llenar temporalmente espacio en la partición raíz con fallocate.
+Opción recomendada
+Primero verifica el espacio disponible:
+<div class="highlight"><pre><span></span><code>df<span class="w"> </span>-h<span class="w"> </span>/
+</code></pre></div></p>
+<p>Luego crea un archivo grande:</p>
+<div class="highlight"><pre><span></span><code>sudo<span class="w"> </span>fallocate<span class="w"> </span>-l<span class="w"> </span>10G<span class="w"> </span>/tmp/zabbix-test.img
+</code></pre></div>
+<p>Verifica nuevamente:</p>
+<div class="highlight"><pre><span></span><code>df<span class="w"> </span>-h<span class="w"> </span>/
+</code></pre></div>
+<p>Si tu trigger se activa cuando el espacio libre baja, aumenta el tamaño según sea necesario:</p>
+<div class="highlight"><pre><span></span><code>sudo<span class="w"> </span>fallocate<span class="w"> </span>-l<span class="w"> </span>20G<span class="w"> </span>/tmp/zabbix-test.img
+</code></pre></div>
+<p>Para eliminar el archivo y recuperar el espacio</p>
+<div class="highlight"><pre><span></span><code>sudo<span class="w"> </span>rm<span class="w"> </span>/tmp/zabbix-test.img
+</code></pre></div>
+<p>Y verifica:</p>
+<div class="highlight"><pre><span></span><code>df<span class="w"> </span>-h<span class="w"> </span>/
+</code></pre></div>
+<p>Importante: no debemos llenar el disco completamente. Deja siempre algo de espacio libre para evitar problemas en Ubuntu.</p>
+<hr />
+<h2 id="2-uso-de-cpu">2. Uso de CPU<a class="headerlink" href="#2-uso-de-cpu" title="Permanent link">&para;</a></h2>
+<p><strong>Equipo:</strong> Notebook Ubuntu</p>
+<p><strong>Objetivo:</strong> detectar un uso excesivo del procesador durante varios minutos.</p>
+<h3 id="21-crear-el-item">2.1. Crear el item<a class="headerlink" href="#21-crear-el-item" title="Permanent link">&para;</a></h3>
+<ol>
+<li>Ingresar a <strong>Data collection → Hosts</strong>.</li>
+<li>Seleccionar Notebook Ubuntu.</li>
+<li>Abrir <strong>Items → Create item</strong>.</li>
+<li>Configurar:</li>
+</ol>
+<table>
+<thead>
+<tr>
+<th>Campo</th>
+<th>Valor</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Name</td>
+<td><code>Linux: CPU idle time</code></td>
+</tr>
+<tr>
+<td>Type</td>
+<td><code>Zabbix agent</code></td>
+</tr>
+<tr>
+<td>Key</td>
+<td><code>system.cpu.util[,idle]</code></td>
+</tr>
+<tr>
+<td>Type of information</td>
+<td><code>Numeric (float)</code></td>
+</tr>
+<tr>
+<td>Units</td>
+<td><code>%</code></td>
+</tr>
+<tr>
+<td>Update interval</td>
+<td><code>10s</code></td>
+</tr>
+<tr>
+<td>Enabled</td>
+<td><code>Sí</code></td>
+</tr>
+</tbody>
+</table>
+<p><img alt="Panel principal de Zabbix" src="../Imagenes/Triggers%20e%20Items/Triggers%20e%20Items/Trigger2/Item2/Carga%20de%20CPU.png" /></p>
+<ol>
+<li>Presionar <strong>Add</strong>.</li>
+</ol>
+<p>El item mide el porcentaje de tiempo de CPU utilizado en modo sistema.</p>
+<h3 id="22-crear-el-trigger">2.2. Crear el trigger<a class="headerlink" href="#22-crear-el-trigger" title="Permanent link">&para;</a></h3>
+<ol>
+<li>Abrir <strong>Triggers → Create trigger</strong>.</li>
+<li>Completar:</li>
+</ol>
+<table>
+<thead>
+<tr>
+<th>Campo</th>
+<th>Valor</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Name</td>
+<td><code>Alerta por uso elevado de CPU</code></td>
+</tr>
+<tr>
+<td>Severity</td>
+<td><code>High</code></td>
+</tr>
+<tr>
+<td>Expression</td>
+<td><code>avg(/adrian/system.cpu.util[,idle],5m)&lt;60</code></td>
+</tr>
+</tbody>
+</table>
+<p><img alt="Panel principal de Zabbix" src="../Imagenes/Triggers%20e%20Items/Triggers%20e%20Items/Trigger2/2.TriggerdeCPUallimite.png" /></p>
+<h2 id="forzar-alerta-por-alto-uso-de-cpu">Forzar alerta por alto uso de CPU<a class="headerlink" href="#forzar-alerta-por-alto-uso-de-cpu" title="Permanent link">&para;</a></h2>
+<p>Para comprobar el funcionamiento de una alerta de <strong>alto uso de CPU</strong> en Zabbix, podemos generar una carga temporal en el equipo Ubuntu.</p>
+<h3 id="instalar-stress-ng">Instalar <code>stress-ng</code><a class="headerlink" href="#instalar-stress-ng" title="Permanent link">&para;</a></h3>
+<p>Primero, actualizamos los repositorios e instalamos la herramienta:</p>
+<div class="highlight"><pre><span></span><code>sudo<span class="w"> </span>apt<span class="w"> </span>update
+sudo<span class="w"> </span>apt<span class="w"> </span>install<span class="w"> </span>stress-ng<span class="w"> </span>-y
+</code></pre></div>
+<p><code>stress-ng</code> permite generar carga controlada sobre diferentes recursos del sistema, como CPU, memoria y disco.</p>
+<hr />
+<h3 id="forzar-el-uso-de-cpu">Forzar el uso de CPU<a class="headerlink" href="#forzar-el-uso-de-cpu" title="Permanent link">&para;</a></h3>
+<p>Para utilizar todos los núcleos disponibles durante <strong>5 minutos</strong>, ejecutamos:</p>
+<div class="highlight"><pre><span></span><code>stress-ng<span class="w"> </span>--cpu<span class="w"> </span><span class="m">0</span><span class="w"> </span>--timeout<span class="w"> </span>5m
+</code></pre></div>
+<h3 id="explicacion-de-los-parametros">Explicación de los parámetros<a class="headerlink" href="#explicacion-de-los-parametros" title="Permanent link">&para;</a></h3>
+<ul>
+<li><code>--cpu 0</code>: utiliza <strong>todos los núcleos disponibles</strong> del procesador.</li>
+<li><code>--timeout 5m</code>: mantiene la carga durante <strong>5 minutos</strong>.</li>
+</ul>
+<p>Durante este período, Zabbix debería detectar el aumento en la utilización del procesador. Si el valor supera el umbral configurado en el <strong>trigger</strong>, se generará una alerta.</p>
+<p><img alt="Panel principal de Zabbix" src="../Imagenes/Triggers%20e%20Items/Triggers%20e%20Items/Trigger2/alerta.png" /></p>
+<hr />
+<h3 id="detener-la-prueba-antes-de-tiempo">Detener la prueba antes de tiempo<a class="headerlink" href="#detener-la-prueba-antes-de-tiempo" title="Permanent link">&para;</a></h3>
+<p>Si necesitamos finalizar la prueba antes de que termine el tiempo configurado:</p>
+<div class="highlight"><pre><span></span><code>pkill<span class="w"> </span>stress-ng
+</code></pre></div>
+<p>Este comando finaliza los procesos de <code>stress-ng</code> que se encuentren ejecutándose.</p>
+<blockquote>
+<p><strong>Importante:</strong> una vez finalizada la carga, el uso de CPU debería volver a valores normales y la alerta de Zabbix debería resolverse automáticamente, dependiendo de la configuración del trigger.</p>
+</blockquote>
+<ol>
+<li>Guardar el trigger.</li>
+</ol>
+<p><strong>Funcionamiento:</strong> la alerta se activa cuando el uso de CPU en modo sistema supera el 85 % de promedio durante cinco minutos.</p>
+<blockquote>
+<p>Esta métrica mide específicamente el tiempo de CPU en modo sistema, no todo el uso del procesador. Para una alerta de uso total, conviene utilizar una métrica de utilización global de CPU.</p>
+</blockquote>
+<hr />
+<h2 id="3-memoria-ram-disponible">3. Memoria RAM disponible<a class="headerlink" href="#3-memoria-ram-disponible" title="Permanent link">&para;</a></h2>
+<p><strong>Equipo:</strong> WINDOWS 11 LTSC<br />
+<strong>Objetivo:</strong> detectar una cantidad crítica de memoria RAM disponible.</p>
+<h3 id="31-crear-el-item">3.1. Crear el item<a class="headerlink" href="#31-crear-el-item" title="Permanent link">&para;</a></h3>
+<ol>
+<li>Ir a <strong>Data collection → Hosts</strong>.</li>
+<li>Seleccionar el host de Windows 11 LTSC.</li>
+<li>Abrir <strong>Items → Create item</strong>.</li>
+<li>Configurar:</li>
+</ol>
+<table>
+<thead>
+<tr>
+<th>Campo</th>
+<th>Valor</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Name</td>
+<td><code>Memoria RAM disponible</code></td>
+</tr>
+<tr>
+<td>Type</td>
+<td><code>Zabbix agent</code></td>
+</tr>
+<tr>
+<td>Key</td>
+<td><code>vm.memory.size[available]</code></td>
+</tr>
+<tr>
+<td>Type of information</td>
+<td><code>Numeric (float)</code></td>
+</tr>
+<tr>
+<td>Units</td>
+<td><code>%</code></td>
+</tr>
+<tr>
+<td>Update interval</td>
+<td><code>1m</code></td>
+</tr>
+<tr>
+<td>Enabled</td>
+<td><code>Sí</code></td>
+</tr>
+</tbody>
+</table>
+<p><img alt="Panel principal de Zabbix" src="../Imagenes/Triggers%20e%20Items/Triggers%20e%20Items/Trigger3/Item3/3.MemoriaRamdisponible.png" /></p>
+<ol>
+<li>Presionar <strong>Add</strong>.</li>
+</ol>
+<p>El item registra el porcentaje de memoria disponible.</p>
+<h3 id="32-crear-el-trigger">3.2. Crear el trigger<a class="headerlink" href="#32-crear-el-trigger" title="Permanent link">&para;</a></h3>
+<ol>
+<li>Ingresar a <strong>Triggers → Create trigger</strong>.</li>
+<li>Completar:</li>
+</ol>
+<table>
+<thead>
+<tr>
+<th>Campo</th>
+<th>Valor</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Name</td>
+<td><code>Poca memoria RAM disponible</code></td>
+</tr>
+<tr>
+<td>Severity</td>
+<td><code>High</code></td>
+</tr>
+<tr>
+<td>Expression</td>
+<td><code>last(/agentwin11/vm.memory.size[available]&lt;9663676416</code></td>
+</tr>
+</tbody>
+</table>
+<p><img alt="Panel principal de Zabbix" src="../Imagenes/Triggers%20e%20Items/Triggers%20e%20Items/Trigger3/4.TriggerdeMemoriaRAMcritica.png" /></p>
+<ol>
+<li>Guardar el trigger.</li>
+</ol>
+<h3 id="33-configurar-la-expresion-de-recuperacion-de-memoria-ram-en-windows-11">3.3 Configurar la expresión de recuperación de memoria RAM en Windows 11<a class="headerlink" href="#33-configurar-la-expresion-de-recuperacion-de-memoria-ram-en-windows-11" title="Permanent link">&para;</a></h3>
+<p>Para que la alerta de memoria RAM se resuelva automáticamente cuando el equipo recupere suficiente memoria disponible, debemos configurar una <strong>Expresión de recuperación (Recovery expression)</strong> en el trigger de Zabbix.</p>
+<h3 id="34-expresion-de-problema">3.4 Expresión de problema<a class="headerlink" href="#34-expresion-de-problema" title="Permanent link">&para;</a></h3>
+<p>Mantené la expresión original para activar la alerta cuando la memoria disponible sea inferior a 9 GiB:</p>
+<div class="highlight"><pre><span></span><code>last(/agentwin11/vm.memory.size[available],#1) &lt; 9663676416
+</code></pre></div>
+<h3 id="35-expresion-de-recuperacion">3.5 Expresión de recuperación<a class="headerlink" href="#35-expresion-de-recuperacion" title="Permanent link">&para;</a></h3>
+<p>En la configuración del trigger, habilitá la opción <strong>Recovery expression</strong> y colocá:</p>
+<div class="highlight"><pre><span></span><code>last(/agentwin11/vm.memory.size[available],#1) &gt; 9663676416
+</code></pre></div>
+<h3 id="36-comportamiento-que-se-espera">3.6 Comportamiento que se espera<a class="headerlink" href="#36-comportamiento-que-se-espera" title="Permanent link">&para;</a></h3>
+<table>
+<thead>
+<tr>
+<th>Memoria disponible</th>
+<th>Estado</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Más de 9 GiB</td>
+<td>OK</td>
+</tr>
+<tr>
+<td>Menos de 9 GiB</td>
+<td>PROBLEM</td>
+</tr>
+<tr>
+<td>Vuelve a superar 9 GiB</td>
+<td>RECUPERADO</td>
+</tr>
+</tbody>
+</table>
+<p><img alt="Panel principal de Zabbix" src="../Imagenes/Triggers%20e%20Items/Triggers%20e%20Items/Trigger3/alerta.png" /></p>
+<h3 id="resultado">Resultado<a class="headerlink" href="#resultado" title="Permanent link">&para;</a></h3>
+<p>Con esta configuración, Zabbix activa la alerta cuando la memoria disponible cae por debajo de 9 GiB y la resuelve automáticamente cuando vuelve a superar ese valor, sin necesidad de intervención manual.</p>
+<p><strong>Importante:</strong> no reemplaces la expresión de problema. Ambas expresiones deben permanecer configuradas por separado: una para detectar el problema y otra para determinar su recuperación.</p>
+<p><strong>Funcionamiento:</strong> la alerta se activa cuando la memoria disponible permanece por debajo del 10 % durante el período evaluado.</p>
+<blockquote>
+<p>Reemplazar <code>agentwin11</code> por el nombre técnico real del host. Verificar que el agente instalado admita la clave <code>vm.memory.size[pavailable]</code>.</p>
+</blockquote>
+<h2 id="forzar-alerta-en-ubuntu">Forzar alerta en Ubuntu<a class="headerlink" href="#forzar-alerta-en-ubuntu" title="Permanent link">&para;</a></h2>
+<p>Para comprobar el funcionamiento de una alerta de <strong>memoria RAM disponible baja</strong> en Zabbix, podemos utilizar <code>stress-ng</code> para generar un consumo controlado de memoria en Ubuntu.</p>
+<h3 id="instalar-la-herramienta">Instalar la herramienta<a class="headerlink" href="#instalar-la-herramienta" title="Permanent link">&para;</a></h3>
+<p>Actualizamos los repositorios e instalamos <code>stress-ng</code>:</p>
+<div class="highlight"><pre><span></span><code>sudo<span class="w"> </span>apt<span class="w"> </span>update
+sudo<span class="w"> </span>apt<span class="w"> </span>install<span class="w"> </span>stress-ng<span class="w"> </span>-y
+</code></pre></div>
+<h3 id="generar-consumo-de-memoria">Generar consumo de memoria<a class="headerlink" href="#generar-consumo-de-memoria" title="Permanent link">&para;</a></h3>
+<p>Para consumir aproximadamente 2 GB de RAM durante 5 minutos, ejecutamos:</p>
+<div class="highlight"><pre><span></span><code>stress-ng<span class="w"> </span>--vm<span class="w"> </span><span class="m">1</span><span class="w"> </span>--vm-bytes<span class="w"> </span>2G<span class="w"> </span>--vm-keep<span class="w"> </span>--timeout<span class="w"> </span>5m
+</code></pre></div>
+<h3 id="explicacion-de-los-parametros_1">Explicación de los parámetros<a class="headerlink" href="#explicacion-de-los-parametros_1" title="Permanent link">&para;</a></h3>
+<ul>
+<li><code>--vm 1</code>: crea un proceso que genera consumo de memoria.</li>
+<li><code>--vm-bytes 2G</code>: solicita aproximadamente 2 GB de memoria.</li>
+<li><code>--vm-keep</code>: mantiene la memoria ocupada durante la prueba.</li>
+<li><code>--timeout 5m</code>: establece una duración de 5 minutos.</li>
+</ul>
+<p>Durante este período, Zabbix debería detectar la disminución de memoria disponible. Si el valor cae por debajo del umbral configurado en el <strong>trigger</strong>, se generará una alerta.</p>
+<h3 id="verificar-la-memoria-ram-disponible">Verificar la memoria RAM disponible<a class="headerlink" href="#verificar-la-memoria-ram-disponible" title="Permanent link">&para;</a></h3>
+<p>En otra terminal, ejecutamos:</p>
+<div class="highlight"><pre><span></span><code>free<span class="w"> </span>-h
+</code></pre></div>
+<p>Este comando permite consultar la memoria total, utilizada, disponible y el uso de swap.</p>
+<p>También podemos observar los procesos que consumen más memoria:</p>
+<div class="highlight"><pre><span></span><code>top
+</code></pre></div>
+<h3 id="detener-la-prueba">Detener la prueba<a class="headerlink" href="#detener-la-prueba" title="Permanent link">&para;</a></h3>
+<p>Para finalizar la prueba antes de que termine el tiempo configurado:</p>
+<div class="highlight"><pre><span></span><code>pkill<span class="w"> </span>stress-ng
+</code></pre></div>
+<p>Una vez detenida la carga, la memoria utilizada debería liberarse y la alerta de Zabbix debería resolverse automáticamente, dependiendo de la expresión del trigger.</p>
+<h3 id="precaucion">Precaución<a class="headerlink" href="#precaucion" title="Permanent link">&para;</a></h3>
+<p>No se recomienda consumir toda la memoria RAM del equipo. Ajustar los 2 GB según la capacidad disponible para evitar bloqueos, uso excesivo de swap o finalización de procesos por falta de memoria.</p>
+<p>Realizar esta prueba preferentemente en un entorno de laboratorio y supervisar el consumo durante su ejecución.</p>
+<h2 id="forzar-alerta-en-windows-11-ltsc">Forzar alerta en Windows 11 LTSC<a class="headerlink" href="#forzar-alerta-en-windows-11-ltsc" title="Permanent link">&para;</a></h2>
+<p>Para comprobar el funcionamiento de una alerta de <strong>memoria RAM disponible baja</strong> en Zabbix, podemos utilizar PowerShell para reservar memoria temporalmente.</p>
+<h3 id="abrir-powershell-como-administrador">Abrir PowerShell como administrador<a class="headerlink" href="#abrir-powershell-como-administrador" title="Permanent link">&para;</a></h3>
+<p>Abrir PowerShell con permisos de administrador y ejecutar:</p>
+<div class="highlight"><pre><span></span><code><span class="nv">$buffers</span> <span class="p">=</span> <span class="p">@()</span>
+</code></pre></div>
+<p>Esta variable permitirá almacenar los bloques de memoria reservados durante la prueba.</p>
+<h3 id="consumir-memoria-ram">Consumir memoria RAM<a class="headerlink" href="#consumir-memoria-ram" title="Permanent link">&para;</a></h3>
+<p>Para reservar aproximadamente 2 GB de memoria:</p>
+<div class="highlight"><pre><span></span><code><span class="nv">$buffers</span> <span class="p">+=</span> <span class="nb">New-Object</span> <span class="n">byte</span><span class="p">[]</span> <span class="p">(</span><span class="n">2GB</span><span class="p">)</span>
+</code></pre></div>
+<p>Si necesitamos consumir más memoria, podemos agregar otro bloque:</p>
+<div class="highlight"><pre><span></span><code><span class="nv">$buffers</span> <span class="p">+=</span> <span class="nb">New-Object</span> <span class="n">byte</span><span class="p">[]</span> <span class="p">(</span><span class="n">1GB</span><span class="p">)</span>
+</code></pre></div>
+<p>Repetir el comando hasta alcanzar el umbral configurado en el trigger de Zabbix.</p>
+<h3 id="verificar-la-memoria-disponible">Verificar la memoria disponible<a class="headerlink" href="#verificar-la-memoria-disponible" title="Permanent link">&para;</a></h3>
+<p>En otra ventana de PowerShell, ejecutar:</p>
+<div class="highlight"><pre><span></span><code><span class="nb">Get-CimInstance</span> <span class="n">Win32_OperatingSystem</span> <span class="p">|</span> <span class="nb">Select-Object</span> <span class="p">@{</span><span class="n">Name</span><span class="p">=</span><span class="s2">"RAM_Libre_MB"</span><span class="p">;</span><span class="n">Expression</span><span class="p">={</span><span class="no">[math]</span><span class="p">::</span><span class="n">Round</span><span class="p">(</span><span class="nv">$_</span><span class="p">.</span><span class="n">FreePhysicalMemory</span><span class="p">/</span><span class="n">1024</span><span class="p">,</span><span class="n">2</span><span class="p">)}}</span>
+</code></pre></div>
+<p>Este comando permite consultar la cantidad de memoria física disponible, expresada en MB.</p>
+<p>Durante la prueba, Zabbix debería detectar la disminución de memoria disponible y generar una alerta cuando se alcance el umbral configurado.</p>
+<h3 id="liberar-la-memoria">Liberar la memoria<a class="headerlink" href="#liberar-la-memoria" title="Permanent link">&para;</a></h3>
+<p>Una vez que Zabbix registre el evento, ejecutar:</p>
+<div class="highlight"><pre><span></span><code><span class="nv">$buffers</span> <span class="p">=</span> <span class="nv">$null</span>
+<span class="no">[GC]</span><span class="p">::</span><span class="n">Collect</span><span class="p">()</span>
+</code></pre></div>
+<p>Esto elimina las referencias a los bloques reservados y solicita al recolector de basura de .NET que libere la memoria.</p>
+<h3 id="precaucion_1">Precaución<a class="headerlink" href="#precaucion_1" title="Permanent link">&para;</a></h3>
+<p>No consumir toda la RAM del equipo. Ajustar la cantidad de memoria reservada según la capacidad disponible para evitar bloqueos, lentitud excesiva o un uso intensivo del archivo de paginación.</p>
+<p>Realizar esta prueba preferentemente en un entorno de laboratorio y supervisar el consumo durante su ejecución.</p>
+<hr />
+<h2 id="4-estado-del-servicio-web">4. Estado del servicio web<a class="headerlink" href="#4-estado-del-servicio-web" title="Permanent link">&para;</a></h2>
+<p><strong>Equipo:</strong> NOTEBOOK UBUNTU<br />
+<strong>Objetivo:</strong> comprobar si el servicio HTTP responde en el puerto 80.</p>
+<h3 id="41-crear-el-item">4.1. Crear el item<a class="headerlink" href="#41-crear-el-item" title="Permanent link">&para;</a></h3>
+<ol>
+<li>Seleccionar NOTEBOOK UBUNTU en <strong>Data collection → Hosts</strong>.</li>
+<li>Abrir <strong>Items → Create item</strong>.</li>
+<li>Configurar:</li>
+</ol>
+<table>
+<thead>
+<tr>
+<th>Campo</th>
+<th>Valor</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Name</td>
+<td><code>Estado del servicio web HTTP</code></td>
+</tr>
+<tr>
+<td>Type</td>
+<td><code>Zabbix agent</code></td>
+</tr>
+<tr>
+<td>Key</td>
+<td><code>net.tcp.service[http,,80]</code></td>
+</tr>
+<tr>
+<td>Type of information</td>
+<td><code>Numeric (int 64 bits)</code></td>
+</tr>
+<tr>
+<td>Host name</td>
+<td><code>127.0.0.1:10050</code></td>
+</tr>
+<tr>
+<td>Units</td>
+<td><code>Sin unidades</code></td>
+</tr>
+<tr>
+<td>Update interval</td>
+<td><code>1m</code></td>
+</tr>
+<tr>
+<td>Enabled</td>
+<td><code>Sí</code></td>
+</tr>
+</tbody>
+</table>
+<p><img alt="Panel principal de Zabbix" src="../Imagenes/Triggers%20e%20Items/Triggers%20e%20Items/Trigger4/Item4/Estadodelservicio%20web.png" /></p>
+<ol>
+<li>Presionar <strong>Add</strong>.</li>
+</ol>
+<p>El item devuelve <code>1</code> si el servicio HTTP responde y <code>0</code> si no responde.</p>
+<h3 id="42-crear-el-trigger">4.2. Crear el trigger<a class="headerlink" href="#42-crear-el-trigger" title="Permanent link">&para;</a></h3>
+<ol>
+<li>Ingresar a <strong>Triggers → Create trigger</strong>.</li>
+<li>Completar:</li>
+</ol>
+<table>
+<thead>
+<tr>
+<th>Campo</th>
+<th>Valor</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Name</td>
+<td><code>Servicio web caído o inaccesible</code></td>
+</tr>
+<tr>
+<td>Severity</td>
+<td><code>Critical</code></td>
+</tr>
+<tr>
+<td>Expression</td>
+<td><code>last(/NOTEBOOK_UBUNTU/net.tcp.service[http,,80])=0</code></td>
+</tr>
+</tbody>
+</table>
+<p><img alt="Panel principal de Zabbix" src="../Imagenes/Triggers%20e%20Items/Triggers%20e%20Items/Trigger4/3.Triggerdeserviciowebcaido.png" /></p>
+<ol>
+<li>Guardar el trigger.</li>
+</ol>
+<p><strong>Funcionamiento:</strong> la alerta se activa cuando la comprobación no logra establecer comunicación con el servicio HTTP.</p>
+<blockquote>
+<p>Esta prueba verifica el servicio HTTP en el puerto 80 desde el equipo donde se ejecuta el agente. Si el servidor web utiliza HTTPS en el puerto 443, configurar la clave correspondiente. Si el servicio está en otro equipo, se debe comprobar la dirección de destino adecuada.</p>
+</blockquote>
+<h2 id="forzar-una-alerta-por-caida-del-servicio-http-en-ubuntu">Forzar una alerta por caída del servicio HTTP en Ubuntu<a class="headerlink" href="#forzar-una-alerta-por-caida-del-servicio-http-en-ubuntu" title="Permanent link">&para;</a></h2>
+<p>Para comprobar el funcionamiento del ítem que monitorea el servicio web, vamos a detener temporalmente el servicio que utiliza el puerto 80.</p>
+<h3 id="verificar-que-servicio-utiliza-el-puerto-80">Verificar qué servicio utiliza el puerto 80<a class="headerlink" href="#verificar-que-servicio-utiliza-el-puerto-80" title="Permanent link">&para;</a></h3>
+<p>Ejecutar en Ubuntu:</p>
+<div class="highlight"><pre><span></span><code>sudo<span class="w"> </span>ss<span class="w"> </span>-tlnp<span class="w"> </span><span class="p">|</span><span class="w"> </span>grep<span class="w"> </span><span class="s1">':80'</span>
+</code></pre></div>
+<p>Esto permite identificar qué proceso está escuchando en el puerto 80.</p>
+<h3 id="detener-el-servicio">Detener el servicio<a class="headerlink" href="#detener-el-servicio" title="Permanent link">&para;</a></h3>
+<p>Si utilizás Apache:</p>
+<div class="highlight"><pre><span></span><code>sudo<span class="w"> </span>systemctl<span class="w"> </span>stop<span class="w"> </span>apache2
+</code></pre></div>
+<p>Si se utiliza Nginx:</p>
+<div class="highlight"><pre><span></span><code>sudo<span class="w"> </span>systemctl<span class="w"> </span>stop<span class="w"> </span>nginx
+</code></pre></div>
+<p><img alt="Panel principal de Zabbix" src="../Imagenes/Triggers%20e%20Items/Triggers%20e%20Items/Trigger4/terminal.png" /></p>
+<h3 id="alerta-esperada">Alerta esperada<a class="headerlink" href="#alerta-esperada" title="Permanent link">&para;</a></h3>
+<p>Zabbix debería detectar que el puerto 80 dejó de responder y activar el trigger, mostrando el estado <strong>PROBLEM</strong>.</p>
+<h3 id="comprobar-que-el-puerto-esta-cerrado">Comprobar que el puerto está cerrado<a class="headerlink" href="#comprobar-que-el-puerto-esta-cerrado" title="Permanent link">&para;</a></h3>
+<p>Ejecutar:</p>
+<div class="highlight"><pre><span></span><code>curl<span class="w"> </span>-I<span class="w"> </span>--max-time<span class="w"> </span><span class="m">5</span><span class="w"> </span>http://localhost
+</code></pre></div>
+<p>Deberías obtener un error de conexión porque el servicio HTTP está detenido.</p>
+<h3 id="recuperar-el-servicio">Recuperar el servicio<a class="headerlink" href="#recuperar-el-servicio" title="Permanent link">&para;</a></h3>
+<p>Para iniciar Apache:</p>
+<div class="highlight"><pre><span></span><code>sudo<span class="w"> </span>systemctl<span class="w"> </span>start<span class="w"> </span>apache2
+</code></pre></div>
+<p>Para iniciar Nginx:</p>
+<div class="highlight"><pre><span></span><code>sudo<span class="w"> </span>systemctl<span class="w"> </span>start<span class="w"> </span>nginx
+</code></pre></div>
+<p>Verificar nuevamente que el servicio responda:</p>
+<div class="highlight"><pre><span></span><code>curl<span class="w"> </span>-I<span class="w"> </span>http://localhost
+</code></pre></div>
+<h3 id="resultado-esperado">Resultado esperado<a class="headerlink" href="#resultado-esperado" title="Permanent link">&para;</a></h3>
+<p>Cuando el servicio HTTP vuelva a responder, Zabbix debería detectar la recuperación y cambiar automáticamente el estado de <strong>PROBLEM</strong> a <strong>OK</strong>.</p>
+<p><strong>Alerta generada</strong>
+<img alt="Panel principal de Zabbix" src="../Imagenes/Triggers%20e%20Items/Triggers%20e%20Items/Trigger4/Alerta.png" /></p>
+<p><strong>Valores registrados</strong>
+<img alt="Panel principal de Zabbix" src="../Imagenes/Triggers%20e%20Items/Triggers%20e%20Items/Trigger4/valores.png" /></p>
+<p><img alt="Panel principal de Zabbix" src="../Imagenes/Triggers%20e%20Items/Triggers%20e%20Items/Trigger4/valores1.png" /></p>
+<hr />
+<h2 id="5-linux-cpu-idle-time">5. Linux CPU Idle Time<a class="headerlink" href="#5-linux-cpu-idle-time" title="Permanent link">&para;</a></h2>
+<p><strong>Equipo:</strong> NOTEBOOK UBUNTU<br />
+<strong>Objetivo:</strong> detectar cuándo la CPU dispone de muy poco tiempo de inactividad.</p>
+<h3 id="51-crear-el-item">5.1. Crear el item<a class="headerlink" href="#51-crear-el-item" title="Permanent link">&para;</a></h3>
+<ol>
+<li>Seleccionar NOTEBOOK UBUNTU.</li>
+<li>Abrir <strong>Items → Create item</strong>.</li>
+<li>Configurar:</li>
+</ol>
+<table>
+<thead>
+<tr>
+<th>Campo</th>
+<th>Valor</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Name</td>
+<td><code>Linux CPU Idle Time</code></td>
+</tr>
+<tr>
+<td>Type</td>
+<td><code>Zabbix agent</code></td>
+</tr>
+<tr>
+<td>Key</td>
+<td><code>system.cpu.util[,idle]</code></td>
+</tr>
+<tr>
+<td>Type of information</td>
+<td><code>Numeric (float)</code></td>
+</tr>
+<tr>
+<td>Units</td>
+<td><code>%</code></td>
+</tr>
+<tr>
+<td>Update interval</td>
+<td><code>1m</code></td>
+</tr>
+<tr>
+<td>Enabled</td>
+<td><code>Sí</code></td>
+</tr>
+</tbody>
+</table>
+<p><img alt="Panel principal de Zabbix" src="../Imagenes/Triggers%20e%20Items/Triggers%20e%20Items/Trigger5/Item5/idle%20time.png" /></p>
+<ol>
+<li>Presionar <strong>Add</strong>.</li>
+</ol>
+<p>El item mide el porcentaje de tiempo durante el cual la CPU permanece inactiva.</p>
+<h3 id="52-crear-el-trigger">5.2. Crear el trigger<a class="headerlink" href="#52-crear-el-trigger" title="Permanent link">&para;</a></h3>
+<ol>
+<li>Abrir <strong>Triggers → Create trigger</strong>.</li>
+<li>Completar:</li>
+</ol>
+<table>
+<thead>
+<tr>
+<th>Campo</th>
+<th>Valor</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Name</td>
+<td><code>Alerta por bajo tiempo de inactividad</code></td>
+</tr>
+<tr>
+<td>Severity</td>
+<td><code>Warning</code></td>
+</tr>
+<tr>
+<td>Expression</td>
+<td><code>avg(/Notebook Ubuntu/system.cpu.util[,idle],5m)&lt;10</code></td>
+</tr>
+</tbody>
+</table>
+<p><img alt="Panel principal de Zabbix" src="../Imagenes/Triggers%20e%20Items/Triggers%20e%20Items/Trigger5/Trigger.png" /></p>
+<ol>
+<li>Guardar el trigger.</li>
+</ol>
+<p><strong>Funcionamiento:</strong> la alerta se activa cuando el tiempo de inactividad de la CPU es inferior al 10 % en promedio durante cinco minutos.</p>
+<p>Esto puede indicar una carga elevada de procesamiento. Como el valor está relacionado con la utilización de CPU, conviene analizarlo junto con el item de uso de CPU para evitar alertas redundantes.</p>
+<hr />
+<h2 id="forzar-una-alerta-por-bajo-cpu-idle-time-en-ubuntu">Forzar una alerta por bajo CPU Idle Time en Ubuntu<a class="headerlink" href="#forzar-una-alerta-por-bajo-cpu-idle-time-en-ubuntu" title="Permanent link">&para;</a></h2>
+<p>Para comprobar el funcionamiento del trigger de CPU Idle Time en Zabbix, vamos a generar una carga elevada en el procesador utilizando la herramienta <code>stress-ng</code>.</p>
+<h3 id="instalar-stress-ng_1">Instalar stress-ng<a class="headerlink" href="#instalar-stress-ng_1" title="Permanent link">&para;</a></h3>
+<p>Si todavía no está instalada, ejecutar:</p>
+<div class="highlight"><pre><span></span><code>sudo<span class="w"> </span>apt<span class="w"> </span>install<span class="w"> </span>stress-ng<span class="w"> </span>-y
+</code></pre></div>
+<h3 id="generar-carga-de-cpu">Generar carga de CPU<a class="headerlink" href="#generar-carga-de-cpu" title="Permanent link">&para;</a></h3>
+<p>Ejecutar el siguiente comando:</p>
+<div class="highlight"><pre><span></span><code>stress-ng<span class="w"> </span>--cpu<span class="w"> </span><span class="m">0</span><span class="w"> </span>--cpu-method<span class="w"> </span>matrixprod<span class="w"> </span>--timeout<span class="w"> </span>5m
+</code></pre></div>
+<p><strong>Descripción de los parámetros:</strong></p>
+<ul>
+<li><code>--cpu 0</code>: utiliza todos los núcleos disponibles.</li>
+<li><code>--cpu-method matrixprod</code>: realiza operaciones matemáticas intensivas para generar carga.</li>
+<li><code>--timeout 5m</code>: mantiene la carga durante cinco minutos.</li>
+</ul>
+<h3 id="verificar-el-uso-de-cpu">Verificar el uso de CPU<a class="headerlink" href="#verificar-el-uso-de-cpu" title="Permanent link">&para;</a></h3>
+<p>En otra terminal, ejecutar:</p>
+<div class="highlight"><pre><span></span><code>top
+</code></pre></div>
+<p>También se puede utilizar:</p>
+<div class="highlight"><pre><span></span><code>mpstat<span class="w"> </span><span class="m">1</span>
+</code></pre></div>
+<p>Si el comando <code>mpstat</code> no está disponible, instalar el paquete correspondiente:</p>
+<div class="highlight"><pre><span></span><code>sudo<span class="w"> </span>apt<span class="w"> </span>install<span class="w"> </span>sysstat<span class="w"> </span>-y
+</code></pre></div>
+<h3 id="detener-la-prueba_1">Detener la prueba<a class="headerlink" href="#detener-la-prueba_1" title="Permanent link">&para;</a></h3>
+<p>Para finalizar el proceso antes de que termine el tiempo establecido:</p>
+<div class="highlight"><pre><span></span><code>pkill<span class="w"> </span>stress-ng
+</code></pre></div>
+<p><img alt="Panel principal de Zabbix" src="../Imagenes/Triggers%20e%20Items/Triggers%20e%20Items/Trigger5/tiempo%20incatividad.png" /></p>
+<h3 id="resultado-esperado_1">Resultado esperado<a class="headerlink" href="#resultado-esperado_1" title="Permanent link">&para;</a></h3>
+<p>Durante la prueba, el porcentaje de <strong>CPU Idle Time</strong> debería disminuir considerablemente.</p>
+<p>Si el valor cae por debajo del umbral configurado en el trigger de Zabbix (por ejemplo, menos del 10 %), se debería generar una alerta con estado <strong>PROBLEM</strong>.</p>
+<p>Al detener la prueba y recuperar la disponibilidad del procesador, el valor de CPU Idle Time debería aumentar y permitir que la alerta se resuelva automáticamente, siempre que la expresión de recuperación esté configurada.</p>
+<p><strong>Importante:</strong> si el trigger detecta un CPU Idle inferior al 10 %, esta prueba debería ser suficiente en condiciones normales. El resultado puede variar según la cantidad de núcleos y la carga del equipo.</p>
+<hr />
+<h2 id="6-uptime">6. Uptime<a class="headerlink" href="#6-uptime" title="Permanent link">&para;</a></h2>
+<p><strong>Equipo:</strong> mauro<br />
+<strong>Objetivo:</strong> detectar un reinicio reciente del equipo mediante su tiempo de actividad.</p>
+<h3 id="61-crear-el-item">6.1. Crear el item<a class="headerlink" href="#61-crear-el-item" title="Permanent link">&para;</a></h3>
+<ol>
+<li>Ir a <strong>Data collection → Hosts</strong>.</li>
+<li>Seleccionar el host <code>mauro</code>.</li>
+<li>Abrir <strong>Items → Create item</strong>.</li>
+<li>Configurar:</li>
+</ol>
+<table>
+<thead>
+<tr>
+<th>Campo</th>
+<th>Valor</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Name</td>
+<td><code>Tiempo de actividad del sistema</code></td>
+</tr>
+<tr>
+<td>Type</td>
+<td><code>Zabbix agent</code></td>
+</tr>
+<tr>
+<td>Key</td>
+<td><code>system.uptime</code></td>
+</tr>
+<tr>
+<td>Type of information</td>
+<td><code>Numeric (unsigned)</code></td>
+</tr>
+<tr>
+<td>Host name</td>
+<td><code>100.112.1.18:10050</code></td>
+</tr>
+<tr>
+<td>Units</td>
+<td><code>uptime</code></td>
+</tr>
+<tr>
+<td>Update interval</td>
+<td><code>1m</code></td>
+</tr>
+<tr>
+<td>Enabled</td>
+<td><code>Sí</code></td>
+</tr>
+</tbody>
+</table>
+<p><img alt="Panel principal de Zabbix" src="../Imagenes/Triggers%20e%20Items/Triggers%20e%20Items/Trigger6/Item6/6.Tiempodeactividaddelsistema.png" /></p>
+<ol>
+<li>Presionar <strong>Add</strong>.</li>
+</ol>
+<p>El item devuelve el tiempo transcurrido desde el último inicio del sistema, expresado en segundos.</p>
+<h3 id="62-crear-el-trigger">6.2. Crear el trigger<a class="headerlink" href="#62-crear-el-trigger" title="Permanent link">&para;</a></h3>
+<ol>
+<li>Abrir <strong>Triggers → Create trigger</strong>.</li>
+<li>Completar:</li>
+</ol>
+<table>
+<thead>
+<tr>
+<th>Campo</th>
+<th>Valor</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Name</td>
+<td><code>Host reiniciado recientemente</code></td>
+</tr>
+<tr>
+<td>Severity</td>
+<td><code>Warning</code></td>
+</tr>
+<tr>
+<td>Expression</td>
+<td><code>last(/mauro/system.uptime)&lt;600</code></td>
+</tr>
+</tbody>
+</table>
+<p><img alt="Panel principal de Zabbix" src="../Imagenes/Triggers%20e%20Items/Triggers%20e%20Items/Trigger6/5.Triggerservicioreiniciado.png" /></p>
+<ol>
+<li>Guardar el trigger.</li>
+</ol>
+<p><strong>Funcionamiento:</strong> se activa cuando el tiempo de actividad registrado es inferior a 600 segundos, es decir, diez minutos.</p>
+<p>La alerta se recupera automáticamente cuando el uptime supera ese umbral.</p>
+<blockquote>
+<p>Este método detecta un uptime bajo, pero no demuestra por sí solo la causa del reinicio. Para investigar reinicios inesperados, complementar con registros del sistema y eventos de apagado o arranque.</p>
+</blockquote>
+<p><strong>Verificamos que la metrica este activada y lista</strong></p>
+<hr />
+<h2 id="7-logs-fallidos-de-inicio-de-sesion">7. Logs fallidos de inicio de sesión<a class="headerlink" href="#7-logs-fallidos-de-inicio-de-sesion" title="Permanent link">&para;</a></h2>
+<p><strong>Equipo:</strong> mauro<br />
+<strong>Objetivo:</strong> detectar múltiples intentos fallidos de autenticación en Linux.</p>
+<h3 id="71-verificar-el-registro-de-autenticacion">7.1. Verificar el registro de autenticación<a class="headerlink" href="#71-verificar-el-registro-de-autenticacion" title="Permanent link">&para;</a></h3>
+<p>Antes de crear el item, comprobar si existe el archivo de autenticación:</p>
+<div class="highlight"><pre><span></span><code>sudo<span class="w"> </span>ls<span class="w"> </span>-l<span class="w"> </span>/var/log/auth.log
+<span class="sb">```</span>,,-<span class="w">           </span>
+
+Buscar<span class="w"> </span>eventos<span class="w"> </span>de<span class="w"> </span>autenticación<span class="w"> </span>fallida:
+
+<span class="sb">```</span>bash
+sudo<span class="w"> </span>grep<span class="w"> </span>-i<span class="w"> </span><span class="s2">"Failed password"</span><span class="w"> </span>/var/log/auth.log<span class="w"> </span><span class="p">|</span><span class="w"> </span>tail<span class="w"> </span>-n<span class="w"> </span><span class="m">10</span>
+</code></pre></div>
+<p>Si el archivo no existe o no contiene eventos, verificar la configuración de <code>rsyslog</code> y el registro de autenticación utilizado por la distribución.</p>
+<h3 id="72-crear-el-item">7.2. Crear el item<a class="headerlink" href="#72-crear-el-item" title="Permanent link">&para;</a></h3>
+<ol>
+<li>Seleccionar el host <code>mauro</code> en Zabbix.</li>
+<li>Abrir <strong>Items → Create item</strong>.</li>
+<li>Configurar:</li>
+</ol>
+<table>
+<thead>
+<tr>
+<th>Campo</th>
+<th>Valor</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Name</td>
+<td><code>Intentos de login fallidos</code></td>
+</tr>
+<tr>
+<td>Type</td>
+<td><code>Zabbix agent (active)</code></td>
+</tr>
+<tr>
+<td>Key</td>
+<td><code>log[/var/log/auth.log,"Failed password"]</code></td>
+</tr>
+<tr>
+<td>Type of information</td>
+<td><code>Log</code></td>
+</tr>
+<tr>
+<td>Update interval</td>
+<td><code>1s</code></td>
+</tr>
+<tr>
+<td>Enabled</td>
+<td><code>Sí</code></td>
+</tr>
+</tbody>
+</table>
+<p><img alt="Panel principal de Zabbix" src="../Imagenes/Triggers%20e%20Items/Triggers%20e%20Items/Trigger7/Item7/7.LogsFallidos.png" /></p>
+<p>Para comprobar el funcionamiento del trigger de detección de intentos fallidos de autenticación SSH, vamos a generar seis intentos de conexión con un usuario inexistente.</p>
+<p>El objetivo es superar el umbral configurado en Zabbix: <strong>más de 5 fallos en un período de 5 minutos</strong>.</p>
+<h3 id="73-crear-el-trigger">7.3. Crear el trigger<a class="headerlink" href="#73-crear-el-trigger" title="Permanent link">&para;</a></h3>
+<ol>
+<li>Abrir <strong>Triggers → Create trigger</strong>.</li>
+<li>Completar:</li>
+</ol>
+<table>
+<thead>
+<tr>
+<th>Campo</th>
+<th>Valor</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Name</td>
+<td><code>Intentos fallidos de login</code></td>
+</tr>
+<tr>
+<td>Severity</td>
+<td><code>High</code></td>
+</tr>
+<tr>
+<td>Expression</td>
+<td><code>count(/mauro/log[/var/log/auth.log,"Failed password",,,skip],5m)&gt;5</code></td>
+</tr>
+</tbody>
+</table>
+<p><img alt="Panel principal de Zabbix" src="../Imagenes/Triggers%20e%20Items/Triggers%20e%20Items/Trigger7/6.TriggerLOGS.png" /></p>
+<ol>
+<li>Guardar el trigger.</li>
+</ol>
+<p><strong>Funcionamiento:</strong> la alerta se activa cuando se detectan más de cinco eventos coincidentes en cinco minutos.</p>
+<p>Esta detección puede ayudar a identificar intentos repetidos de acceso no autorizado. No confirma por sí sola un ataque de fuerza bruta.</p>
+<blockquote>
+<p>Si el item no puede leer el archivo, comprobar los permisos y la configuración del agente. No otorgar permisos generales de lectura a todos los usuarios solo para hacer funcionar el monitoreo.</p>
+</blockquote>
+<hr />
+<h2 id="forzar-alerta-por-ssh-o-terminal-de-ubuntu">Forzar Alerta por SSH o terminal de Ubuntu<a class="headerlink" href="#forzar-alerta-por-ssh-o-terminal-de-ubuntu" title="Permanent link">&para;</a></h2>
+<p>Ejecutar el siguiente bucle en la terminal de Ubuntu:</p>
+<div class="highlight"><pre><span></span><code><span class="k">for</span><span class="w"> </span>i<span class="w"> </span><span class="k">in</span><span class="w"> </span><span class="o">{</span><span class="m">1</span>..3<span class="o">}</span><span class="p">;</span><span class="w"> </span><span class="k">do</span>
+<span class="w">    </span>ssh<span class="w"> </span>adrian@100.84.117.85<span class="w"> </span>-o<span class="w"> </span><span class="nv">PreferredAuthentications</span><span class="o">=</span>password<span class="w"> </span>-o<span class="w"> </span><span class="nv">PubkeyAuthentication</span><span class="o">=</span>no
+<span class="k">done</span>
+</code></pre></div>
+<p><strong>Descripción:</strong></p>
+<ul>
+<li><code>for i in {1..3}</code>: repite el intento de conexión seis veces.</li>
+<li><code>ssh usuario_invalido@localhost</code>: intenta conectarse mediante SSH utilizando un usuario inexistente.</li>
+<li><code>PreferredAuthentications=password</code>: prioriza la autenticación mediante contraseña.</li>
+<li><code>PubkeyAuthentication=no</code>: deshabilita la autenticación mediante claves públicas.</li>
+</ul>
+<p>Cuando solicite la contraseña, introducir una contraseña incorrecta o completar el intento fallido. Repetir hasta finalizar los seis intentos.</p>
+<p>Ejecutar el siguiente bucle en la terminal PowerShell de windows</p>
+<div class="highlight"><pre><span></span><code><span class="k">for</span><span class="w"> </span><span class="o">(</span><span class="nv">$i</span><span class="o">=</span><span class="m">1</span><span class="p">;</span><span class="w"> </span><span class="nv">$i</span><span class="w"> </span>-le<span class="w"> </span><span class="m">3</span><span class="p">;</span><span class="w"> </span><span class="nv">$i</span>++<span class="o">)</span><span class="w"> </span><span class="o">{</span><span class="w"> </span>ssh<span class="w"> </span>adrian@100.84.117.85<span class="w"> </span>-o<span class="w"> </span><span class="nv">PreferredAuthentications</span><span class="o">=</span>password<span class="w"> </span>-o<span class="w"> </span><span class="nv">PubkeyAuthentication</span><span class="o">=</span>no<span class="w"> </span><span class="o">}</span>
+</code></pre></div>
+<h3 id="verificar-los-registros-del-sistema">Verificar los registros del sistema<a class="headerlink" href="#verificar-los-registros-del-sistema" title="Permanent link">&para;</a></h3>
+<p>Una vez realizados los intentos, comprobar que los errores se hayan registrado en el archivo de autenticación:</p>
+<div class="highlight"><pre><span></span><code>sudo<span class="w"> </span>tail<span class="w"> </span>-n<span class="w"> </span><span class="m">10</span><span class="w"> </span>/var/log/auth.log<span class="w"> </span><span class="p">|</span><span class="w"> </span>grep<span class="w"> </span><span class="s2">"Failed password"</span>
+</code></pre></div>
+<p><strong>Resultado esperado:</strong> deberían aparecer líneas similares a las siguientes:</p>
+<div class="highlight"><pre><span></span><code>Failed password for invalid user usuario_invalido from 127.0.0.1 port 45678 ssh2
+</code></pre></div>
+<p>Cada línea representa un intento de autenticación fallido registrado por el sistema.</p>
+<h3 id="comprobar-la-alerta-en-zabbix">Comprobar la alerta en Zabbix<a class="headerlink" href="#comprobar-la-alerta-en-zabbix" title="Permanent link">&para;</a></h3>
+<p>Una vez que el agente activo envíe los registros al servidor, verificar la información desde:</p>
+<p><strong>Monitoreo → Datos más recientes</strong></p>
+<p>También se puede consultar:</p>
+<p><strong>Monitoreo → Problemas</strong></p>
+<p>La expresión del trigger utilizada es:</p>
+<div class="highlight"><pre><span></span><code>count(/Notebook Ubuntu/log[/var/log/auth.log,"Failed password"],5m)&gt;2
+</code></pre></div>
+<h3 id="resultado-esperado_2">Resultado esperado<a class="headerlink" href="#resultado-esperado_2" title="Permanent link">&para;</a></h3>
+<table>
+<thead>
+<tr>
+<th>Intentos fallidos en 5 minutos</th>
+<th>Estado</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>0 a 2 intentos</td>
+<td>OK</td>
+</tr>
+<tr>
+<td>Más de 2 intentos</td>
+<td>PROBLEM</td>
+</tr>
+</tbody>
+</table>
+<p><img alt="Panel principal de Zabbix" src="../Imagenes/Triggers%20e%20Items/Triggers%20e%20Items/Trigger7/alerta.png" /></p>
+<p><strong>Aqui ya se resuelve por si solo el problema a travez de una expresion que dice si no hay mas de 2 intentos fallidos en los ultimos 5 minutos el problema se resuelve automaticamente</strong></p>
+<div class="highlight"><pre><span></span><code>count(/adrian/log[/var/log/auth.log,"Failed password"],5m)&lt;2
+</code></pre></div>
+<p><img alt="Panel principal de Zabbix" src="../Imagenes/Triggers%20e%20Items/Triggers%20e%20Items/Trigger7/alerta%20resuelta.png" /></p>
+<p><strong>Importante:</strong> el resultado depende de que el servicio SSH esté activo, el agente Zabbix tenga permisos para leer <code>/var/log/auth.log</code> y el ítem <code>log[]</code> esté configurado como chequeo activo. Los intentos deben quedar registrados dentro de la ventana de cinco minutos.</p>
+<p><strong>Importante:</strong> para monitorizar logs de forma continua, el agente debe admitir comprobaciones activas y tener configurado correctamente el servidor Zabbix. El usuario del agente también debe disponer de permisos de lectura sobre el archivo.</p>
+<hr />
+<h2 id="8-trafico-de-red-entrante">8. Tráfico de red entrante<a class="headerlink" href="#8-trafico-de-red-entrante" title="Permanent link">&para;</a></h2>
+<p><strong>Equipo:</strong> NOTEBOOK UBUNTU<br />
+<strong>Objetivo:</strong> detectar un volumen elevado de tráfico entrante en una interfaz de red.</p>
+<h3 id="81-identificar-la-interfaz-de-red">8.1. Identificar la interfaz de red<a class="headerlink" href="#81-identificar-la-interfaz-de-red" title="Permanent link">&para;</a></h3>
+<p>Antes de crear el item, ejecutar en Ubuntu:</p>
+<div class="highlight"><pre><span></span><code>ip<span class="w"> </span>-br<span class="w"> </span>addr
+</code></pre></div>
+<p>Identificar la interfaz que se desea monitorear, por ejemplo <code>ens33</code>, <code>enp0s3</code> o <code>eth0</code>.</p>
+<p>El nombre depende de la configuración de cada equipo.</p>
+<h3 id="82-crear-el-item">8.2. Crear el item<a class="headerlink" href="#82-crear-el-item" title="Permanent link">&para;</a></h3>
+<ol>
+<li>Seleccionar NOTEBOOK UBUNTU en Zabbix.</li>
+<li>Abrir <strong>Items → Create item</strong>.</li>
+<li>Configurar:</li>
+</ol>
+<table>
+<thead>
+<tr>
+<th>Campo</th>
+<th>Valor</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Name</td>
+<td><code>Tráfico de red entrante</code></td>
+</tr>
+<tr>
+<td>Type</td>
+<td><code>Zabbix agent</code></td>
+</tr>
+<tr>
+<td>Key</td>
+<td><code>net.if.in[ens33]</code></td>
+</tr>
+<tr>
+<td>Type of information</td>
+<td><code>Numeric (int 64 bits)</code></td>
+</tr>
+<tr>
+<td>Host name</td>
+<td><code>127.0.0.1:10050</code></td>
+</tr>
+<tr>
+<td>Units</td>
+<td><code>Bps</code></td>
+</tr>
+<tr>
+<td>Update interval</td>
+<td><code>10s</code></td>
+</tr>
+<tr>
+<td>Enabled</td>
+<td><code>Sí</code></td>
+</tr>
+</tbody>
+</table>
+<ol>
+<li>En <strong>Preprocessing</strong>, agregar el paso <strong>Change per second</strong> para convertir el contador acumulado de bytes en una tasa de transferencia.</li>
+</ol>
+<p><img alt="Panel principal de Zabbix" src="../Imagenes/Triggers%20e%20Items/Triggers%20e%20Items/Trigger8/Item8/8.Trafico%20de%20red%20entrante.png" /></p>
+<ol>
+<li>Guardar el item.</li>
+</ol>
+<p><strong>Importante:</strong> reemplazar <code>ens33</code> por el nombre real de la interfaz. La unidad <code>Bps</code> representa bytes por segundo; no equivale a bits por segundo.</p>
+<h3 id="83-crear-el-trigger">8.3. Crear el trigger<a class="headerlink" href="#83-crear-el-trigger" title="Permanent link">&para;</a></h3>
+<ol>
+<li>Abrir <strong>Triggers → Create trigger</strong>.</li>
+<li>Completar:</li>
+</ol>
+<table>
+<thead>
+<tr>
+<th>Campo</th>
+<th>Valor</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Name</td>
+<td><code>Consumo de tráfico entrante elevado (&gt;100 Mbps</code></td>
+</tr>
+<tr>
+<td>Severity</td>
+<td><code>Warning</code></td>
+</tr>
+<tr>
+<td>Expression</td>
+<td><code>last(/adrian/net.if.in[wlx70f1a17d3701,bytes]) - last(/adrian/net.if.in[wlx70f1a17d3701,bytes],#7)&gt;125000</code></td>
+</tr>
+</tbody>
+</table>
+<p><img alt="Panel principal de Zabbix" src="../Imagenes/Triggers%20e%20Items/Triggers%20e%20Items/Trigger8/8.TriggerConsumoelevado.png" /></p>
+<ol>
+<li>Guardar el trigger.</li>
+</ol>
+<p><strong>Funcionamiento:</strong> se genera una alerta cuando el promedio de tráfico entrante supera los 10 MiB/s durante cinco minutos.</p>
+<p>El umbral es un ejemplo inicial y debe ajustarse al uso habitual de la red.</p>
+<h2 id="forzar-alerta-trafico-entrante">Forzar alerta trafico entrante<a class="headerlink" href="#forzar-alerta-trafico-entrante" title="Permanent link">&para;</a></h2>
+<p>Para realizar pruebas de tráfico de red entre Windows y Ubuntu, utilizaremos <code>iperf3</code>. Esta herramienta permite generar tráfico controlado y medir el rendimiento de la conexión.</p>
+<h3 id="descargar-iperf3">Descargar iperf3<a class="headerlink" href="#descargar-iperf3" title="Permanent link">&para;</a></h3>
+<p>Ingresar a la siguiente página:</p>
+<p><a href="https://iperf.fr/iperf-download.php">Descargar iperf3 para Windows</a></p>
+<p>Buscar la sección <strong>Windows</strong> y descargar una versión compatible de 64 bits.</p>
+<h3 id="extraer-los-archivos">Extraer los archivos<a class="headerlink" href="#extraer-los-archivos" title="Permanent link">&para;</a></h3>
+<ol>
+<li>Abrir el archivo ZIP descargado.</li>
+<li>Extraer su contenido en una carpeta llamada <code>C:\iperf3</code>.</li>
+<li>Comprobar que estén presentes los archivos <code>iperf3.exe</code> y, si viene incluido, <code>cygwin1.dll</code>.</li>
+</ol>
+<h3 id="ejecutar-desde-powershell">Ejecutar desde PowerShell<a class="headerlink" href="#ejecutar-desde-powershell" title="Permanent link">&para;</a></h3>
+<p>Abrir PowerShell y acceder a la carpeta:</p>
+<div class="highlight"><pre><span></span><code><span class="nb">cd </span><span class="n">C</span><span class="p">:\</span><span class="n">iperf3</span>
+<span class="p">.\</span><span class="n">iperf3</span><span class="p">.</span><span class="n">exe</span> <span class="p">-</span><span class="n">-version</span>
+</code></pre></div>
+<p>Si aparece la información de la versión, la herramienta está lista para utilizarse.</p>
+<h3 id="realizar-la-prueba-de-trafico">Realizar la prueba de tráfico<a class="headerlink" href="#realizar-la-prueba-de-trafico" title="Permanent link">&para;</a></h3>
+<p>En Ubuntu, ejecutar el servidor de iperf3:</p>
+<div class="highlight"><pre><span></span><code>iperf3<span class="w"> </span>-s
+</code></pre></div>
+<p>En Windows, ejecutar el cliente:</p>
+<div class="highlight"><pre><span></span><code><span class="p">.\</span><span class="n">iperf3</span><span class="p">.</span><span class="n">exe</span> <span class="n">-c</span> <span class="n">IP_DE_UBUNTU</span> <span class="n">-R</span> <span class="n">-t</span> <span class="n">120</span>
+</code></pre></div>
+<p><strong>Descripción de los parámetros:</strong></p>
+<ul>
+<li><code>-c</code>: indica que se ejecutará como cliente.</li>
+<li><code>IP_DE_UBUNTU</code>: dirección IP del equipo Ubuntu.</li>
+<li><code>-R</code>: invierte el sentido del tráfico para que Ubuntu envíe datos y Windows los reciba.</li>
+<li><code>-t 120</code>: establece una duración de 120 segundos (2 minutos).</li>
+</ul>
+<p><strong>Genero trafico entre windows y ubuntu para forzar la alerta</strong>
+<img alt="Panel principal de Zabbix" src="../Imagenes/Triggers%20e%20Items/Triggers%20e%20Items/Trigger8/forzando.png" /></p>
+<h3 id="resultado-esperado_3">Resultado esperado<a class="headerlink" href="#resultado-esperado_3" title="Permanent link">&para;</a></h3>
+<p>La prueba generará tráfico de red durante dos minutos. Esto permitirá comprobar la comunicación entre ambos equipos y generar actividad para verificar las métricas de tráfico entrante en Windows mediante Zabbix.</p>
+<p><strong>Importante:</strong> ESnet no ofrece soporte oficial para iperf3 en Windows. Las versiones disponibles para este sistema operativo son compilaciones de terceros.</p>
+<p><img alt="Panel principal de Zabbix" src="../Imagenes/Triggers%20e%20Items/Triggers%20e%20Items/Trigger8/alerta.png" /></p>
+<p><img alt="Panel principal de Zabbix" src="../Imagenes/Triggers%20e%20Items/Triggers%20e%20Items/Trigger8/alerta1.png" /></p>
+<hr />
+<h2 id="9-verificacion-de-los-items-y-triggers">9. Verificación de los items y triggers<a class="headerlink" href="#9-verificacion-de-los-items-y-triggers" title="Permanent link">&para;</a></h2>
+<p>Una vez creados los ocho items y sus respectivos triggers, realizar las siguientes comprobaciones.</p>
+<h3 id="91-verificar-los-items">9.1. Verificar los items<a class="headerlink" href="#91-verificar-los-items" title="Permanent link">&para;</a></h3>
+<ol>
+<li>Ir a <strong>Data collection → Hosts</strong>.</li>
+<li>Seleccionar el equipo correspondiente.</li>
+<li>Abrir <strong>Items</strong>.</li>
+<li>Confirmar que los items estén habilitados y que reciban valores recientes.</li>
+<li>Revisar la columna de estado y los errores de recopilación.</li>
+</ol>
+<h3 id="92-verificar-los-triggers">9.2. Verificar los triggers<a class="headerlink" href="#92-verificar-los-triggers" title="Permanent link">&para;</a></h3>
+<ol>
+<li>Abrir <strong>Monitoring → Problems</strong>.</li>
+<li>Comprobar que las alertas aparezcan cuando se cumplan sus condiciones.</li>
+<li>Verificar la severidad asignada.</li>
+<li>Confirmar que el problema se recupere cuando la condición deje de cumplirse.</li>
+</ol>
+<h3 id="93-consideraciones-finales">9.3. Consideraciones finales<a class="headerlink" href="#93-consideraciones-finales" title="Permanent link">&para;</a></h3>
+<ul>
+<li>Los nombres técnicos de los hosts usados en las expresiones deben coincidir exactamente con los registrados en Zabbix.</li>
+<li>Los items y triggers deben estar habilitados.</li>
+<li>Los agentes deben tener conectividad con el servidor y una configuración compatible con el tipo de comprobación.</li>
+<li>Los umbrales propuestos son valores iniciales y pueden necesitar ajustes según el comportamiento normal de cada equipo.</li>
+<li>No generar una alerta real de fuerza bruta ni interrumpir servicios críticos en producción solo para probar las configuraciones. Utilizar un entorno controlado.</li>
+</ul>
+
+
+
+
+
+
+
+
+
+
+
+
+                
+              </article>
+            </div>
+          
+          
+<script>var target=document.getElementById(location.hash.slice(1));target&&target.name&&(target.checked=target.name.startsWith("__tabbed_"))</script>
+        </div>
+        
+          <button type="button" class="md-top md-icon" data-md-component="top" hidden>
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M13 20h-2V8l-5.5 5.5-1.42-1.42L12 4.16l7.92 7.92-1.42 1.42L13 8z"/></svg>
+  Volver al principio
+</button>
+        
+      </main>
+      
+        <footer class="md-footer">
+  
+  <div class="md-footer-meta md-typeset">
+    <div class="md-footer-meta__inner md-grid">
+      <div class="md-copyright">
+  
+  
+    Made with
+    <a href="https://squidfunk.github.io/mkdocs-material/" target="_blank" rel="noopener">
+      Material for MkDocs
+    </a>
+  
+</div>
+      
+    </div>
+  </div>
+</footer>
+      
+    </div>
+    <div class="md-dialog" data-md-component="dialog">
+      <div class="md-dialog__inner md-typeset"></div>
+    </div>
+    
+    
+    
+      
+      
+      <script id="__config" type="application/json">{"annotate": null, "base": "..", "features": ["navigation.top", "navigation.indexes", "search.suggest", "search.highlight", "content.code.copy"], "search": "../assets/javascripts/workers/search.2c215733.min.js", "tags": null, "translations": {"clipboard.copied": "Copiado al portapapeles", "clipboard.copy": "Copiar al portapapeles", "search.result.more.one": "1 m\u00e1s en esta p\u00e1gina", "search.result.more.other": "# m\u00e1s en esta p\u00e1gina", "search.result.none": "No se encontraron documentos", "search.result.one": "1 documento encontrado", "search.result.other": "# documentos encontrados", "search.result.placeholder": "Teclee para comenzar b\u00fasqueda", "search.result.term.missing": "Falta", "select.version": "Seleccionar versi\u00f3n"}, "version": null}</script>
+    
+    
+      <script src="../assets/javascripts/bundle.d7400e89.min.js"></script>
+      
+    
+  </body>
+</html>

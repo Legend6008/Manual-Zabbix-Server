@@ -1,0 +1,1696 @@
+
+<!doctype html>
+<html lang="es" class="no-js">
+  <head>
+    
+      <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width,initial-scale=1">
+      
+        <meta name="description" content="Documentación técnica">
+      
+      
+        <meta name="author" content="Damian, Adrian, Mauro">
+      
+      
+      
+      
+      
+        
+      
+      
+      <link rel="icon" href="../assets/images/favicon.png">
+      <meta name="generator" content="mkdocs-1.6.1, mkdocs-material-9.7.7">
+    
+    
+      
+        <title>Informe de Hardening — Ubuntu 22.04 LTS - Manual de Servidor Zabbix</title>
+      
+    
+    
+      <link rel="stylesheet" href="../assets/stylesheets/main.ec1eaa64.min.css">
+      
+        
+        <link rel="stylesheet" href="../assets/stylesheets/palette.ab4e12ef.min.css">
+      
+      
+
+
+    
+    
+      
+    
+    
+      
+        
+        
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,300i,400,400i,700,700i%7CRoboto+Mono:400,400i,700,700i&display=fallback">
+        <style>:root{--md-text-font:"Roboto";--md-code-font:"Roboto Mono"}</style>
+      
+    
+    
+      <link rel="stylesheet" href="../stylesheets/extra1.css">
+    
+    <script>__md_scope=new URL("..",location),__md_hash=e=>[...e].reduce(((e,_)=>(e<<5)-e+_.charCodeAt(0)),0),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
+    
+      
+
+    
+    
+  </head>
+  
+  
+    
+    
+      
+    
+    
+    
+    
+    <body dir="ltr" data-md-color-scheme="slate" data-md-color-primary="blue-grey" data-md-color-accent="light-blue">
+  
+    
+    <input class="md-toggle" data-md-toggle="drawer" type="checkbox" id="__drawer" autocomplete="off">
+    <input class="md-toggle" data-md-toggle="search" type="checkbox" id="__search" autocomplete="off">
+    <label class="md-overlay" for="__drawer"></label>
+    <div data-md-component="skip">
+      
+        
+        <a href="#informe-de-hardening-ubuntu-2204-lts" class="md-skip">
+          Saltar a contenido
+        </a>
+      
+    </div>
+    <div data-md-component="announce">
+      
+    </div>
+    
+    
+      
+
+  
+
+<header class="md-header md-header--shadow" data-md-component="header">
+  <nav class="md-header__inner md-grid" aria-label="Cabecera">
+    <a href="../index.html" title="Manual de Servidor Zabbix" class="md-header__button md-logo" aria-label="Manual de Servidor Zabbix" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54"/></svg>
+
+    </a>
+    <label class="md-header__button md-icon" for="__drawer">
+      
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M3 6h18v2H3zm0 5h18v2H3zm0 5h18v2H3z"/></svg>
+    </label>
+    <div class="md-header__title" data-md-component="header-title">
+      <div class="md-header__ellipsis">
+        <div class="md-header__topic">
+          <span class="md-ellipsis">
+            Manual de Servidor Zabbix
+          </span>
+        </div>
+        <div class="md-header__topic" data-md-component="header-topic">
+          <span class="md-ellipsis">
+            
+              Informe de Hardening — Ubuntu 22.04 LTS
+            
+          </span>
+        </div>
+      </div>
+    </div>
+    
+      
+        <form class="md-header__option" data-md-component="palette">
+  
+    
+    
+    
+    <input class="md-option" data-md-color-media="" data-md-color-scheme="slate" data-md-color-primary="blue-grey" data-md-color-accent="light-blue"  aria-hidden="true"  type="radio" name="__palette" id="__palette_0">
+    
+  
+</form>
+      
+    
+    
+      <script>var palette=__md_get("__palette");if(palette&&palette.color){if("(prefers-color-scheme)"===palette.color.media){var media=matchMedia("(prefers-color-scheme: light)"),input=document.querySelector(media.matches?"[data-md-color-media='(prefers-color-scheme: light)']":"[data-md-color-media='(prefers-color-scheme: dark)']");palette.color.media=input.getAttribute("data-md-color-media"),palette.color.scheme=input.getAttribute("data-md-color-scheme"),palette.color.primary=input.getAttribute("data-md-color-primary"),palette.color.accent=input.getAttribute("data-md-color-accent")}for(var[key,value]of Object.entries(palette.color))document.body.setAttribute("data-md-color-"+key,value)}</script>
+    
+    
+    
+      
+      
+        <label class="md-header__button md-icon" for="__search">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+        </label>
+        <div class="md-search" data-md-component="search" role="dialog">
+  <label class="md-search__overlay" for="__search"></label>
+  <div class="md-search__inner" role="search">
+    <form class="md-search__form" name="search">
+      <input type="text" class="md-search__input" name="query" aria-label="Búsqueda" placeholder="Búsqueda" autocapitalize="off" autocorrect="off" autocomplete="off" spellcheck="false" data-md-component="search-query" required>
+      <label class="md-search__icon md-icon" for="__search">
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11z"/></svg>
+      </label>
+      <nav class="md-search__options" aria-label="Buscar">
+        
+        <button type="reset" class="md-search__icon md-icon" title="Limpiar" aria-label="Limpiar" tabindex="-1">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M19 6.41 17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"/></svg>
+        </button>
+      </nav>
+      
+        <div class="md-search__suggest" data-md-component="search-suggest"></div>
+      
+    </form>
+    <div class="md-search__output">
+      <div class="md-search__scrollwrap" tabindex="0" data-md-scrollfix>
+        <div class="md-search-result" data-md-component="search-result">
+          <div class="md-search-result__meta">
+            Inicializando búsqueda
+          </div>
+          <ol class="md-search-result__list" role="presentation"></ol>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+      
+    
+    
+  </nav>
+  
+</header>
+    
+    <div class="md-container" data-md-component="container">
+      
+      
+        
+          
+        
+      
+      <main class="md-main" data-md-component="main">
+        <div class="md-main__inner md-grid">
+          
+            
+              
+              <div class="md-sidebar md-sidebar--primary" data-md-component="sidebar" data-md-type="navigation" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+
+
+<nav class="md-nav md-nav--primary" aria-label="Navegación" data-md-level="0">
+  <label class="md-nav__title" for="__drawer">
+    <a href="../index.html" title="Manual de Servidor Zabbix" class="md-nav__button md-logo" aria-label="Manual de Servidor Zabbix" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54"/></svg>
+
+    </a>
+    Manual de Servidor Zabbix
+  </label>
+  
+  <ul class="md-nav__list" data-md-scrollfix>
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../index.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Introduccion
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+      
+        
+      
+        
+      
+        
+      
+    
+    
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_2" >
+        
+          
+          <label class="md-nav__link" for="__nav_2" id="__nav_2_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Servidor
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_2_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_2">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Servidor
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../Servidor/instalacion.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Instalacion
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../Servidor/configuracion.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Configuración
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../Servidor/servicios.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Servicios
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+      
+        
+      
+        
+      
+    
+    
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_3" >
+        
+          
+          <label class="md-nav__link" for="__nav_3" id="__nav_3_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Agentes
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_3_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_3">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Agentes
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../Agentes/ubuntu.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Ubuntu - kali
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../Agentes/windows11.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Windows 10 - 11
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+      
+        
+      
+        
+      
+        
+      
+        
+      
+    
+    
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_4" >
+        
+          
+          <label class="md-nav__link" for="__nav_4" id="__nav_4_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Monitoreo
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_4_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_4">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Monitoreo
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../Monitoreo/alertastelegram.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Telegram
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../Monitoreo/alertacorreo.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Correo
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../Monitoreo/snmp.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    SNMP
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../Monitoreo/dashboard.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Dashboard
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+      
+        
+      
+        
+      
+    
+    
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_5" >
+        
+          
+          <label class="md-nav__link" for="__nav_5" id="__nav_5_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Seguridad
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_5_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_5">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Seguridad
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="alertas.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Alertas
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="hardening1.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Hardening
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+      
+        
+      
+        
+      
+    
+    
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_6" >
+        
+          
+          <label class="md-nav__link" for="__nav_6" id="__nav_6_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Conectividad
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_6_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_6">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Conectividad
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../Conectividad/tailscale.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Tailscale
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../Conectividad/ssh.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    SSH
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+      
+        
+      
+        
+      
+        
+      
+        
+      
+    
+    
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_7" >
+        
+          
+          <label class="md-nav__link" for="__nav_7" id="__nav_7_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Problemas
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_7_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_7">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Problemas
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../Problemas/errortelegram.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Errores Telegram
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../Problemas/errores-agentes.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Errores Agentes
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../Problemas/errorssh.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Errores SSH
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../Problemas/errorsnmp.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Errores SNMP
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+      
+        
+      
+    
+    
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_8" >
+        
+          
+          <label class="md-nav__link" for="__nav_8" id="__nav_8_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Referencias
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_8_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_8">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Referencias
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../Referencias/documentacion-oficial.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Documentacion-oficial
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+  </ul>
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+            
+              
+              <div class="md-sidebar md-sidebar--secondary" data-md-component="sidebar" data-md-type="toc" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+<nav class="md-nav md-nav--secondary" aria-label="Tabla de contenidos">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Tabla de contenidos
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#1-objetivo" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        1. Objetivo
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#2-alcance-y-metodologia" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        2. Alcance y metodología
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#3-datos-iniciales-del-servidor" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        3. Datos iniciales del servidor
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#4-plan-de-hardening-y-evidencias" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        4. Plan de hardening y evidencias
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#5-registro-de-actividades" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        5. Registro de actividades
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="5. Registro de actividades">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#51-relevamiento-inicial" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        5.1 Relevamiento inicial
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#52-endurecimiento-ssh-propuesto" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        5.2 Endurecimiento SSH propuesto
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#6-registro-de-evidencias" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        6. Registro de evidencias:
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="6. Registro de evidencias:">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#evidencia-1-identificacion-del-sistema" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Evidencia 1 — Identificación del sistema
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#evidencia-2-estado-del-firewall" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Evidencia 2 — Estado del firewall
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#evidencia-3-ssh-reforzado" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Evidencia 3 — SSH reforzado
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#evidencia-4-politica-de-contrasenas" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Evidencia 4 — Política de contraseñas
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#evidencia-5-bloqueo-de-intentos-fallidos" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Evidencia 5 — Bloqueo de intentos fallidos
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#evidencia-6-actualizaciones" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Evidencia 6 — Actualizaciones
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#evidencia-7-usuarios-y-privilegios" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Evidencia 7 — Usuarios y privilegios
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#evidencia-8-servicios-y-puertos" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Evidencia 8 — Servicios y puertos
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#evidencia-9-apparmor-controles-adicionales" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Evidencia 9 — AppArmor / controles adicionales
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#7-verificacion-final" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        7. Verificación final
+      
+    </span>
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+          
+          
+            <div class="md-content" data-md-component="content">
+              
+              <article class="md-content__inner md-typeset">
+                
+                  
+
+
+
+<h1 id="informe-de-hardening-ubuntu-2204-lts">Informe de Hardening — Ubuntu 22.04 LTS<a class="headerlink" href="#informe-de-hardening-ubuntu-2204-lts" title="Permanent link">&para;</a></h1>
+<hr />
+<p><strong>Sistema evaluado:</strong> Ubuntu 22.04.1 LTS&#x20;</p>
+<hr />
+<h2 id="1-objetivo">1. Objetivo<a class="headerlink" href="#1-objetivo" title="Permanent link">&para;</a></h2>
+<p>Aplicar y documentar medidas básicas de hardening en Ubuntu, reduciendo la superficie de ataque mediante la revisión y el ajuste de la autenticación remota, el firewall, las actualizaciones, las políticas de contraseñas, las cuentas de usuario y los servicios.</p>
+<h2 id="2-alcance-y-metodologia">2. Alcance y metodología<a class="headerlink" href="#2-alcance-y-metodologia" title="Permanent link">&para;</a></h2>
+<p>El trabajo se realiza por etapas. Antes de cambiar una configuración se releva el estado inicial; luego se aplica una modificación controlada y se verifica su resultado con comandos. Se conservan capturas de pantalla o salidas de terminal como evidencias.</p>
+<blockquote>
+<p><strong>Precaución operativa:</strong> mantener una sesión SSH abierta mientras se endurece el acceso remoto. Si es posible, crear una instantánea de la máquina virtual y confirmar el acceso por consola antes de aplicar cambios que puedan impedir una conexión.</p>
+</blockquote>
+<h2 id="3-datos-iniciales-del-servidor">3. Datos iniciales del servidor<a class="headerlink" href="#3-datos-iniciales-del-servidor" title="Permanent link">&para;</a></h2>
+<table>
+<thead>
+<tr>
+<th>Elemento</th>
+<th>Resultado observado</th>
+<th>Evaluación inicial</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Sistema operativo</td>
+<td>Ubuntu 26.04.1 LTS</td>
+<td>Identificado</td>
+</tr>
+<tr>
+<td>Firewall UFW</td>
+<td>Activo; registro en nivel low</td>
+<td>Buen punto de partida</td>
+</tr>
+<tr>
+<td>Política UFW</td>
+<td>Entradas denegadas por defecto; salidas permitidas</td>
+<td>Adecuada como base</td>
+</tr>
+<tr>
+<td>Reglas permitidas</td>
+<td>22/tcp, 80/tcp, 443/tcp, 10050/tcp, 10051/tcp; IPv4 e IPv6</td>
+<td>Revisar necesidad y limitar por origen cuando corresponda</td>
+</tr>
+<tr>
+<td>Servicio SSH</td>
+<td>Activo y habilitado; escucha en puerto 22 sobre IPv4 e IPv6</td>
+<td>Servicio necesario; reforzar configuración</td>
+</tr>
+<tr>
+<td>Autenticación observada</td>
+<td>Inicio de sesión de ubuntu con clave pública ED25519</td>
+<td>Buena señal; confirmar acceso con clave antes de desactivar contraseñas</td>
+</tr>
+</tbody>
+</table>
+<h2 id="4-plan-de-hardening-y-evidencias">4. Plan de hardening y evidencias<a class="headerlink" href="#4-plan-de-hardening-y-evidencias" title="Permanent link">&para;</a></h2>
+<table>
+<thead>
+<tr>
+<th style="text-align: right;">N.º</th>
+<th>Medida</th>
+<th>Verificación / evidencia prevista</th>
+<th>Estado</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align: right;">1</td>
+<td>Política de contraseñas locales</td>
+<td>Configuración de longitud y calidad de contraseñas</td>
+<td>Pendiente</td>
+</tr>
+<tr>
+<td style="text-align: right;">2</td>
+<td>Bloqueo ante intentos fallidos</td>
+<td>Parámetros PAM/faillock y prueba controlada si procede</td>
+<td>Pendiente</td>
+</tr>
+<tr>
+<td style="text-align: right;">3</td>
+<td>Firewall UFW</td>
+<td>Estado, reglas y restricciones por origen</td>
+<td>Activo; revisar reglas</td>
+</tr>
+<tr>
+<td style="text-align: right;">4</td>
+<td>SSH restringido</td>
+<td><code>sshd -t</code>, <code>sshd -T</code> y estado del servicio</td>
+<td>En curso</td>
+</tr>
+<tr>
+<td style="text-align: right;">5</td>
+<td>Actualizaciones</td>
+<td><code>apt update</code> y actualización de paquetes; registro del resultado</td>
+<td>Pendiente</td>
+</tr>
+<tr>
+<td style="text-align: right;">6</td>
+<td>Cuentas innecesarias</td>
+<td>Revisión de cuentas, shells y cuentas con acceso interactivo</td>
+<td>Pendiente</td>
+</tr>
+<tr>
+<td style="text-align: right;">7</td>
+<td>Privilegios administrativos</td>
+<td>Revisión del grupo sudo y usuarios autorizados</td>
+<td>Pendiente</td>
+</tr>
+<tr>
+<td style="text-align: right;">8</td>
+<td>Servicios y puertos</td>
+<td><code>ss -tulpn</code> y revisión de servicios habilitados</td>
+<td>Pendiente</td>
+</tr>
+<tr>
+<td style="text-align: right;">9</td>
+<td>Controles adicionales</td>
+<td>Estado de AppArmor y otras medidas aplicables</td>
+<td>Pendiente</td>
+</tr>
+</tbody>
+</table>
+<h2 id="5-registro-de-actividades">5. Registro de actividades<a class="headerlink" href="#5-registro-de-actividades" title="Permanent link">&para;</a></h2>
+<h3 id="51-relevamiento-inicial">5.1 Relevamiento inicial<a class="headerlink" href="#51-relevamiento-inicial" title="Permanent link">&para;</a></h3>
+<p><strong>Comandos ejecutados:</strong></p>
+<div class="highlight"><pre><span></span><code>lsb_release<span class="w"> </span>-a
+sudo<span class="w"> </span>ufw<span class="w"> </span>status<span class="w"> </span>verbose
+sudo<span class="w"> </span>systemctl<span class="w"> </span>status<span class="w"> </span>ssh<span class="w"> </span>--no-pager
+sudo<span class="w"> </span>sshd<span class="w"> </span>-T<span class="w"> </span><span class="p">|</span><span class="w"> </span>grep<span class="w"> </span>-E<span class="w"> </span><span class="s1">'^(permitrootlogin|passwordauthentication|kbdinteractiveauthentication|pubkeyauthentication|maxauthtries|allowusers)'</span>
+</code></pre></div>
+<p><strong>Resultados relevantes:</strong></p>
+<p>UFW se encuentra activo. SSH está activo y habilitado. La configuración inicial mostró <code>PermitRootLogin prohibit-password</code>, <code>PasswordAuthentication yes</code>, <code>PubkeyAuthentication yes</code>, <code>MaxAuthTries 6</code> y <code>KbdInteractiveAuthentication no</code>. El archivo <code>/etc/ssh/sshd_config</code> y el archivo <code>/etc/ssh/sshd_config.d/50-cloud-init.conf</code> contienen directivas <code>PasswordAuthentication yes</code>.</p>
+<h3 id="52-endurecimiento-ssh-propuesto">5.2 Endurecimiento SSH propuesto<a class="headerlink" href="#52-endurecimiento-ssh-propuesto" title="Permanent link">&para;</a></h3>
+<p>Se propuso crear <code>/etc/ssh/sshd_config.d/00-hardening.conf</code> con las siguientes directivas. Esta sección describe el cambio propuesto; marcarlo como aplicado solo después de validar y comprobar que una segunda conexión SSH funciona correctamente.</p>
+<p><strong>Directivas propuestas:</strong></p>
+<div class="highlight"><pre><span></span><code><span class="na">PermitRootLogin no</span>
+<span class="na">PasswordAuthentication no</span>
+<span class="na">MaxAuthTries 3</span>
+</code></pre></div>
+<p><strong>Validaciones previstas:</strong></p>
+<div class="highlight"><pre><span></span><code>sudo<span class="w"> </span>sshd<span class="w"> </span>-t
+sudo<span class="w"> </span>sshd<span class="w"> </span>-T<span class="w"> </span><span class="p">|</span><span class="w"> </span>grep<span class="w"> </span>-E<span class="w"> </span><span class="s1">'^(permitrootlogin|passwordauthentication|maxauthtries)'</span>
+sudo<span class="w"> </span>systemctl<span class="w"> </span>reload<span class="w"> </span>ssh
+sudo<span class="w"> </span>systemctl<span class="w"> </span>status<span class="w"> </span>ssh<span class="w"> </span>--no-pager
+</code></pre></div>
+<h2 id="6-registro-de-evidencias">6. Registro de evidencias:<a class="headerlink" href="#6-registro-de-evidencias" title="Permanent link">&para;</a></h2>
+<p>Pegar debajo de cada apartado capturas de pantalla, salidas de comandos o una breve explicación del resultado. No incluir contraseñas, claves privadas, tokens ni otros secretos.</p>
+<h3 id="evidencia-1-identificacion-del-sistema">Evidencia 1 — Identificación del sistema<a class="headerlink" href="#evidencia-1-identificacion-del-sistema" title="Permanent link">&para;</a></h3>
+<p><strong>Comando:</strong></p>
+<div class="highlight"><pre><span></span><code>lsb_release<span class="w"> </span>-a
+uname<span class="w"> </span>-r
+whoami
+</code></pre></div>
+<hr />
+<h3 id="evidencia-2-estado-del-firewall">Evidencia 2 — Estado del firewall<a class="headerlink" href="#evidencia-2-estado-del-firewall" title="Permanent link">&para;</a></h3>
+<p><strong>Comando:</strong></p>
+<div class="highlight"><pre><span></span><code>sudo<span class="w"> </span>ufw<span class="w"> </span>status<span class="w"> </span>verbose
+</code></pre></div>
+<hr />
+<h3 id="evidencia-3-ssh-reforzado">Evidencia 3 — SSH reforzado<a class="headerlink" href="#evidencia-3-ssh-reforzado" title="Permanent link">&para;</a></h3>
+<p><strong>Comandos:</strong></p>
+<div class="highlight"><pre><span></span><code>sudo<span class="w"> </span>sshd<span class="w"> </span>-t
+sudo<span class="w"> </span>sshd<span class="w"> </span>-T
+sudo<span class="w"> </span>systemctl<span class="w"> </span>status<span class="w"> </span>ssh<span class="w"> </span>--no-pager
+</code></pre></div>
+<hr />
+<h3 id="evidencia-4-politica-de-contrasenas">Evidencia 4 — Política de contraseñas<a class="headerlink" href="#evidencia-4-politica-de-contrasenas" title="Permanent link">&para;</a></h3>
+<p><strong>Comandos y archivos de configuración revisados:</strong></p>
+<hr />
+<h3 id="evidencia-5-bloqueo-de-intentos-fallidos">Evidencia 5 — Bloqueo de intentos fallidos<a class="headerlink" href="#evidencia-5-bloqueo-de-intentos-fallidos" title="Permanent link">&para;</a></h3>
+<p><strong>Comandos y parámetros verificados:</strong></p>
+<hr />
+<h3 id="evidencia-6-actualizaciones">Evidencia 6 — Actualizaciones<a class="headerlink" href="#evidencia-6-actualizaciones" title="Permanent link">&para;</a></h3>
+<p><strong>Comandos ejecutados y resumen de paquetes actualizados:</strong></p>
+<hr />
+<h3 id="evidencia-7-usuarios-y-privilegios">Evidencia 7 — Usuarios y privilegios<a class="headerlink" href="#evidencia-7-usuarios-y-privilegios" title="Permanent link">&para;</a></h3>
+<p><strong>Comandos:</strong></p>
+<div class="highlight"><pre><span></span><code>getent<span class="w"> </span>passwd
+getent<span class="w"> </span>group<span class="w"> </span>sudo
+</code></pre></div>
+<p><strong>Análisis de cuentas:</strong></p>
+<hr />
+<h3 id="evidencia-8-servicios-y-puertos">Evidencia 8 — Servicios y puertos<a class="headerlink" href="#evidencia-8-servicios-y-puertos" title="Permanent link">&para;</a></h3>
+<p><strong>Comando:</strong></p>
+<div class="highlight"><pre><span></span><code>sudo<span class="w"> </span>ss<span class="w"> </span>-tulpn
+</code></pre></div>
+<p><strong>Servicios innecesarios detectados:</strong></p>
+<hr />
+<h3 id="evidencia-9-apparmor-controles-adicionales">Evidencia 9 — AppArmor / controles adicionales<a class="headerlink" href="#evidencia-9-apparmor-controles-adicionales" title="Permanent link">&para;</a></h3>
+<p><strong>Comando:</strong></p>
+<div class="highlight"><pre><span></span><code>sudo<span class="w"> </span>aa-status
+</code></pre></div>
+<p><strong>Resultado:</strong></p>
+<h2 id="7-verificacion-final">7. Verificación final<a class="headerlink" href="#7-verificacion-final" title="Permanent link">&para;</a></h2>
+<p>Completar al finalizar el hardening:</p>
+<ul>
+<li>[ ] UFW activo y reglas justificadas/restringidas.</li>
+<li>[ ] SSH validado y acceso administrativo confirmado.</li>
+<li>[ ] Política de contraseñas aplicada y verificada.</li>
+<li>[ ] Bloqueo de intentos fallidos aplicado y verificado.</li>
+<li>[ ] Actualizaciones instaladas o pendientes justificadas.</li>
+<li>[ ] Cuentas innecesarias identificadas y deshabilitadas solo cuando correspondía.</li>
+<li>[ ] Usuarios con sudo revisados.</li>
+<li>[ ] Servicios y puertos revisados.</li>
+<li>[ ] Se conservaron al menos 8 evidencias.</li>
+</ul>
+
+
+
+
+
+
+
+
+
+
+
+
+                
+              </article>
+            </div>
+          
+          
+<script>var target=document.getElementById(location.hash.slice(1));target&&target.name&&(target.checked=target.name.startsWith("__tabbed_"))</script>
+        </div>
+        
+          <button type="button" class="md-top md-icon" data-md-component="top" hidden>
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M13 20h-2V8l-5.5 5.5-1.42-1.42L12 4.16l7.92 7.92-1.42 1.42L13 8z"/></svg>
+  Volver al principio
+</button>
+        
+      </main>
+      
+        <footer class="md-footer">
+  
+  <div class="md-footer-meta md-typeset">
+    <div class="md-footer-meta__inner md-grid">
+      <div class="md-copyright">
+  
+  
+    Made with
+    <a href="https://squidfunk.github.io/mkdocs-material/" target="_blank" rel="noopener">
+      Material for MkDocs
+    </a>
+  
+</div>
+      
+    </div>
+  </div>
+</footer>
+      
+    </div>
+    <div class="md-dialog" data-md-component="dialog">
+      <div class="md-dialog__inner md-typeset"></div>
+    </div>
+    
+    
+    
+      
+      
+      <script id="__config" type="application/json">{"annotate": null, "base": "..", "features": ["navigation.top", "navigation.indexes", "search.suggest", "search.highlight", "content.code.copy"], "search": "../assets/javascripts/workers/search.2c215733.min.js", "tags": null, "translations": {"clipboard.copied": "Copiado al portapapeles", "clipboard.copy": "Copiar al portapapeles", "search.result.more.one": "1 m\u00e1s en esta p\u00e1gina", "search.result.more.other": "# m\u00e1s en esta p\u00e1gina", "search.result.none": "No se encontraron documentos", "search.result.one": "1 documento encontrado", "search.result.other": "# documentos encontrados", "search.result.placeholder": "Teclee para comenzar b\u00fasqueda", "search.result.term.missing": "Falta", "select.version": "Seleccionar versi\u00f3n"}, "version": null}</script>
+    
+    
+      <script src="../assets/javascripts/bundle.d7400e89.min.js"></script>
+      
+    
+  </body>
+</html>
