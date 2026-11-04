@@ -1,0 +1,1908 @@
+
+<!doctype html>
+<html lang="es" class="no-js">
+  <head>
+    
+      <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width,initial-scale=1">
+      
+        <meta name="description" content="Documentación técnica">
+      
+      
+        <meta name="author" content="Damian, Adrian, Mauro">
+      
+      
+      
+        <link rel="prev" href="../Servidor/servicios.html">
+      
+      
+        <link rel="next" href="windows11.html">
+      
+      
+        
+      
+      
+      <link rel="icon" href="../assets/images/favicon.png">
+      <meta name="generator" content="mkdocs-1.6.1, mkdocs-material-9.7.7">
+    
+    
+      
+        <title>Ubuntu - kali - Manual de Servidor Zabbix</title>
+      
+    
+    
+      <link rel="stylesheet" href="../assets/stylesheets/main.ec1eaa64.min.css">
+      
+        
+        <link rel="stylesheet" href="../assets/stylesheets/palette.ab4e12ef.min.css">
+      
+      
+
+
+    
+    
+      
+    
+    
+      
+        
+        
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,300i,400,400i,700,700i%7CRoboto+Mono:400,400i,700,700i&display=fallback">
+        <style>:root{--md-text-font:"Roboto";--md-code-font:"Roboto Mono"}</style>
+      
+    
+    
+      <link rel="stylesheet" href="../stylesheets/extra1.css">
+    
+    <script>__md_scope=new URL("..",location),__md_hash=e=>[...e].reduce(((e,_)=>(e<<5)-e+_.charCodeAt(0)),0),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
+    
+      
+
+    
+    
+  </head>
+  
+  
+    
+    
+      
+    
+    
+    
+    
+    <body dir="ltr" data-md-color-scheme="slate" data-md-color-primary="blue-grey" data-md-color-accent="light-blue">
+  
+    
+    <input class="md-toggle" data-md-toggle="drawer" type="checkbox" id="__drawer" autocomplete="off">
+    <input class="md-toggle" data-md-toggle="search" type="checkbox" id="__search" autocomplete="off">
+    <label class="md-overlay" for="__drawer"></label>
+    <div data-md-component="skip">
+      
+        
+        <a href="#instalacion-y-configuracion-del-agente-zabbix-en-ubuntu" class="md-skip">
+          Saltar a contenido
+        </a>
+      
+    </div>
+    <div data-md-component="announce">
+      
+    </div>
+    
+    
+      
+
+  
+
+<header class="md-header md-header--shadow" data-md-component="header">
+  <nav class="md-header__inner md-grid" aria-label="Cabecera">
+    <a href="../index.html" title="Manual de Servidor Zabbix" class="md-header__button md-logo" aria-label="Manual de Servidor Zabbix" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54"/></svg>
+
+    </a>
+    <label class="md-header__button md-icon" for="__drawer">
+      
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M3 6h18v2H3zm0 5h18v2H3zm0 5h18v2H3z"/></svg>
+    </label>
+    <div class="md-header__title" data-md-component="header-title">
+      <div class="md-header__ellipsis">
+        <div class="md-header__topic">
+          <span class="md-ellipsis">
+            Manual de Servidor Zabbix
+          </span>
+        </div>
+        <div class="md-header__topic" data-md-component="header-topic">
+          <span class="md-ellipsis">
+            
+              Ubuntu - kali
+            
+          </span>
+        </div>
+      </div>
+    </div>
+    
+      
+        <form class="md-header__option" data-md-component="palette">
+  
+    
+    
+    
+    <input class="md-option" data-md-color-media="" data-md-color-scheme="slate" data-md-color-primary="blue-grey" data-md-color-accent="light-blue"  aria-hidden="true"  type="radio" name="__palette" id="__palette_0">
+    
+  
+</form>
+      
+    
+    
+      <script>var palette=__md_get("__palette");if(palette&&palette.color){if("(prefers-color-scheme)"===palette.color.media){var media=matchMedia("(prefers-color-scheme: light)"),input=document.querySelector(media.matches?"[data-md-color-media='(prefers-color-scheme: light)']":"[data-md-color-media='(prefers-color-scheme: dark)']");palette.color.media=input.getAttribute("data-md-color-media"),palette.color.scheme=input.getAttribute("data-md-color-scheme"),palette.color.primary=input.getAttribute("data-md-color-primary"),palette.color.accent=input.getAttribute("data-md-color-accent")}for(var[key,value]of Object.entries(palette.color))document.body.setAttribute("data-md-color-"+key,value)}</script>
+    
+    
+    
+      
+      
+        <label class="md-header__button md-icon" for="__search">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+        </label>
+        <div class="md-search" data-md-component="search" role="dialog">
+  <label class="md-search__overlay" for="__search"></label>
+  <div class="md-search__inner" role="search">
+    <form class="md-search__form" name="search">
+      <input type="text" class="md-search__input" name="query" aria-label="Búsqueda" placeholder="Búsqueda" autocapitalize="off" autocorrect="off" autocomplete="off" spellcheck="false" data-md-component="search-query" required>
+      <label class="md-search__icon md-icon" for="__search">
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11z"/></svg>
+      </label>
+      <nav class="md-search__options" aria-label="Buscar">
+        
+        <button type="reset" class="md-search__icon md-icon" title="Limpiar" aria-label="Limpiar" tabindex="-1">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M19 6.41 17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"/></svg>
+        </button>
+      </nav>
+      
+        <div class="md-search__suggest" data-md-component="search-suggest"></div>
+      
+    </form>
+    <div class="md-search__output">
+      <div class="md-search__scrollwrap" tabindex="0" data-md-scrollfix>
+        <div class="md-search-result" data-md-component="search-result">
+          <div class="md-search-result__meta">
+            Inicializando búsqueda
+          </div>
+          <ol class="md-search-result__list" role="presentation"></ol>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+      
+    
+    
+  </nav>
+  
+</header>
+    
+    <div class="md-container" data-md-component="container">
+      
+      
+        
+          
+        
+      
+      <main class="md-main" data-md-component="main">
+        <div class="md-main__inner md-grid">
+          
+            
+              
+              <div class="md-sidebar md-sidebar--primary" data-md-component="sidebar" data-md-type="navigation" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+
+
+<nav class="md-nav md-nav--primary" aria-label="Navegación" data-md-level="0">
+  <label class="md-nav__title" for="__drawer">
+    <a href="../index.html" title="Manual de Servidor Zabbix" class="md-nav__button md-logo" aria-label="Manual de Servidor Zabbix" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54"/></svg>
+
+    </a>
+    Manual de Servidor Zabbix
+  </label>
+  
+  <ul class="md-nav__list" data-md-scrollfix>
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../index.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Introduccion
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+      
+        
+      
+        
+      
+        
+      
+    
+    
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_2" >
+        
+          
+          <label class="md-nav__link" for="__nav_2" id="__nav_2_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Servidor
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_2_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_2">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Servidor
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../Servidor/instalacion.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Instalacion
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../Servidor/configuracion.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Configuración
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../Servidor/servicios.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Servicios
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+    
+  
+  
+  
+    
+    
+      
+        
+      
+        
+      
+    
+    
+    
+    
+    <li class="md-nav__item md-nav__item--active md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_3" checked>
+        
+          
+          <label class="md-nav__link" for="__nav_3" id="__nav_3_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Agentes
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_3_label" aria-expanded="true">
+          <label class="md-nav__title" for="__nav_3">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Agentes
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+    
+  
+  
+  
+    <li class="md-nav__item md-nav__item--active">
+      
+      <input class="md-nav__toggle md-toggle" type="checkbox" id="__toc">
+      
+      
+        
+      
+      
+        <label class="md-nav__link md-nav__link--active" for="__toc">
+          
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Ubuntu - kali
+  
+
+    
+  </span>
+  
+  
+
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <a href="ubuntu.html" class="md-nav__link md-nav__link--active">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Ubuntu - kali
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+      
+        
+
+<nav class="md-nav md-nav--secondary" aria-label="Tabla de contenidos">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Tabla de contenidos
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#1-introduccion" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        1. Introducción
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#2-instalacion-del-agente" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        2. Instalación del agente
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="2. Instalación del agente">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#21-actualizacion-de-los-paquetes" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        2.1. Actualización de los paquetes
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#22-instalacion-del-agente-zabbix" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        2.2. Instalación del agente Zabbix
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#3-configuracion-del-agente" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        3. Configuración del agente
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="3. Configuración del agente">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#31-edicion-del-archivo-de-configuracion" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        3.1. Edicion del archivo de configuración
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#32-configuracion-de-los-parametros-principales" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        3.2. Configuración de los parámetros principales
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#4-inicio-y-habilitacion-del-servicio" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        4. Inicio y habilitación del servicio
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="4. Inicio y habilitación del servicio">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#41-reinicio-del-agente" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        4.1. Reinicio del agente
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#42-verificacion-del-estado" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        4.2. Verificación del estado
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#43-habilitacion-del-inicio-automatico" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        4.3. Habilitación del inicio automático
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#5-verificacion-de-la-conectividad" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        5. Verificación de la conectividad
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="5. Verificación de la conectividad">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#51-comprobacion-de-tailscale" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        5.1. Comprobación de Tailscale
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#52-comprobacion-del-puerto-del-servidor" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        5.2. Comprobación del puerto del servidor
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#6-registro-del-equipo-en-la-interfaz-web-de-zabbix" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        6. Registro del equipo en la interfaz web de Zabbix
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#7-verificacion-de-las-metricas" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        7. Verificación de las métricas
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#8-consideraciones-de-seguridad" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        8. Consideraciones de seguridad
+      
+    </span>
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="windows11.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Windows 10 - 11
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+      
+        
+      
+        
+      
+        
+      
+        
+      
+    
+    
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_4" >
+        
+          
+          <label class="md-nav__link" for="__nav_4" id="__nav_4_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Monitoreo
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_4_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_4">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Monitoreo
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../Monitoreo/alertastelegram.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Telegram
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../Monitoreo/alertacorreo.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Correo
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../Monitoreo/snmp.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    SNMP
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../Monitoreo/dashboard.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Dashboard
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+      
+        
+      
+        
+      
+    
+    
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_5" >
+        
+          
+          <label class="md-nav__link" for="__nav_5" id="__nav_5_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Seguridad
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_5_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_5">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Seguridad
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../Seguridad/alertas.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Alertas
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../Seguridad/hardening1.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Hardening
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+      
+        
+      
+        
+      
+    
+    
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_6" >
+        
+          
+          <label class="md-nav__link" for="__nav_6" id="__nav_6_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Conectividad
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_6_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_6">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Conectividad
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../Conectividad/tailscale.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Tailscale
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../Conectividad/ssh.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    SSH
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+      
+        
+      
+        
+      
+        
+      
+        
+      
+    
+    
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_7" >
+        
+          
+          <label class="md-nav__link" for="__nav_7" id="__nav_7_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Problemas
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_7_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_7">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Problemas
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../Problemas/errortelegram.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Errores Telegram
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../Problemas/errores-agentes.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Errores Agentes
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../Problemas/errorssh.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Errores SSH
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../Problemas/errorsnmp.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Errores SNMP
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+      
+        
+      
+    
+    
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_8" >
+        
+          
+          <label class="md-nav__link" for="__nav_8" id="__nav_8_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Referencias
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_8_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_8">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Referencias
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../Referencias/documentacion-oficial.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Documentacion-oficial
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+  </ul>
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+            
+              
+              <div class="md-sidebar md-sidebar--secondary" data-md-component="sidebar" data-md-type="toc" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+<nav class="md-nav md-nav--secondary" aria-label="Tabla de contenidos">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Tabla de contenidos
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#1-introduccion" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        1. Introducción
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#2-instalacion-del-agente" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        2. Instalación del agente
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="2. Instalación del agente">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#21-actualizacion-de-los-paquetes" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        2.1. Actualización de los paquetes
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#22-instalacion-del-agente-zabbix" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        2.2. Instalación del agente Zabbix
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#3-configuracion-del-agente" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        3. Configuración del agente
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="3. Configuración del agente">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#31-edicion-del-archivo-de-configuracion" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        3.1. Edicion del archivo de configuración
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#32-configuracion-de-los-parametros-principales" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        3.2. Configuración de los parámetros principales
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#4-inicio-y-habilitacion-del-servicio" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        4. Inicio y habilitación del servicio
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="4. Inicio y habilitación del servicio">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#41-reinicio-del-agente" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        4.1. Reinicio del agente
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#42-verificacion-del-estado" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        4.2. Verificación del estado
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#43-habilitacion-del-inicio-automatico" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        4.3. Habilitación del inicio automático
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#5-verificacion-de-la-conectividad" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        5. Verificación de la conectividad
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="5. Verificación de la conectividad">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#51-comprobacion-de-tailscale" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        5.1. Comprobación de Tailscale
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#52-comprobacion-del-puerto-del-servidor" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        5.2. Comprobación del puerto del servidor
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#6-registro-del-equipo-en-la-interfaz-web-de-zabbix" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        6. Registro del equipo en la interfaz web de Zabbix
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#7-verificacion-de-las-metricas" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        7. Verificación de las métricas
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#8-consideraciones-de-seguridad" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        8. Consideraciones de seguridad
+      
+    </span>
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+          
+          
+            <div class="md-content" data-md-component="content">
+              
+              <article class="md-content__inner md-typeset">
+                
+                  
+
+
+
+<h1 id="instalacion-y-configuracion-del-agente-zabbix-en-ubuntu">Instalación y configuración del agente Zabbix en Ubuntu<a class="headerlink" href="#instalacion-y-configuracion-del-agente-zabbix-en-ubuntu" title="Permanent link">&para;</a></h1>
+<h2 id="1-introduccion">1. Introducción<a class="headerlink" href="#1-introduccion" title="Permanent link">&para;</a></h2>
+<p>El agente Zabbix permite recopilar información sobre el estado y el rendimiento de un equipo Ubuntu y enviarla al servidor Zabbix para su monitoreo.</p>
+<p>Entre las métricas que se pueden obtener se encuentran el uso de CPU, memoria RAM, espacio en disco, disponibilidad del sistema y otros parámetros del equipo.</p>
+<p>En este laboratorio, el agente se utiliza para supervisar equipos Ubuntu y enviar información al servidor Zabbix mediante la conexión privada de Tailscale.</p>
+<h2 id="2-instalacion-del-agente">2. Instalación del agente<a class="headerlink" href="#2-instalacion-del-agente" title="Permanent link">&para;</a></h2>
+<h3 id="21-actualizacion-de-los-paquetes">2.1. Actualización de los paquetes<a class="headerlink" href="#21-actualizacion-de-los-paquetes" title="Permanent link">&para;</a></h3>
+<p>Antes de instalar el agente, actualizamos el índice de paquetes disponibles en los repositorios configurados en Ubuntu.</p>
+<div class="highlight"><pre><span></span><code>sudo<span class="w"> </span>apt-get<span class="w"> </span>update
+</code></pre></div>
+<p><strong>Explicación:</strong></p>
+<ul>
+<li><code>sudo</code>: ejecuta el comando con privilegios de administrador.</li>
+<li><code>apt-get</code>: administra los paquetes del sistema.</li>
+<li><code>update</code>: actualiza el índice de paquetes disponibles.</li>
+</ul>
+<h3 id="22-instalacion-del-agente-zabbix">2.2. Instalación del agente Zabbix<a class="headerlink" href="#22-instalacion-del-agente-zabbix" title="Permanent link">&para;</a></h3>
+<p>Instalamos el agente tradicional mediante el siguiente comando:</p>
+<div class="highlight"><pre><span></span><code>sudo<span class="w"> </span>apt-get<span class="w"> </span>install<span class="w"> </span>zabbix-agent<span class="w"> </span>-y
+</code></pre></div>
+<p><strong>Explicación:</strong></p>
+<ul>
+<li><code>apt-get install</code>: instala el paquete especificado.</li>
+<li><code>zabbix-agent</code>: identifica el paquete del agente Zabbix.</li>
+<li><code>-y</code>: confirma automáticamente las preguntas habituales del instalador.</li>
+</ul>
+<p>El agente permite recopilar métricas del sistema operativo para que el servidor Zabbix pueda supervisar el equipo.</p>
+<h2 id="3-configuracion-del-agente">3. Configuración del agente<a class="headerlink" href="#3-configuracion-del-agente" title="Permanent link">&para;</a></h2>
+<h3 id="31-edicion-del-archivo-de-configuracion">3.1. Edicion del archivo de configuración<a class="headerlink" href="#31-edicion-del-archivo-de-configuracion" title="Permanent link">&para;</a></h3>
+<p>Abrimos el archivo de configuración del agente:</p>
+<div class="highlight"><pre><span></span><code>sudo<span class="w"> </span>nano<span class="w"> </span>/etc/zabbix/zabbix_agentd.conf
+</code></pre></div>
+<p>Este archivo contiene los parámetros necesarios para establecer la comunicación entre el agente y el servidor Zabbix.</p>
+<h3 id="32-configuracion-de-los-parametros-principales">3.2. Configuración de los parámetros principales<a class="headerlink" href="#32-configuracion-de-los-parametros-principales" title="Permanent link">&para;</a></h3>
+<p>Buscamos y configuramos los siguientes parámetros, reemplazando los valores de ejemplo por los correspondientes al equipo monitoreado.</p>
+<div class="highlight"><pre><span></span><code><span class="na">Server</span><span class="o">=</span><span class="s">100.84.117.85</span>
+<span class="na">ServerActive</span><span class="o">=</span><span class="s">100.84.117.85:10051</span>
+<span class="na">Hostname</span><span class="o">=</span><span class="s">ubuntu-agent</span>
+</code></pre></div>
+<p><strong>Explicación:</strong></p>
+<ul>
+<li><code>Server</code>: dirección del servidor autorizado para realizar comprobaciones pasivas.</li>
+<li><code>ServerActive</code>: dirección IP y puerto del servidor al que el agente solicita comprobaciones activas.</li>
+<li><code>Hostname</code>: nombre técnico con el que el agente se identifica ante Zabbix.</li>
+</ul>
+<p>En este laboratorio, <code>100.69.187.108</code> corresponde a la dirección Tailscale del servidor Zabbix. El valor <code>ubuntu-agent</code> es un ejemplo y debe coincidir exactamente con el nombre técnico registrado en la interfaz web de Zabbix.</p>
+<p>Para guardar los cambios en Nano, presionamos <code>Ctrl + O</code>, confirmamos con <code>Enter</code> y salimos con <code>Ctrl + X</code>.</p>
+<h2 id="4-inicio-y-habilitacion-del-servicio">4. Inicio y habilitación del servicio<a class="headerlink" href="#4-inicio-y-habilitacion-del-servicio" title="Permanent link">&para;</a></h2>
+<h3 id="41-reinicio-del-agente">4.1. Reinicio del agente<a class="headerlink" href="#41-reinicio-del-agente" title="Permanent link">&para;</a></h3>
+<p>Después de modificar la configuración, reiniciamos el servicio para aplicar los cambios:</p>
+<div class="highlight"><pre><span></span><code>sudo<span class="w"> </span>systemctl<span class="w"> </span>restart<span class="w"> </span>zabbix-agent
+</code></pre></div>
+<h3 id="42-verificacion-del-estado">4.2. Verificación del estado<a class="headerlink" href="#42-verificacion-del-estado" title="Permanent link">&para;</a></h3>
+<p>Comprobamos que el agente esté ejecutándose correctamente:</p>
+<div class="highlight"><pre><span></span><code>sudo<span class="w"> </span>systemctl<span class="w"> </span>status<span class="w"> </span>zabbix-agent
+</code></pre></div>
+<p><img alt="Panel principal de Zabbix" src="../Imagenes/statuszabbixagent.png" /></p>
+<p>El estado esperado es:</p>
+<div class="highlight"><pre><span></span><code>Active: active (running)
+</code></pre></div>
+<p>Este resultado indica que el servicio está activo. Sin embargo, todavía es necesario verificar la comunicación con el servidor y la recepción de métricas.</p>
+<h3 id="43-habilitacion-del-inicio-automatico">4.3. Habilitación del inicio automático<a class="headerlink" href="#43-habilitacion-del-inicio-automatico" title="Permanent link">&para;</a></h3>
+<p>Configuramos el agente para que se inicie automáticamente cuando arranque Ubuntu:</p>
+<div class="highlight"><pre><span></span><code>sudo<span class="w"> </span>systemctl<span class="w"> </span><span class="nb">enable</span><span class="w"> </span>zabbix-agent
+</code></pre></div>
+<p>De esta manera, el servicio podrá iniciarse automáticamente durante los siguientes arranques del sistema operativo.</p>
+<h2 id="5-verificacion-de-la-conectividad">5. Verificación de la conectividad<a class="headerlink" href="#5-verificacion-de-la-conectividad" title="Permanent link">&para;</a></h2>
+<h3 id="51-comprobacion-de-tailscale">5.1. Comprobación de Tailscale<a class="headerlink" href="#51-comprobacion-de-tailscale" title="Permanent link">&para;</a></h3>
+<p>Verificamos que el equipo esté conectado a la VPN:</p>
+<div class="highlight"><pre><span></span><code>tailscale<span class="w"> </span>status
+</code></pre></div>
+<p><img alt="Panel principal de Zabbix" src="../Imagenes/tailscalestatus.png" /></p>
+<p>Este comando muestra los dispositivos visibles en la red Tailscale.</p>
+<h3 id="52-comprobacion-del-puerto-del-servidor">5.2. Comprobación del puerto del servidor<a class="headerlink" href="#52-comprobacion-del-puerto-del-servidor" title="Permanent link">&para;</a></h3>
+<p>Verificamos que el equipo pueda establecer una conexión TCP con el puerto <code>10051</code> del servidor:</p>
+<div class="highlight"><pre><span></span><code>nc<span class="w"> </span>-zv<span class="w"> </span><span class="m">100</span>.84.117.85<span class="w"> </span><span class="m">10051</span>
+</code></pre></div>
+<p><strong>Explicación:</strong></p>
+<ul>
+<li><code>nc</code>: permite comprobar conexiones de red.</li>
+<li><code>-z</code>: verifica el puerto sin enviar datos de aplicación.</li>
+<li><code>-v</code>: muestra información detallada del resultado.</li>
+<li><code>100.69.187.108</code>: dirección Tailscale del servidor Zabbix.</li>
+<li><code>10051</code>: puerto habitual de comunicación con el servidor para comprobaciones activas.</li>
+</ul>
+<p>Si el comando <code>nc</code> no está instalado, se puede instalar mediante:</p>
+<div class="highlight"><pre><span></span><code>sudo<span class="w"> </span>apt-get<span class="w"> </span>install<span class="w"> </span>netcat-openbsd<span class="w"> </span>-y
+</code></pre></div>
+<p>Una conexión exitosa indica que el puerto es accesible, pero no garantiza por sí sola que el agente esté correctamente configurado.</p>
+<h2 id="6-registro-del-equipo-en-la-interfaz-web-de-zabbix">6. Registro del equipo en la interfaz web de Zabbix<a class="headerlink" href="#6-registro-del-equipo-en-la-interfaz-web-de-zabbix" title="Permanent link">&para;</a></h2>
+<p>Una vez instalado y configurado el agente, ingresamos a la interfaz web de Zabbix y registramos el equipo.</p>
+<table>
+<thead>
+<tr>
+<th>Parámetro</th>
+<th>Valor</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Host name</td>
+<td><code>agentwin11</code></td>
+</tr>
+<tr>
+<td>Visible name</td>
+<td>Ubuntu22.04</td>
+</tr>
+<tr>
+<td>Agent interface IP</td>
+<td><code>100.84.117.85</code></td>
+</tr>
+<tr>
+<td>Port</td>
+<td><code>10050</code></td>
+</tr>
+<tr>
+<td>Template</td>
+<td><code>Linux by Zabbix agent</code></td>
+</tr>
+</tbody>
+</table>
+<ol>
+<li>Accedemos a <strong>Data collection → Hosts</strong>.</li>
+<li>Seleccionamos la opción para crear un nuevo host.</li>
+<li>Asignamos un nombre técnico que coincida con el parámetro <code>Hostname</code>.</li>
+<li>Si utilizamos comprobaciones pasivas, agregamos una interfaz de tipo Agent con la IP Tailscale del equipo Ubuntu y el puerto <code>10050</code>.</li>
+<li>Vinculamos una plantilla compatible, como <code>Linux by Zabbix agent</code>.</li>
+<li>Guardamos la configuración.</li>
+</ol>
+<p>Si se utilizan únicamente comprobaciones activas, la configuración de la interfaz para comprobaciones pasivas puede no ser necesaria. En ambos casos, el nombre técnico debe coincidir con el configurado en el agente.</p>
+<h2 id="7-verificacion-de-las-metricas">7. Verificación de las métricas<a class="headerlink" href="#7-verificacion-de-las-metricas" title="Permanent link">&para;</a></h2>
+<p>Para comprobar que el agente está enviando información:</p>
+<ol>
+<li>Ingresamos en <strong>Monitoring → Latest data</strong>.</li>
+<li>Seleccionamos el host Ubuntu.</li>
+<li>Revisamos las métricas disponibles.</li>
+<li>Comprobamos que los valores se actualicen y que no existan errores de comunicación.</li>
+</ol>
+<p>Si las métricas no aparecen, debemos revisar el nombre del host, la dirección del servidor, el estado del agente, la conexión de Tailscale y los registros del servicio.</p>
+<p>Para consultar los últimos registros del agente, ejecutamos:</p>
+<div class="highlight"><pre><span></span><code>sudo<span class="w"> </span>journalctl<span class="w"> </span>-u<span class="w"> </span>zabbix-agent<span class="w"> </span>-n<span class="w"> </span><span class="m">50</span><span class="w"> </span>--no-pager
+</code></pre></div>
+<p>Este comando permite identificar errores de configuración o problemas de comunicación.</p>
+<h2 id="8-consideraciones-de-seguridad">8. Consideraciones de seguridad<a class="headerlink" href="#8-consideraciones-de-seguridad" title="Permanent link">&para;</a></h2>
+<ul>
+<li>Utilizar Tailscale para establecer una conexión privada entre el agente y el servidor.</li>
+<li>Evitar exponer los puertos de Zabbix directamente a Internet.</li>
+<li>Restringir el acceso al puerto <code>10050</code> cuando se utilicen comprobaciones pasivas.</li>
+<li>Mantener el agente actualizado y revisar periódicamente sus registros.</li>
+<li>Utilizar un nombre técnico único para cada equipo monitoreado.</li>
+</ul>
+
+
+
+
+
+
+
+
+
+
+
+
+                
+              </article>
+            </div>
+          
+          
+<script>var target=document.getElementById(location.hash.slice(1));target&&target.name&&(target.checked=target.name.startsWith("__tabbed_"))</script>
+        </div>
+        
+          <button type="button" class="md-top md-icon" data-md-component="top" hidden>
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M13 20h-2V8l-5.5 5.5-1.42-1.42L12 4.16l7.92 7.92-1.42 1.42L13 8z"/></svg>
+  Volver al principio
+</button>
+        
+      </main>
+      
+        <footer class="md-footer">
+  
+  <div class="md-footer-meta md-typeset">
+    <div class="md-footer-meta__inner md-grid">
+      <div class="md-copyright">
+  
+  
+    Made with
+    <a href="https://squidfunk.github.io/mkdocs-material/" target="_blank" rel="noopener">
+      Material for MkDocs
+    </a>
+  
+</div>
+      
+    </div>
+  </div>
+</footer>
+      
+    </div>
+    <div class="md-dialog" data-md-component="dialog">
+      <div class="md-dialog__inner md-typeset"></div>
+    </div>
+    
+    
+    
+      
+      
+      <script id="__config" type="application/json">{"annotate": null, "base": "..", "features": ["navigation.top", "navigation.indexes", "search.suggest", "search.highlight", "content.code.copy"], "search": "../assets/javascripts/workers/search.2c215733.min.js", "tags": null, "translations": {"clipboard.copied": "Copiado al portapapeles", "clipboard.copy": "Copiar al portapapeles", "search.result.more.one": "1 m\u00e1s en esta p\u00e1gina", "search.result.more.other": "# m\u00e1s en esta p\u00e1gina", "search.result.none": "No se encontraron documentos", "search.result.one": "1 documento encontrado", "search.result.other": "# documentos encontrados", "search.result.placeholder": "Teclee para comenzar b\u00fasqueda", "search.result.term.missing": "Falta", "select.version": "Seleccionar versi\u00f3n"}, "version": null}</script>
+    
+    
+      <script src="../assets/javascripts/bundle.d7400e89.min.js"></script>
+      
+    
+  </body>
+</html>

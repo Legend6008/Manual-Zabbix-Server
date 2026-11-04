@@ -1,0 +1,2037 @@
+
+<!doctype html>
+<html lang="es" class="no-js">
+  <head>
+    
+      <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width,initial-scale=1">
+      
+        <meta name="description" content="Documentación técnica">
+      
+      
+        <meta name="author" content="Damian, Adrian, Mauro">
+      
+      
+      
+        <link rel="prev" href="alertacorreo.html">
+      
+      
+        <link rel="next" href="dashboard.html">
+      
+      
+        
+      
+      
+      <link rel="icon" href="../assets/images/favicon.png">
+      <meta name="generator" content="mkdocs-1.6.1, mkdocs-material-9.7.7">
+    
+    
+      
+        <title>SNMP - Manual de Servidor Zabbix</title>
+      
+    
+    
+      <link rel="stylesheet" href="../assets/stylesheets/main.ec1eaa64.min.css">
+      
+        
+        <link rel="stylesheet" href="../assets/stylesheets/palette.ab4e12ef.min.css">
+      
+      
+
+
+    
+    
+      
+    
+    
+      
+        
+        
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,300i,400,400i,700,700i%7CRoboto+Mono:400,400i,700,700i&display=fallback">
+        <style>:root{--md-text-font:"Roboto";--md-code-font:"Roboto Mono"}</style>
+      
+    
+    
+      <link rel="stylesheet" href="../stylesheets/extra1.css">
+    
+    <script>__md_scope=new URL("..",location),__md_hash=e=>[...e].reduce(((e,_)=>(e<<5)-e+_.charCodeAt(0)),0),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
+    
+      
+
+    
+    
+  </head>
+  
+  
+    
+    
+      
+    
+    
+    
+    
+    <body dir="ltr" data-md-color-scheme="slate" data-md-color-primary="blue-grey" data-md-color-accent="light-blue">
+  
+    
+    <input class="md-toggle" data-md-toggle="drawer" type="checkbox" id="__drawer" autocomplete="off">
+    <input class="md-toggle" data-md-toggle="search" type="checkbox" id="__search" autocomplete="off">
+    <label class="md-overlay" for="__drawer"></label>
+    <div data-md-component="skip">
+      
+        
+        <a href="#monitoreo-de-red-mediante-snmp-en-zabbix" class="md-skip">
+          Saltar a contenido
+        </a>
+      
+    </div>
+    <div data-md-component="announce">
+      
+    </div>
+    
+    
+      
+
+  
+
+<header class="md-header md-header--shadow" data-md-component="header">
+  <nav class="md-header__inner md-grid" aria-label="Cabecera">
+    <a href="../index.html" title="Manual de Servidor Zabbix" class="md-header__button md-logo" aria-label="Manual de Servidor Zabbix" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54"/></svg>
+
+    </a>
+    <label class="md-header__button md-icon" for="__drawer">
+      
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M3 6h18v2H3zm0 5h18v2H3zm0 5h18v2H3z"/></svg>
+    </label>
+    <div class="md-header__title" data-md-component="header-title">
+      <div class="md-header__ellipsis">
+        <div class="md-header__topic">
+          <span class="md-ellipsis">
+            Manual de Servidor Zabbix
+          </span>
+        </div>
+        <div class="md-header__topic" data-md-component="header-topic">
+          <span class="md-ellipsis">
+            
+              SNMP
+            
+          </span>
+        </div>
+      </div>
+    </div>
+    
+      
+        <form class="md-header__option" data-md-component="palette">
+  
+    
+    
+    
+    <input class="md-option" data-md-color-media="" data-md-color-scheme="slate" data-md-color-primary="blue-grey" data-md-color-accent="light-blue"  aria-hidden="true"  type="radio" name="__palette" id="__palette_0">
+    
+  
+</form>
+      
+    
+    
+      <script>var palette=__md_get("__palette");if(palette&&palette.color){if("(prefers-color-scheme)"===palette.color.media){var media=matchMedia("(prefers-color-scheme: light)"),input=document.querySelector(media.matches?"[data-md-color-media='(prefers-color-scheme: light)']":"[data-md-color-media='(prefers-color-scheme: dark)']");palette.color.media=input.getAttribute("data-md-color-media"),palette.color.scheme=input.getAttribute("data-md-color-scheme"),palette.color.primary=input.getAttribute("data-md-color-primary"),palette.color.accent=input.getAttribute("data-md-color-accent")}for(var[key,value]of Object.entries(palette.color))document.body.setAttribute("data-md-color-"+key,value)}</script>
+    
+    
+    
+      
+      
+        <label class="md-header__button md-icon" for="__search">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+        </label>
+        <div class="md-search" data-md-component="search" role="dialog">
+  <label class="md-search__overlay" for="__search"></label>
+  <div class="md-search__inner" role="search">
+    <form class="md-search__form" name="search">
+      <input type="text" class="md-search__input" name="query" aria-label="Búsqueda" placeholder="Búsqueda" autocapitalize="off" autocorrect="off" autocomplete="off" spellcheck="false" data-md-component="search-query" required>
+      <label class="md-search__icon md-icon" for="__search">
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11z"/></svg>
+      </label>
+      <nav class="md-search__options" aria-label="Buscar">
+        
+        <button type="reset" class="md-search__icon md-icon" title="Limpiar" aria-label="Limpiar" tabindex="-1">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M19 6.41 17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"/></svg>
+        </button>
+      </nav>
+      
+        <div class="md-search__suggest" data-md-component="search-suggest"></div>
+      
+    </form>
+    <div class="md-search__output">
+      <div class="md-search__scrollwrap" tabindex="0" data-md-scrollfix>
+        <div class="md-search-result" data-md-component="search-result">
+          <div class="md-search-result__meta">
+            Inicializando búsqueda
+          </div>
+          <ol class="md-search-result__list" role="presentation"></ol>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+      
+    
+    
+  </nav>
+  
+</header>
+    
+    <div class="md-container" data-md-component="container">
+      
+      
+        
+          
+        
+      
+      <main class="md-main" data-md-component="main">
+        <div class="md-main__inner md-grid">
+          
+            
+              
+              <div class="md-sidebar md-sidebar--primary" data-md-component="sidebar" data-md-type="navigation" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+
+
+<nav class="md-nav md-nav--primary" aria-label="Navegación" data-md-level="0">
+  <label class="md-nav__title" for="__drawer">
+    <a href="../index.html" title="Manual de Servidor Zabbix" class="md-nav__button md-logo" aria-label="Manual de Servidor Zabbix" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54"/></svg>
+
+    </a>
+    Manual de Servidor Zabbix
+  </label>
+  
+  <ul class="md-nav__list" data-md-scrollfix>
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../index.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Introduccion
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+      
+        
+      
+        
+      
+        
+      
+    
+    
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_2" >
+        
+          
+          <label class="md-nav__link" for="__nav_2" id="__nav_2_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Servidor
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_2_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_2">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Servidor
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../Servidor/instalacion.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Instalacion
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../Servidor/configuracion.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Configuración
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../Servidor/servicios.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Servicios
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+      
+        
+      
+        
+      
+    
+    
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_3" >
+        
+          
+          <label class="md-nav__link" for="__nav_3" id="__nav_3_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Agentes
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_3_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_3">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Agentes
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../Agentes/ubuntu.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Ubuntu - kali
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../Agentes/windows11.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Windows 10 - 11
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+    
+  
+  
+  
+    
+    
+      
+        
+      
+        
+      
+        
+      
+        
+      
+    
+    
+    
+    
+    <li class="md-nav__item md-nav__item--active md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_4" checked>
+        
+          
+          <label class="md-nav__link" for="__nav_4" id="__nav_4_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Monitoreo
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_4_label" aria-expanded="true">
+          <label class="md-nav__title" for="__nav_4">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Monitoreo
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="alertastelegram.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Telegram
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="alertacorreo.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Correo
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+    
+  
+  
+  
+    <li class="md-nav__item md-nav__item--active">
+      
+      <input class="md-nav__toggle md-toggle" type="checkbox" id="__toc">
+      
+      
+        
+      
+      
+        <label class="md-nav__link md-nav__link--active" for="__toc">
+          
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    SNMP
+  
+
+    
+  </span>
+  
+  
+
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <a href="snmp.html" class="md-nav__link md-nav__link--active">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    SNMP
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+      
+        
+
+<nav class="md-nav md-nav--secondary" aria-label="Tabla de contenidos">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Tabla de contenidos
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#1-introduccion" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        1. Introducción
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="1. Introducción">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#objetivos" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Objetivos
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#2-configuracion-del-equipo-linux" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        2. Configuración del equipo Linux
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="2. Configuración del equipo Linux">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#21-habilitar-el-enrutamiento-ip" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        2.1. Habilitar el enrutamiento IP
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#22-instalar-el-servicio-snmp" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        2.2. Instalar el servicio SNMP
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#23-configurar-el-servicio-snmp" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        2.3. Configurar el servicio SNMP
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#24-configurar-la-comunidad-de-lectura" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        2.4. Configurar la comunidad de lectura
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#25-reiniciar-y-verificar-snmp" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        2.5. Reiniciar y verificar SNMP
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#26-comprobar-el-firewall" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        2.6. Comprobar el firewall
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#3-crear-el-equipo-en-zabbix" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        3. Crear el equipo en Zabbix
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="3. Crear el equipo en Zabbix">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#31-abrir-el-formulario-de-creacion" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        3.1. Abrir el formulario de creación
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#32-configurar-los-datos-basicos" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        3.2. Configurar los datos básicos
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#33-asociar-las-plantillas" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        3.3. Asociar las plantillas
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#34-guardar-y-verificar" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        3.4. Guardar y verificar
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#35-crear-el-disparador-snmp" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        3.5. Crear el disparador SNMP
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#4-generar-una-alerta-por-latencia" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        4. Generar una alerta por latencia
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="4. Generar una alerta por latencia">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#41-localizar-la-macro" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        4.1. Localizar la macro
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#42-modificar-temporalmente-el-umbral" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        4.2. Modificar temporalmente el umbral
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#43-esperar-y-verificar-el-evento" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        4.3. Esperar y verificar el evento
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#44-restaurar-el-valor-original" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        4.4. Restaurar el valor original
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="dashboard.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Dashboard
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+      
+        
+      
+        
+      
+    
+    
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_5" >
+        
+          
+          <label class="md-nav__link" for="__nav_5" id="__nav_5_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Seguridad
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_5_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_5">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Seguridad
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../Seguridad/alertas.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Alertas
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../Seguridad/hardening1.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Hardening
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+      
+        
+      
+        
+      
+    
+    
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_6" >
+        
+          
+          <label class="md-nav__link" for="__nav_6" id="__nav_6_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Conectividad
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_6_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_6">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Conectividad
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../Conectividad/tailscale.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Tailscale
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../Conectividad/ssh.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    SSH
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+      
+        
+      
+        
+      
+        
+      
+        
+      
+    
+    
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_7" >
+        
+          
+          <label class="md-nav__link" for="__nav_7" id="__nav_7_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Problemas
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_7_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_7">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Problemas
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../Problemas/errortelegram.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Errores Telegram
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../Problemas/errores-agentes.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Errores Agentes
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../Problemas/errorssh.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Errores SSH
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../Problemas/errorsnmp.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Errores SNMP
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+      
+        
+      
+    
+    
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_8" >
+        
+          
+          <label class="md-nav__link" for="__nav_8" id="__nav_8_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Referencias
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_8_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_8">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Referencias
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../Referencias/documentacion-oficial.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Documentacion-oficial
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+  </ul>
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+            
+              
+              <div class="md-sidebar md-sidebar--secondary" data-md-component="sidebar" data-md-type="toc" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+<nav class="md-nav md-nav--secondary" aria-label="Tabla de contenidos">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Tabla de contenidos
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#1-introduccion" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        1. Introducción
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="1. Introducción">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#objetivos" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Objetivos
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#2-configuracion-del-equipo-linux" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        2. Configuración del equipo Linux
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="2. Configuración del equipo Linux">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#21-habilitar-el-enrutamiento-ip" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        2.1. Habilitar el enrutamiento IP
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#22-instalar-el-servicio-snmp" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        2.2. Instalar el servicio SNMP
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#23-configurar-el-servicio-snmp" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        2.3. Configurar el servicio SNMP
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#24-configurar-la-comunidad-de-lectura" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        2.4. Configurar la comunidad de lectura
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#25-reiniciar-y-verificar-snmp" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        2.5. Reiniciar y verificar SNMP
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#26-comprobar-el-firewall" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        2.6. Comprobar el firewall
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#3-crear-el-equipo-en-zabbix" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        3. Crear el equipo en Zabbix
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="3. Crear el equipo en Zabbix">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#31-abrir-el-formulario-de-creacion" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        3.1. Abrir el formulario de creación
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#32-configurar-los-datos-basicos" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        3.2. Configurar los datos básicos
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#33-asociar-las-plantillas" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        3.3. Asociar las plantillas
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#34-guardar-y-verificar" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        3.4. Guardar y verificar
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#35-crear-el-disparador-snmp" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        3.5. Crear el disparador SNMP
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#4-generar-una-alerta-por-latencia" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        4. Generar una alerta por latencia
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="4. Generar una alerta por latencia">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#41-localizar-la-macro" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        4.1. Localizar la macro
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#42-modificar-temporalmente-el-umbral" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        4.2. Modificar temporalmente el umbral
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#43-esperar-y-verificar-el-evento" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        4.3. Esperar y verificar el evento
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#44-restaurar-el-valor-original" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        4.4. Restaurar el valor original
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+          
+          
+            <div class="md-content" data-md-component="content">
+              
+              <article class="md-content__inner md-typeset">
+                
+                  
+
+
+
+<h1 id="monitoreo-de-red-mediante-snmp-en-zabbix">Monitoreo de red mediante SNMP en Zabbix<a class="headerlink" href="#monitoreo-de-red-mediante-snmp-en-zabbix" title="Permanent link">&para;</a></h1>
+<h2 id="1-introduccion">1. Introducción<a class="headerlink" href="#1-introduccion" title="Permanent link">&para;</a></h2>
+<p>SNMP (<em>Simple Network Management Protocol</em>) permite consultar información de dispositivos y sistemas de red, como interfaces, tráfico, estado y estadísticas de funcionamiento.</p>
+<p>En esta práctica configuraremos un equipo para que Zabbix pueda consultar sus métricas mediante SNMP a través de Tailscale. También utilizaremos ICMP para medir la latencia y generar una alerta cuando el tiempo de respuesta supere un umbral definido.</p>
+<h3 id="objetivos">Objetivos<a class="headerlink" href="#objetivos" title="Permanent link">&para;</a></h3>
+<ul>
+<li>Instalar y configurar el servicio SNMP.</li>
+<li>Permitir las consultas desde el servidor Zabbix a través de Tailscale.</li>
+<li>Registrar el equipo en Zabbix mediante una interfaz SNMP.</li>
+<li>Asociar plantillas de monitoreo.</li>
+<li>Generar una condición de advertencia mediante un umbral de latencia.</li>
+</ul>
+<h2 id="2-configuracion-del-equipo-linux">2. Configuración del equipo Linux<a class="headerlink" href="#2-configuracion-del-equipo-linux" title="Permanent link">&para;</a></h2>
+<h3 id="21-habilitar-el-enrutamiento-ip">2.1. Habilitar el enrutamiento IP<a class="headerlink" href="#21-habilitar-el-enrutamiento-ip" title="Permanent link">&para;</a></h3>
+<p>El siguiente comando habilita temporalmente el reenvío de paquetes IPv4 en el núcleo de Linux:</p>
+<div class="highlight"><pre><span></span><code>sudo<span class="w"> </span>sysctl<span class="w"> </span>-w<span class="w"> </span>net.ipv4.ip_forward<span class="o">=</span><span class="m">1</span>
+</code></pre></div>
+<p><strong>Importante:</strong> este parámetro solo es necesario si el equipo debe reenviar tráfico entre interfaces, por ejemplo, si actúa como router. No es un requisito para instalar SNMP ni para que Zabbix consulte un agente SNMP a través de Tailscale.</p>
+<p>Para comprobar su valor:</p>
+<div class="highlight"><pre><span></span><code>sysctl<span class="w"> </span>net.ipv4.ip_forward
+</code></pre></div>
+<p>Si el resultado es <code>net.ipv4.ip_forward = 1</code>, el reenvío está habilitado.</p>
+<h3 id="22-instalar-el-servicio-snmp">2.2. Instalar el servicio SNMP<a class="headerlink" href="#22-instalar-el-servicio-snmp" title="Permanent link">&para;</a></h3>
+<p>Actualizar los repositorios e instalar el servicio:</p>
+<div class="highlight"><pre><span></span><code>sudo<span class="w"> </span>apt<span class="w"> </span>update
+sudo<span class="w"> </span>apt<span class="w"> </span>install<span class="w"> </span>snmpd<span class="w"> </span>snmp<span class="w"> </span>-y
+</code></pre></div>
+<ul>
+<li><code>snmpd</code>: servicio que responde a las consultas SNMP.</li>
+<li><code>snmp</code>: herramientas cliente para realizar pruebas desde la terminal.</li>
+</ul>
+<p><img alt="Panel principal de Zabbix" src="../Imagenes/SNMP/1%20-%20Comandos%20para%20habilitar%20Router.png" /></p>
+<p>Comprobar el estado del servicio:</p>
+<div class="highlight"><pre><span></span><code>sudo<span class="w"> </span>systemctl<span class="w"> </span>status<span class="w"> </span>snmpd
+</code></pre></div>
+<p>Habilitar el inicio automático y arrancar el servicio:</p>
+<div class="highlight"><pre><span></span><code>sudo<span class="w"> </span>systemctl<span class="w"> </span><span class="nb">enable</span><span class="w"> </span>--now<span class="w"> </span>snmpd
+</code></pre></div>
+<h3 id="23-configurar-el-servicio-snmp">2.3. Configurar el servicio SNMP<a class="headerlink" href="#23-configurar-el-servicio-snmp" title="Permanent link">&para;</a></h3>
+<p>Abrir el archivo de configuración:</p>
+<div class="highlight"><pre><span></span><code>sudo<span class="w"> </span>nano<span class="w"> </span>/etc/snmp/snmpd.conf
+</code></pre></div>
+<p>Buscar la directiva <code>agentaddress</code>. En una configuración predeterminada puede aparecer de esta forma:</p>
+<div class="highlight"><pre><span></span><code>agentaddress 127.0.0.1,[::1]
+</code></pre></div>
+<p>Esta configuración limita la escucha a las interfaces locales. Para permitir consultas remotas, hay que modificarla para que SNMP escuche en la interfaz adecuada.</p>
+<p><strong>Configuración recomendada:</strong> utilizar la IP de Tailscale del equipo supervisado, si está disponible y corresponde a la interfaz por la que se realizarán las consultas.</p>
+<p>Ejemplo ilustrativo:</p>
+<div class="highlight"><pre><span></span><code>agentaddress udp:100.112.1.18:161
+</code></pre></div>
+<p>Reemplazar <code>100.112.1.18</code> por la IP de Tailscale real del equipo donde está instalado <code>snmpd</code>. Si esa dirección corresponde al router u otro equipo, no debe utilizarse aquí.</p>
+<p>Si se necesita escuchar en todas las interfaces, puede utilizarse:</p>
+<div class="highlight"><pre><span></span><code>agentaddress udp:161
+</code></pre></div>
+<p><img alt="Panel principal de Zabbix" src="../Imagenes/SNMP/2%20-%20Mas%20comandos.png" /></p>
+<p>Sin embargo, esta alternativa requiere restringir el acceso mediante el firewall y la configuración de SNMP.</p>
+<h3 id="24-configurar-la-comunidad-de-lectura">2.4. Configurar la comunidad de lectura<a class="headerlink" href="#24-configurar-la-comunidad-de-lectura" title="Permanent link">&para;</a></h3>
+<p>En el archivo <code>snmpd.conf</code>, localizar la directiva de comunidad de solo lectura.</p>
+<p>Una configuración como esta:</p>
+<div class="highlight"><pre><span></span><code>rocommunity public default -V systemonly
+</code></pre></div>
+<p>limita las consultas a una vista de información del sistema. No debe eliminarse esa restricción sin evaluar las consecuencias.</p>
+<p>Para un laboratorio, si se decide utilizar SNMPv2c, se debe definir una comunidad propia y limitar el origen autorizado. Por ejemplo, la siguiente línea ilustra una restricción al servidor Zabbix:</p>
+<div class="highlight"><pre><span></span><code>rocommunity NOMBRE_COMUNIDAD 100.69.187.108
+</code></pre></div>
+<p>En este ejemplo, <code>100.69.187.108</code> representa la IP de Tailscale del servidor Zabbix y <code>NOMBRE_COMUNIDAD</code> debe reemplazarse por una comunidad propia. No utilizar literalmente ese nombre.</p>
+<blockquote>
+<p><strong>Seguridad:</strong> SNMPv2c transmite la comunidad sin cifrado. La consulta debe limitarse a una red confiable, como Tailscale, y a los orígenes autorizados. Para entornos más exigentes, considerar SNMPv3 con autenticación y privacidad.</p>
+</blockquote>
+<p>Guardar el archivo con <code>Ctrl + O</code>, confirmar con <code>Enter</code> y salir con <code>Ctrl + X</code>.</p>
+<h3 id="25-reiniciar-y-verificar-snmp">2.5. Reiniciar y verificar SNMP<a class="headerlink" href="#25-reiniciar-y-verificar-snmp" title="Permanent link">&para;</a></h3>
+<p>Aplicar los cambios:</p>
+<div class="highlight"><pre><span></span><code>sudo<span class="w"> </span>systemctl<span class="w"> </span>restart<span class="w"> </span>snmpd
+</code></pre></div>
+<p>Verificar el estado:</p>
+<div class="highlight"><pre><span></span><code>sudo<span class="w"> </span>systemctl<span class="w"> </span>status<span class="w"> </span>snmpd
+</code></pre></div>
+<p><img alt="Panel principal de Zabbix" src="../Imagenes/SNMP/3%20-%20Chequeo%20de%20que%20esta%20funcionando.png" /></p>
+<p>Comprobar que el servicio esté escuchando en el puerto UDP 161:</p>
+<div class="highlight"><pre><span></span><code>sudo<span class="w"> </span>ss<span class="w"> </span>-lunp<span class="w"> </span><span class="p">|</span><span class="w"> </span>grep<span class="w"> </span><span class="s1">':161'</span>
+</code></pre></div>
+<p>Si el servicio no inicia, revisar los registros:</p>
+<div class="highlight"><pre><span></span><code>sudo<span class="w"> </span>journalctl<span class="w"> </span>-u<span class="w"> </span>snmpd<span class="w"> </span>-n<span class="w"> </span><span class="m">50</span><span class="w"> </span>--no-pager
+</code></pre></div>
+<h3 id="26-comprobar-el-firewall">2.6. Comprobar el firewall<a class="headerlink" href="#26-comprobar-el-firewall" title="Permanent link">&para;</a></h3>
+<p>Si se utiliza UFW, verificar las reglas actuales:</p>
+<div class="highlight"><pre><span></span><code>sudo<span class="w"> </span>ufw<span class="w"> </span>status<span class="w"> </span>verbose
+</code></pre></div>
+<p>Si las consultas se realizan exclusivamente desde la IP de Tailscale del servidor Zabbix, se puede restringir el acceso a ese origen:</p>
+<div class="highlight"><pre><span></span><code>sudo<span class="w"> </span>ufw<span class="w"> </span>allow<span class="w"> </span><span class="k">in</span><span class="w"> </span>on<span class="w"> </span>tailscale0<span class="w"> </span>from<span class="w"> </span><span class="m">100</span>.69.187.108<span class="w"> </span>to<span class="w"> </span>any<span class="w"> </span>port<span class="w"> </span><span class="m">161</span><span class="w"> </span>proto<span class="w"> </span>udp
+</code></pre></div>
+<p>La interfaz <code>tailscale0</code> y la dirección de origen deben coincidir con la configuración real del entorno.</p>
+<h2 id="3-crear-el-equipo-en-zabbix">3. Crear el equipo en Zabbix<a class="headerlink" href="#3-crear-el-equipo-en-zabbix" title="Permanent link">&para;</a></h2>
+<h3 id="31-abrir-el-formulario-de-creacion">3.1. Abrir el formulario de creación<a class="headerlink" href="#31-abrir-el-formulario-de-creacion" title="Permanent link">&para;</a></h3>
+<ol>
+<li>Ingresar a la interfaz web de Zabbix.</li>
+<li>Ir a <strong>Recopilación de datos → Equipos</strong> (<em>Data collection → Hosts</em>), o a la sección equivalente según la versión.</li>
+<li>Pulsar <strong>Crear equipo</strong>.</li>
+</ol>
+<h3 id="32-configurar-los-datos-basicos">3.2. Configurar los datos básicos<a class="headerlink" href="#32-configurar-los-datos-basicos" title="Permanent link">&para;</a></h3>
+<p>Completar los campos de la siguiente manera:</p>
+<table>
+<thead>
+<tr>
+<th>Campo</th>
+<th>Valor</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Nombre del equipo</td>
+<td><code>RTR-CORE</code></td>
+</tr>
+<tr>
+<td>Grupos de equipos</td>
+<td><code>Routers</code> o un grupo apropiado</td>
+</tr>
+<tr>
+<td>Tipo de interfaz</td>
+<td><code>SNMP</code></td>
+</tr>
+<tr>
+<td>Dirección IP</td>
+<td><code>100.112.1.18</code>, si es la IP de Tailscale del dispositivo supervisado</td>
+</tr>
+<tr>
+<td>Puerto</td>
+<td><code>161</code></td>
+</tr>
+<tr>
+<td>Versión SNMP</td>
+<td><code>SNMPv2</code></td>
+</tr>
+<tr>
+<td>Comunidad SNMP</td>
+<td><code>{$SNMP_COMMUNITY}</code> o el valor configurado en el agente</td>
+</tr>
+</tbody>
+</table>
+<p>Si se utiliza la macro <code>{$SNMP_COMMUNITY}</code>, hay que definirla en el equipo, en una plantilla o en un nivel superior con el mismo valor configurado en <code>snmpd.conf</code>.</p>
+<p><strong>Aclaración:</strong> si <code>RTR-CORE</code> es un router físico, no se instala <code>snmpd</code> en él como si fuera Ubuntu. En ese caso, debe habilitarse SNMP en el propio router. La configuración de Ubuntu descrita en la sección anterior corresponde a un equipo Linux que ejecuta el servicio SNMP.</p>
+<h3 id="33-asociar-las-plantillas">3.3. Asociar las plantillas<a class="headerlink" href="#33-asociar-las-plantillas" title="Permanent link">&para;</a></h3>
+<p>En la pestaña <strong>Plantillas</strong> (<em>Templates</em>), asociar las plantillas apropiadas para el dispositivo y los objetivos de monitoreo.</p>
+<ul>
+<li><strong>ICMP Ping:</strong> permite comprobar la respuesta del dispositivo mediante ICMP y obtener métricas relacionadas con su disponibilidad y latencia.</li>
+<li><strong>Linux by SNMP:</strong> permite recopilar métricas del sistema Linux mediante SNMP, siempre que el agente exponga los datos necesarios y la plantilla sea compatible.</li>
+</ul>
+<p>Los nombres exactos pueden variar según la versión de Zabbix y las plantillas instaladas. Si el equipo es un router físico, utilizar una plantilla compatible con su fabricante o sistema operativo en lugar de una plantilla específica de Linux.</p>
+<p><img alt="Panel principal de Zabbix" src="../Imagenes/SNMP/4%20-%20Pesta%C3%B1a%20de%20Creacion%20y%20configuracion%20de%20equipo%20Router.png" /></p>
+<h3 id="34-guardar-y-verificar">3.4. Guardar y verificar<a class="headerlink" href="#34-guardar-y-verificar" title="Permanent link">&para;</a></h3>
+<ol>
+<li>Pulsar <strong>Añadir</strong> para guardar el equipo.</li>
+<li>Regresar al listado de equipos.</li>
+<li>Esperar a que se ejecuten las primeras comprobaciones.</li>
+<li>Actualizar la vista y revisar la disponibilidad SNMP.</li>
+</ol>
+<p><img alt="Panel principal de Zabbix" src="../Imagenes/SNMP/5%20-%20Dada%20de%20alta%2C%20aparece%20SNMP%20en%20verde.png" /></p>
+<p>Si la configuración es correcta y las consultas tienen éxito, la disponibilidad SNMP debería aparecer en verde.</p>
+<h3 id="35-crear-el-disparador-snmp">3.5. Crear el disparador SNMP<a class="headerlink" href="#35-crear-el-disparador-snmp" title="Permanent link">&para;</a></h3>
+<p>Para detectar problemas en la comunicación SNMP, se puede utilizar un disparador que genere un problema cuando Zabbix deje de recibir respuestas del dispositivo.</p>
+<ol>
+<li>Ir a <strong>Recopilación de datos → Equipos</strong> y seleccionar <code>RTR-CORE</code>.</li>
+<li>Acceder a la sección <strong>Disparadores</strong> (<em>Triggers</em>) y pulsar <strong>Crear disparador</strong>.</li>
+<li>
+<p>Completar los campos:</p>
+</li>
+<li>
+<p><strong>Nombre:</strong> <code>Linux: High ICMP ping response time</code></p>
+</li>
+<li><strong>Severidad:</strong> Advertencia</li>
+<li><strong>Expresión:</strong> utilizar una métrica SNMP que exista en el equipo y comprobar que no reciba datos durante el intervalo definido.</li>
+</ol>
+<p><img alt="Panel principal de Zabbix" src="../Imagenes/SNMP/6%20-%20Iniciador%20de%20Alerta%20por%20suba%20de%20latencia%20de%20ping.png" /></p>
+<p>Si se utiliza una plantilla compatible, es preferible aprovechar sus disparadores predefinidos para detectar la indisponibilidad SNMP, evitando duplicar alertas.</p>
+<ol>
+<li>
+<p>Guardar el disparador y verificar que aparezca en la lista.</p>
+</li>
+<li>
+<p>Comprobar que la acción de notificación esté configurada para enviar alertas por Telegram o correo electrónico.</p>
+</li>
+</ol>
+<p><img alt="Panel principal de Zabbix" src="../Imagenes/SNMP/7%20-%20Alerta%20de%20suba%20de%20latencia%20%28desde%20zabbix%29.png" /></p>
+<p><strong>Resultado esperado:</strong> si el dispositivo deja de responder a las consultas SNMP durante el período establecido, Zabbix debe generar un problema y enviar la notificación correspondiente, siempre que la expresión y la acción estén correctamente configuradas.</p>
+<p>La disponibilidad ICMP se verifica de forma independiente de la disponibilidad SNMP.</p>
+<p><strong>Tambien la alerta se configuro para que llegue por Telegram</strong>
+<img alt="Panel principal de Zabbix" src="../Imagenes/SNMP/8%20-%20Alerta%20pero%20desde%20Telegram.jpeg" /></p>
+<h2 id="4-generar-una-alerta-por-latencia">4. Generar una alerta por latencia<a class="headerlink" href="#4-generar-una-alerta-por-latencia" title="Permanent link">&para;</a></h2>
+<p>Para probar la detección de latencia, modificaremos temporalmente el umbral de advertencia del equipo de laboratorio.</p>
+<h3 id="41-localizar-la-macro">4.1. Localizar la macro<a class="headerlink" href="#41-localizar-la-macro" title="Permanent link">&para;</a></h3>
+<ol>
+<li>Ir al listado de equipos y abrir <code>RTR-CORE</code>.</li>
+<li>Acceder a la pestaña <strong>Macros</strong>.</li>
+<li>Consultar las macros heredadas y las definidas para el equipo.</li>
+<li>Buscar:</li>
+</ol>
+<div class="highlight"><pre><span></span><code>{$ICMP_RESPONSE_TIME_WARN}
+</code></pre></div>
+<p>En algunas plantillas, el valor de advertencia puede ser <code>0.15</code>, equivalente a 150 milisegundos.</p>
+<h3 id="42-modificar-temporalmente-el-umbral">4.2. Modificar temporalmente el umbral<a class="headerlink" href="#42-modificar-temporalmente-el-umbral" title="Permanent link">&para;</a></h3>
+<p>Cambiar el valor por uno muy bajo, por ejemplo:</p>
+<div class="highlight"><pre><span></span><code>0.001
+</code></pre></div>
+<p>Esto equivale a un milisegundo si la plantilla interpreta el umbral en segundos.</p>
+<p>Guardar los cambios mediante <strong>Actualizar</strong>.</p>
+<h3 id="43-esperar-y-verificar-el-evento">4.3. Esperar y verificar el evento<a class="headerlink" href="#43-esperar-y-verificar-el-evento" title="Permanent link">&para;</a></h3>
+<p>Esperar a que se ejecuten las comprobaciones ICMP y revisar los problemas en Zabbix.</p>
+<p>Si el tiempo de respuesta medido supera el umbral y el trigger asociado evalúa esa condición, debería generarse una advertencia.</p>
+<p><strong>Importante:</strong> un umbral artificialmente bajo no garantiza que se genere el evento. Depende de las métricas disponibles, la expresión del trigger, sus condiciones y los intervalos de comprobación.</p>
+<h3 id="44-restaurar-el-valor-original">4.4. Restaurar el valor original<a class="headerlink" href="#44-restaurar-el-valor-original" title="Permanent link">&para;</a></h3>
+<p>Una vez finalizada la prueba, volver a la macro y restaurar el valor anterior, por ejemplo:</p>
+<div class="highlight"><pre><span></span><code>0.15
+</code></pre></div>
+<p>No dejar el umbral de prueba en producción, ya que podría generar alertas innecesarias.</p>
+
+
+
+
+
+
+
+
+
+
+
+
+                
+              </article>
+            </div>
+          
+          
+<script>var target=document.getElementById(location.hash.slice(1));target&&target.name&&(target.checked=target.name.startsWith("__tabbed_"))</script>
+        </div>
+        
+          <button type="button" class="md-top md-icon" data-md-component="top" hidden>
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M13 20h-2V8l-5.5 5.5-1.42-1.42L12 4.16l7.92 7.92-1.42 1.42L13 8z"/></svg>
+  Volver al principio
+</button>
+        
+      </main>
+      
+        <footer class="md-footer">
+  
+  <div class="md-footer-meta md-typeset">
+    <div class="md-footer-meta__inner md-grid">
+      <div class="md-copyright">
+  
+  
+    Made with
+    <a href="https://squidfunk.github.io/mkdocs-material/" target="_blank" rel="noopener">
+      Material for MkDocs
+    </a>
+  
+</div>
+      
+    </div>
+  </div>
+</footer>
+      
+    </div>
+    <div class="md-dialog" data-md-component="dialog">
+      <div class="md-dialog__inner md-typeset"></div>
+    </div>
+    
+    
+    
+      
+      
+      <script id="__config" type="application/json">{"annotate": null, "base": "..", "features": ["navigation.top", "navigation.indexes", "search.suggest", "search.highlight", "content.code.copy"], "search": "../assets/javascripts/workers/search.2c215733.min.js", "tags": null, "translations": {"clipboard.copied": "Copiado al portapapeles", "clipboard.copy": "Copiar al portapapeles", "search.result.more.one": "1 m\u00e1s en esta p\u00e1gina", "search.result.more.other": "# m\u00e1s en esta p\u00e1gina", "search.result.none": "No se encontraron documentos", "search.result.one": "1 documento encontrado", "search.result.other": "# documentos encontrados", "search.result.placeholder": "Teclee para comenzar b\u00fasqueda", "search.result.term.missing": "Falta", "select.version": "Seleccionar versi\u00f3n"}, "version": null}</script>
+    
+    
+      <script src="../assets/javascripts/bundle.d7400e89.min.js"></script>
+      
+    
+  </body>
+</html>
